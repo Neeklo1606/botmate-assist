@@ -191,3 +191,15 @@ export default function MockChatImpl({
     </div>
   );
 }
+
+function TypingDot({ isDark, delay }: { isDark: boolean; delay: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-block h-1.5 w-1.5 animate-pulse rounded-full",
+        isDark ? "bg-background/60" : "bg-ink-muted",
+      )}
+      style={{ animationDelay: delay, animationDuration: "1.1s" }}
+    />
+  );
+}
