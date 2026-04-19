@@ -13,13 +13,13 @@ import { FinalCTA } from "@/components/landing/sections/final-cta";
 export const Route = createFileRoute("/_marketing/about")({
   head: () => ({
     meta: [
-      { title: "О команде — botme" },
+      { title: "О команде botme" },
       {
         name: "description",
         content:
-          "botme — продукт студии neeklo. Команда из 4 человек, которая делает AI-ассистенты для бизнеса с 2025 года.",
+          "botme: продукт студии neeklo. Команда из 4 человек, которая делает AI-ассистенты для бизнеса с 2025 года.",
       },
-      { property: "og:title", content: "О команде — botme" },
+      { property: "og:title", content: "О команде botme" },
       {
         property: "og:description",
         content: "Кто стоит за botme и зачем мы это делаем.",
