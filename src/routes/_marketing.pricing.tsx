@@ -71,6 +71,11 @@ const pricingFaq = [
 function PricingPage() {
   const [period, setPeriod] = useState<PricingPeriod>("monthly");
 
+  // Один раз при маунте — фиксируем заход на страницу тарифов.
+  useEffect(() => {
+    track("pricing-view", { from: "direct" });
+  }, []);
+
   return (
     <>
       <PricingHero period={period} onChange={setPeriod} />
