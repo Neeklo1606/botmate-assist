@@ -4,24 +4,35 @@
  */
 
 import type {
+  ActivityPoint,
   Assistant,
   BenefitItem,
   CaseItem,
+  CaseStudy,
   Channel,
   ChatMessage,
+  DashboardKpi,
   FaqItem,
   FeatureItem,
   First100Benefit,
   First100MathRow,
   First100Stats,
   HowItWorksStep,
+  Integration,
   KpiSnapshot,
   Lead,
+  LegalDocument,
+  Notification,
   OnboardingStep,
   PricingComparisonRow,
   PricingPlan,
+  ScenarioDetail,
   ScenarioItem,
+  TeamMember,
+  TeamPerson,
   TrustLogo,
+  UsageStat,
+  User,
 } from "@/types/entities";
 
 export const channels: Channel[] = [
