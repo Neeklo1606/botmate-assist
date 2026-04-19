@@ -101,22 +101,17 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "botme — AI-ассистенты для бизнеса" },
-      {
-        name: "description",
-        content:
-          "AI-ассистенты, которые отвечают клиентам, квалифицируют лидов и доводят до сделки. Telegram, сайт, Avito, ВКонтакте, WhatsApp, Instagram. Запуск за 3 дня.",
-      },
+      // Defaults — каждый маркетинг-роут переопределяет своим buildPageMeta(...)
       { name: "author", content: "botme" },
-      { property: "og:title", content: "botme — AI-ассистенты для бизнеса" },
-      {
-        property: "og:description",
-        content: "Запуск за 3 дня. Все каналы. Подключение к CRM.",
-      },
-      { property: "og:type", content: "website" },
+      { name: "theme-color", content: "#0F1115" },
+      { property: "og:site_name", content: "botme" },
+      { property: "og:locale", content: "ru_RU" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico" },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
