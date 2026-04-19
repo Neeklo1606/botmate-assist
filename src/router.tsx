@@ -1,10 +1,20 @@
 /**
  * Router фабрика. Внутри — fresh QueryClient и общий defaultErrorComponent.
  * QueryClient создаётся в фабрике, чтобы не утекал между SSR-запросами.
+ *
+ * Auth state передаём в context через прокидывание из Root-компонента
+ * (см. __root.tsx → RootComponent → router.update({ context: { auth } })).
+ * Это позволяет beforeLoad в _app.tsx синхронно проверить isAuthenticated.
  */
 import { createRouter, useRouter } from "@tanstack/react-router";
 import { QueryClient } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
+import type { User } from "@/types/entities";
+
+export interface AuthRouterState {
+  isAuthenticated: boolean;
+  user: User | null;
+}
 
 function DefaultErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
@@ -71,7 +81,10 @@ export const getRouter = () => {
 
   const router = createRouter({
     routeTree,
-    context: { queryClient },
+    context: {
+      queryClient,
+      auth: { isAuthenticated: false, user: null } as AuthRouterState,
+    },
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultErrorComponent,
