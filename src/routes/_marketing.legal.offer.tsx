@@ -4,18 +4,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalLayout } from "@/components/landing/legal-layout";
 import { useLegalDoc } from "@/lib/hooks/use-marketing";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/legal/offer")({
   head: () => ({
-    meta: [
-      { title: "Договор-оферта botme" },
-      {
-        name: "description",
-        content:
-          "Условия использования сервиса botme. Стоимость, возврат средств, обязательства сторон.",
-      },
-      { property: "og:title", content: "Договор-оферта botme" },
-    ],
+    meta: buildPageMeta({
+      title: "Договор-оферта botme — условия использования сервиса",
+      description:
+        "Стоимость, порядок оплаты, возврат средств в первые 14 дней, обязательства сторон. Реквизиты ИП Клочко Никита Николаевич.",
+      path: "/legal/offer",
+    }),
+    links: [canonicalLink("/legal/offer")],
   }),
   component: OfferPage,
 });

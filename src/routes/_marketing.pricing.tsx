@@ -20,22 +20,17 @@ import { usePricing, usePricingComparison } from "@/lib/hooks/use-landing";
 import { formatRub } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { PricingPlan, PricingPeriod } from "@/types/entities";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/pricing")({
   head: () => ({
-    meta: [
-      { title: "Тарифы botme: от 4 900 ₽ в месяц, без сюрпризов" },
-      {
-        name: "description",
-        content:
-          "Старт, Рост и Масштаб. Понятные тарифы, без скрытых платежей. Возврат в первые 14 дней.",
-      },
-      { property: "og:title", content: "Тарифы botme: от 4 900 ₽ в месяц" },
-      {
-        property: "og:description",
-        content: "3 тарифа на любой объём бизнеса. Возврат 100% в первые 14 дней.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "Тарифы botme — от 4 900 ₽ в месяц, без сюрпризов",
+      description:
+        "Старт, Рост и Масштаб. Прозрачные тарифы без скрытых платежей. Возврат 100% в первые 14 дней. Скидка 15% при оплате за год.",
+      path: "/pricing",
+    }),
+    links: [canonicalLink("/pricing")],
   }),
   component: PricingPage,
 });

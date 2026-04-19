@@ -17,22 +17,17 @@ import {
 import { DemoForm } from "@/components/landing/demo-form";
 import { useFirst100Benefits, useFirst100Math, useFirst100Stats } from "@/lib/hooks/use-first100";
 import { cn } from "@/lib/utils";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/first-100")({
   head: () => ({
-    meta: [
-      { title: "Первые 100 клиентов botme: настройка под ключ за 150 000 ₽" },
-      {
-        name: "description",
-        content:
-          "Команда neeklo собирает ассистента руками, Pro-подписка со скидкой 40% навсегда. Только для первых 100 клиентов.",
-      },
-      { property: "og:title", content: "Программа «Первые 100 клиентов» botme" },
-      {
-        property: "og:description",
-        content: "Настройка под ключ за 150 000 ₽. Pro-подписка −40% навсегда.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "Первые 100 клиентов botme — настройка под ключ за 150 000 ₽",
+      description:
+        "Команда neeklo собирает ассистента руками. Pro-подписка со скидкой 40% навсегда. Только для первых 100 клиентов botme.",
+      path: "/first-100",
+    }),
+    links: [canonicalLink("/first-100")],
   }),
   component: First100Page,
 });

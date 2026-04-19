@@ -8,22 +8,17 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { useScenarioDetails } from "@/lib/hooks/use-marketing";
 import { FinalCTA } from "@/components/landing/sections/final-cta";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/scenarios")({
   head: () => ({
-    meta: [
-      { title: "Сценарии под нишу: botme" },
-      {
-        name: "description",
-        content:
-          "AI-ассистент для недвижимости, авто, клиник, онлайн-школ, услуг и агентств. Готовые сценарии под каждую нишу.",
-      },
-      { property: "og:title", content: "Сценарии под нишу: botme" },
-      {
-        property: "og:description",
-        content: "6 готовых сценариев AI-ассистента под индустрию.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "Сценарии botme под нишу — 6 готовых индустриальных решений",
+      description:
+        "AI-ассистент для недвижимости, авто, клиник, онлайн-школ, услуг и агентств. Готовые сценарии, диалоги и интеграции под каждую нишу.",
+      path: "/scenarios",
+    }),
+    links: [canonicalLink("/scenarios")],
   }),
   component: ScenariosPage,
 });

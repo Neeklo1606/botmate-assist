@@ -14,21 +14,17 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { contactRequestSchema, type ContactRequestInput } from "@/lib/schemas";
 import { useCreateContactRequest } from "@/lib/hooks/use-marketing";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/contacts")({
   head: () => ({
-    meta: [
-      { title: "Контакты botme" },
-      {
-        name: "description",
-        content: "Связаться с командой botme: Telegram-поддержка, email, форма обратной связи.",
-      },
-      { property: "og:title", content: "Контакты botme" },
-      {
-        property: "og:description",
-        content: "Свяжитесь с командой botme.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "Контакты botme — Telegram, email и форма обратной связи",
+      description:
+        "Свяжитесь с командой botme. Telegram-поддержка @botme_support, email hello@botme.ru, форма заявки. Отвечаем в течение 30 минут в рабочее время.",
+      path: "/contacts",
+    }),
+    links: [canonicalLink("/contacts")],
   }),
   component: ContactsPage,
 });

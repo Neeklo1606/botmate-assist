@@ -9,22 +9,17 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { useTeamPeople } from "@/lib/hooks/use-marketing";
 import { FinalCTA } from "@/components/landing/sections/final-cta";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/about")({
   head: () => ({
-    meta: [
-      { title: "О команде botme" },
-      {
-        name: "description",
-        content:
-          "botme: продукт студии neeklo. Команда из 4 человек, которая делает AI-ассистенты для бизнеса с 2025 года.",
-      },
-      { property: "og:title", content: "О команде botme" },
-      {
-        property: "og:description",
-        content: "Кто стоит за botme и зачем мы это делаем.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "О команде botme — продукт студии neeklo",
+      description:
+        "Команда из 4 человек делает AI-ассистенты для бизнеса с 2025 года. Никаких выдуманных метрик — только то, что работает у клиентов.",
+      path: "/about",
+    }),
+    links: [canonicalLink("/about")],
   }),
   component: AboutPage,
 });

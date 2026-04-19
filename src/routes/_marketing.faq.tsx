@@ -26,21 +26,17 @@ const CATEGORIES: { id: FaqItem["category"] | "all"; label: string }[] = [
   { id: "security", label: "Безопасность" },
 ];
 
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
+
 export const Route = createFileRoute("/_marketing/faq")({
   head: () => ({
-    meta: [
-      { title: "Частые вопросы botme" },
-      {
-        name: "description",
-        content:
-          "Ответы на вопросы о botme: запуск, цены, технологии, интеграции и безопасность данных.",
-      },
-      { property: "og:title", content: "Частые вопросы botme" },
-      {
-        property: "og:description",
-        content: "Что спрашивают о botme до запуска ассистента.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "FAQ botme — частые вопросы о AI-ассистенте",
+      description:
+        "Ответы на вопросы о запуске, ценах, технологиях, интеграциях и безопасности данных. Что нужно знать до старта работы с AI-ассистентом botme.",
+      path: "/faq",
+    }),
+    links: [canonicalLink("/faq")],
   }),
   component: FaqPage,
 });

@@ -13,22 +13,17 @@ import { useIntegrationsList } from "@/lib/hooks/use-marketing";
 import { FinalCTA } from "@/components/landing/sections/final-cta";
 import { cn } from "@/lib/utils";
 import type { Integration } from "@/types/entities";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/integrations")({
   head: () => ({
-    meta: [
-      { title: "Интеграции и каналы botme" },
-      {
-        name: "description",
-        content:
-          "Telegram, сайт, Avito, ВКонтакте, WhatsApp, Instagram. Связки с amoCRM, Битрикс24, YClients, Notion, Google Sheets и Webhook.",
-      },
-      { property: "og:title", content: "Интеграции и каналы botme" },
-      {
-        property: "og:description",
-        content: "Все каналы общения и интеграции с CRM, базами знаний и автоматизациями.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "Интеграции и каналы botme — Telegram, Avito, amoCRM",
+      description:
+        "Telegram, сайт, Avito, ВКонтакте, WhatsApp, Instagram. Связки с amoCRM, Битрикс24, YClients, Notion, Google Sheets и Webhook.",
+      path: "/integrations",
+    }),
+    links: [canonicalLink("/integrations")],
   }),
   component: IntegrationsPage,
 });
