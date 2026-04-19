@@ -46,23 +46,23 @@ export function FaqSection() {
             <div className="rounded-xl border border-border bg-surface p-5">
               <div className="font-display text-lg font-semibold text-foreground">
                 Не нашли ответ?
-              </div>
+                               </div>
               <p className="mt-2 text-sm text-ink-muted">
-                Напишите в Telegram — отвечаем в течение 30 минут в рабочее время.
-              </p>
+                Напишите в Telegram, отвечаем в течение 30 минут в рабочее время.
+                               </p>
               <div className="mt-4 space-y-2 text-sm">
                 <a
                   className="block font-medium text-foreground underline-offset-4 hover:underline"
                   href="https://t.me/botme_support"
                 >
                   @botme_support →
-                </a>
+                                   </a>
                 <Link
                   to="/"
                   className="block text-ink-muted underline-offset-4 hover:text-foreground hover:underline"
                 >
                   Все вопросы и категории →
-                </Link>
+                                   </Link>
               </div>
             </div>
           </aside>

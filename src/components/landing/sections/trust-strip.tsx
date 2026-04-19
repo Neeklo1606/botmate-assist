@@ -13,7 +13,7 @@ export function TrustStrip() {
         <div className="flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
           <p className="text-sm text-ink-muted">
             Уже работает в малом и среднем бизнесе РФ и СНГ
-          </p>
+                       </p>
           <ul className="flex flex-wrap items-center gap-2 md:gap-3">
             {logos.map((l) => (
               <li

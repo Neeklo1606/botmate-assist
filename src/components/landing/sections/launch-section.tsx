@@ -18,7 +18,7 @@ const days = [
   {
     day: "День 3",
     title: "Подключаем каналы и CRM",
-    description: "Telegram, сайт, Avito — на ваш выбор. Связываем с amoCRM или Bitrix24.",
+    description: "Telegram, сайт, Avito, на ваш выбор. Связываем с amoCRM или Bitrix24.",
   },
 ];
 

@@ -29,7 +29,7 @@ export function LegalLayout({ doc, isLoading }: LegalLayoutProps) {
           <div className="mx-auto max-w-md text-center">
             <h1 className="font-display text-3xl font-semibold text-foreground">
               Документ не найден
-            </h1>
+                         </h1>
           </div>
         </Container>
       </Section>

@@ -52,7 +52,7 @@ export function SiteHeader() {
             <Button asChild variant="brand" size="sm">
               <Link to="/" hash="demo">
                 Запустить за 3 дня
-              </Link>
+                               </Link>
             </Button>
           </div>
 
@@ -95,12 +95,12 @@ export function SiteHeader() {
               <Button asChild variant="outline" size="md" className="flex-1">
                 <Link to="/login" onClick={() => setOpen(false)}>
                   Войти
-                </Link>
+                                   </Link>
               </Button>
               <Button asChild variant="brand" size="md" className="flex-1">
                 <Link to="/" hash="demo" onClick={() => setOpen(false)}>
                   Демо
-                </Link>
+                                   </Link>
               </Button>
             </div>
           </nav>

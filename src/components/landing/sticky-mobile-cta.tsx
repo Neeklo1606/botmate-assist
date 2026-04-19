@@ -26,7 +26,7 @@ export function StickyMobileCTA() {
       <Button asChild variant="brand" size="lg" className="w-full">
         <Link to="/" hash="demo">
           Запустить за 3 дня
-        </Link>
+                   </Link>
       </Button>
     </div>
   );

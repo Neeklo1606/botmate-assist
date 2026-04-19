@@ -35,7 +35,7 @@ export function PricingSection() {
               {plan.highlighted ? (
                 <div className="absolute -top-3 left-6 inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-accent-ink">
                   Хит
-                </div>
+                           </div>
               ) : null}
 
               <div className="font-display text-xl font-semibold text-foreground">
@@ -85,7 +85,7 @@ export function PricingSection() {
             className="font-medium text-foreground underline-offset-4 hover:underline"
           >
             Подробная страница тарифов →
-          </Link>
+                       </Link>
         </div>
       </Container>
     </Section>

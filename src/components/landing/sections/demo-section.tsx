@@ -19,14 +19,14 @@ export function DemoSection() {
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-background/15 bg-background/5 px-3 py-1 text-xs font-medium text-background/70">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
               Демо за 30 минут
-            </div>
+                           </div>
             <h2 className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-4xl">
               Покажем ассистента на ваших данных
-            </h2>
+                           </h2>
             <p className="mt-3 text-[15px] text-background/70 md:text-base">
-              Оставьте контакт — соберём прототип под вашу нишу за 30 минут и созвонимся
-              в Zoom. Без презентаций и обещаний «революции».
-            </p>
+              Оставьте контакт, соберём прототип под вашу нишу за 30 минут и созвонимся
+                           в Zoom. Без презентаций и обещаний «революции».
+                           </p>
 
             <div className="mt-6 hidden md:block">
               <MockChat

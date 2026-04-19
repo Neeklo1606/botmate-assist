@@ -48,7 +48,7 @@ export const features: FeatureItem[] = [
   {
     id: "answer",
     title: "Отвечает за 7 секунд",
-    description: "Клиент пишет — ассистент отвечает мгновенно, в вашем тоне, по вашим правилам.",
+    description: "Клиент пишет, ассистент отвечает мгновенно, в вашем тоне, по вашим правилам.",
     icon: "MessageSquare",
   },
   {
@@ -75,7 +75,7 @@ export const benefits: BenefitItem[] = [
   {
     id: "b1",
     title: "Не уходит на обед",
-    description: "Работает 24/7. Ночные заявки — больше не потерянные деньги.",
+    description: "Работает 24/7. Ночные заявки, больше не потерянные деньги.",
     icon: "Moon",
   },
   {
@@ -93,7 +93,7 @@ export const benefits: BenefitItem[] = [
   {
     id: "b4",
     title: "Не уходит к конкурентам",
-    description: "Один раз настроили — работает год. Без увольнений и переобучения.",
+    description: "Один раз настроили, работает год. Без увольнений и переобучения.",
     icon: "Shield",
   },
 ];
@@ -115,7 +115,7 @@ export const howItWorks: HowItWorksStep[] = [
     id: "h3",
     number: "03",
     title: "Подключаем каналы",
-    description: "Telegram, сайт, Avito, ВКонтакте — за пару часов. Тестируем на реальных диалогах.",
+    description: "Telegram, сайт, Avito, ВКонтакте, за пару часов. Тестируем на реальных диалогах.",
   },
   {
     id: "h4",
@@ -144,7 +144,7 @@ export const scenarios: ScenarioItem[] = [
     id: "clinic",
     niche: "clinic",
     title: "Клиники",
-    bullet: "Записывает на приём, напоминает, переносит — без оператора.",
+    bullet: "Записывает на приём, напоминает, переносит, без оператора.",
     metric: "92% записей без человека",
   },
   {
@@ -247,7 +247,7 @@ export const faq: FaqItem[] = [
     category: "general",
     question: "Сколько занимает запуск?",
     answer:
-      "Если у вас уже есть тексты о продукте и доступ к каналу — 1–3 рабочих дня. Мы сами загружаем базу знаний, настраиваем тон и сценарии.",
+      "Если у вас уже есть тексты о продукте и доступ к каналу, 1–3 рабочих дня. Мы сами загружаем базу знаний, настраиваем тон и сценарии.",
   },
   {
     id: "q2",
@@ -268,7 +268,7 @@ export const faq: FaqItem[] = [
     category: "integrations",
     question: "Подключаете к нашей CRM?",
     answer:
-      "Да: amoCRM, Битрикс24, retailCRM, YClients. Если CRM нестандартная — делаем интеграцию на тарифе Масштаб.",
+      "Да: amoCRM, Битрикс24, retailCRM, YClients. Если CRM нестандартная, делаем интеграцию на тарифе Масштаб.",
   },
   {
     id: "q5",
@@ -282,7 +282,7 @@ export const faq: FaqItem[] = [
     category: "pricing",
     question: "Можно ли вернуть деньги, если не подойдёт?",
     answer:
-      "Да, в первые 14 дней — возврат 100% без вопросов. Дальше — работа по договору.",
+      "Да, в первые 14 дней, возврат 100% без вопросов. Дальше, работа по договору.",
   },
   {
     id: "q7",
@@ -415,7 +415,7 @@ export const assistants: Assistant[] = [
   },
   {
     id: "a2",
-    name: "Avito — авто с пробегом",
+    name: "Avito, авто с пробегом",
     niche: "auto",
     status: "active",
     channels: ["avito"],
@@ -426,7 +426,7 @@ export const assistants: Assistant[] = [
   },
   {
     id: "a3",
-    name: "Стоматология — запись",
+    name: "Стоматология, запись",
     niche: "clinic",
     status: "paused",
     channels: ["website", "telegram"],
@@ -479,14 +479,14 @@ export const mockUser: User = {
 
 export const integrations: Integration[] = [
   { id: "amocrm", name: "amoCRM", category: "crm", description: "Создаёт сделки, задачи, заполняет поля по диалогу.", initials: "AM", status: "live" },
-  { id: "bitrix24", name: "Битрикс24", category: "crm", description: "Лиды, сделки, задачи, ответственные — всё в Битриксе.", initials: "Б24", status: "live" },
+  { id: "bitrix24", name: "Битрикс24", category: "crm", description: "Лиды, сделки, задачи, ответственные, всё в Битриксе.", initials: "Б24", status: "live" },
   { id: "yclients", name: "YClients", category: "crm", description: "Запись клиентов в YClients прямо из чата.", initials: "YC", status: "live" },
-  { id: "retailcrm", name: "retailCRM", category: "crm", description: "Заказы, клиенты, сегменты — синхронизируем.", initials: "RC", status: "beta" },
+  { id: "retailcrm", name: "retailCRM", category: "crm", description: "Заказы, клиенты, сегменты, синхронизируем.", initials: "RC", status: "beta" },
   { id: "gsheets", name: "Google Sheets", category: "data", description: "Лиды и диалоги в вашу таблицу. Без программистов.", initials: "GS", status: "live" },
   { id: "notion", name: "Notion", category: "data", description: "База знаний из вашего Notion-воркспейса.", initials: "N", status: "live" },
   { id: "webhook", name: "Webhook", category: "automation", description: "Отправляем события в любую систему через HTTP.", initials: "WH", status: "live" },
   { id: "zapier", name: "Zapier", category: "automation", description: "5000+ интеграций через Zapier. Без кода.", initials: "Z", status: "beta" },
-  { id: "telegram_crm", name: "Telegram-уведомления", category: "automation", description: "Каждый лид — сразу в чат менеджера в Telegram.", initials: "TG", status: "live" },
+  { id: "telegram_crm", name: "Telegram-уведомления", category: "automation", description: "Каждый лид, сразу в чат менеджера в Telegram.", initials: "TG", status: "live" },
 ];
 
 /* ════════════════════════════════════════════════════════════════
@@ -700,7 +700,7 @@ export const caseStudies: CaseStudy[] = [
     niche: "agency",
     industry: industryByNiche.agency,
     region: "Москва",
-    summary: "Брифинг занимал 3 встречи. Ассистент квалифицирует клиента до созвона — команда экономит десятки часов в неделю.",
+    summary: "Брифинг занимал 3 встречи. Ассистент квалифицирует клиента до созвона, команда экономит десятки часов в неделю.",
     heroMetrics: [
       { label: "Время на брифинг", value: "−40%", delta: "" },
       { label: "Качество ТЗ", value: "+62%", delta: "по нашей шкале" },
@@ -855,7 +855,7 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
     niche: "services",
     title: "AI-ассистент для услуг",
     industry: industryByNiche.services,
-    pain: "Клиенты пишут ночью и в выходные — менеджеры не успевают. Ассистент закрывает заявки и считает смету сам.",
+    pain: "Клиенты пишут ночью и в выходные, менеджеры не успевают. Ассистент закрывает заявки и считает смету сам.",
     tasks: [
       "Считает стоимость по типовому прайсу",
       "Согласует сроки и записывает на встречу",
@@ -883,7 +883,7 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
     niche: "agency",
     title: "AI-ассистент для агентств",
     industry: industryByNiche.agency,
-    pain: "Команда тонет в брифингах с нерелевантными клиентами. Ассистент квалифицирует до встречи — экономит десятки часов.",
+    pain: "Команда тонет в брифингах с нерелевантными клиентами. Ассистент квалифицирует до встречи, экономит десятки часов.",
     tasks: [
       "Проводит брифинг по чек-листу",
       "Отсекает клиентов ниже минимального бюджета",
@@ -911,7 +911,7 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
     niche: "other",
     title: "AI-ассистент под вашу нишу",
     industry: "Другая ниша",
-    pain: "Не нашли свою нишу? Команда neeklo соберёт ассистента под любой бизнес — от логистики до b2b SaaS.",
+    pain: "Не нашли свою нишу? Команда neeklo соберёт ассистента под любой бизнес, от логистики до b2b SaaS.",
     tasks: [
       "Адаптация сценариев под вашу специфику",
       "Интеграция с любой CRM или базой",
@@ -929,7 +929,7 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
    ════════════════════════════════════════════════════════════════ */
 
 export const teamPeople: TeamPerson[] = [
-  { id: "p1", name: "Никита Клочко", role: "Founder, продукт", bio: "8 лет в продуктах для b2b. До botme — продакт-директор в neeklo.studio.", initials: "НК" },
+  { id: "p1", name: "Никита Клочко", role: "Founder, продукт", bio: "8 лет в продуктах для b2b. До botme, продакт-директор в neeklo.studio.", initials: "НК" },
   { id: "p2", name: "Игорь Шамин", role: "Lead Engineer", bio: "Архитектура, инфраструктура, надёжность. Строит системы, которые не падают.", initials: "ИШ" },
   { id: "p3", name: "Данил Прохоров", role: "Product Manager", bio: "Отвечает за onboarding и customer success. Лично запускает первых клиентов.", initials: "ДП" },
   { id: "p4", name: "Ренат Юсупов", role: "Sales & Partnerships", bio: "Работает с клиентами и интеграторами. Знает CRM и боль продаж изнутри.", initials: "РЮ" },
@@ -947,7 +947,7 @@ export const teamMembers: TeamMember[] = [
 
 export const notifications: Notification[] = [
   { id: "n1", kind: "lead", title: "Новый качественный лид", description: "Telegram · ассистент «Продажи квартир ЖК Парус» · бюджет 12 млн", createdAt: "2026-04-19T07:42:00Z", read: false, href: "/app/inbox" },
-  { id: "n2", kind: "channel_error", title: "Ошибка подключения Avito", description: "Токен истёк, ассистент «Avito — авто с пробегом» не отвечает.", createdAt: "2026-04-19T05:11:00Z", read: false, href: "/app/integrations" },
+  { id: "n2", kind: "channel_error", title: "Ошибка подключения Avito", description: "Токен истёк, ассистент «Avito, авто с пробегом» не отвечает.", createdAt: "2026-04-19T05:11:00Z", read: false, href: "/app/integrations" },
   { id: "n3", kind: "quota", title: "Использовано 80% сообщений месяца", description: "8 015 из 10 000. Осталось 11 дней до сброса.", createdAt: "2026-04-18T22:00:00Z", read: false, href: "/app/billing" },
   { id: "n4", kind: "billing", title: "Списание прошло успешно", description: "Тариф Рост, 12 900 ₽. Чек отправили на email.", createdAt: "2026-04-15T10:00:00Z", read: true, href: "/app/billing" },
   { id: "n5", kind: "system", title: "Новая фича: голосовые ассистенты в бете", description: "Можно тестировать на тарифе Рост и выше. Подключить?", createdAt: "2026-04-12T14:30:00Z", read: true },

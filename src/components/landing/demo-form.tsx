@@ -92,12 +92,12 @@ export function DemoForm({
         <div>
           <div className="text-lg font-semibold">Готово, мы получили заявку</div>
           <p className={cn("mt-1 text-sm", isDark ? "text-background/70" : "text-ink-muted")}>
-            Менеджер напишет в течение 30 минут в рабочее время. По срочным вопросам — в Telegram{" "}
+            Менеджер напишет в течение 30 минут в рабочее время. По срочным вопросам, в Telegram{" "}
             <a className="underline-offset-2 hover:underline" href="https://t.me/botme_support">
               @botme_support
-            </a>
+                         </a>
             .
-          </p>
+                     </p>
         </div>
         <Button
           type="button"
@@ -106,7 +106,7 @@ export function DemoForm({
           onClick={() => setDone(false)}
         >
           Отправить ещё одну
-        </Button>
+                 </Button>
       </div>
     );
   }
@@ -192,7 +192,7 @@ export function DemoForm({
           {isSubmitting || mutation.isPending ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" /> Отправляем…
-            </>
+                           </>
           ) : (
             ctaLabel
           )}
@@ -200,7 +200,7 @@ export function DemoForm({
 
         <p className={cn("text-xs", isDark ? "text-background/60" : "text-ink-subtle")}>
           Отправляя заявку, вы соглашаетесь с обработкой персональных данных.
-        </p>
+                   </p>
       </div>
     </form>
   );
