@@ -187,3 +187,143 @@ export interface LandingSection<T = unknown> {
   type: LandingSectionType;
   payload: T;
 }
+
+/* ───── User / Auth (mock) ───── */
+
+export interface User {
+  id: string;
+  name: string;
+  username: string; // @handle
+  email: string;
+  avatarInitials: string;
+  workspaceName: string;
+  role: "owner" | "admin" | "editor";
+  plan: "start" | "growth" | "scale";
+}
+
+/* ───── Кейсы (детальные) ───── */
+
+export interface CaseMetric {
+  label: string;
+  value: string;
+  delta?: string; // "+38%", "−40%"
+}
+
+export interface CaseStudy {
+  slug: string;
+  company: string;
+  niche: Niche;
+  industry: string; // человеческое имя ниши
+  region: string;
+  summary: string;
+  heroMetrics: CaseMetric[];
+  task: string[]; // абзацы
+  solution: string[]; // абзацы
+  setup: { assistant: string; channels: ChannelId[]; integrations: string[] };
+  resultMetrics: CaseMetric[];
+  quote: { text: string; author: string; role: string };
+  related: string[]; // slugs
+}
+
+/* ───── Сценарии / ниши (детальные) ───── */
+
+export interface ScenarioDetail {
+  niche: Niche;
+  title: string; // "AI-ассистент для недвижимости"
+  industry: string;
+  pain: string;
+  tasks: string[]; // 4-5 типовых задач
+  dialog: ChatMessage[]; // mock-чат
+  integrations: { name: string; description: string }[];
+  caseSlug: string; // ref на /cases/$slug
+}
+
+/* ───── Команда, нотификации, usage (для /app) ───── */
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  role: "owner" | "admin" | "editor" | "viewer";
+  status: "active" | "pending";
+  initials: string;
+  joinedAt: string;
+}
+
+export type NotificationKind =
+  | "lead"
+  | "channel_error"
+  | "quota"
+  | "billing"
+  | "system";
+
+export interface Notification {
+  id: string;
+  kind: NotificationKind;
+  title: string;
+  description: string;
+  createdAt: string;
+  read: boolean;
+  href?: string;
+}
+
+export interface UsageStat {
+  period: string; // "Апрель 2026"
+  messages: { used: number; limit: number };
+  assistants: { used: number; limit: number };
+  channels: { used: number; limit: number };
+  knowledgeMb: { used: number; limit: number };
+}
+
+/* ───── Dashboard charts ───── */
+
+export interface ActivityPoint {
+  date: string; // ISO date "2026-04-01"
+  messages: number;
+  leads: number;
+}
+
+export interface SparkPoint {
+  x: number;
+  y: number;
+}
+
+export interface DashboardKpi {
+  label: string;
+  value: string;
+  trend: { delta: string; positive: boolean };
+  spark: SparkPoint[];
+  hint?: string;
+}
+
+/* ───── Legal ───── */
+
+export interface LegalDocument {
+  slug: "privacy" | "offer";
+  title: string;
+  version: string;
+  updatedAt: string;
+  intro: string;
+  sections: { heading: string; paragraphs: string[] }[];
+}
+
+/* ───── О команде ───── */
+
+export interface TeamPerson {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  initials: string;
+}
+
+/* ───── Интеграции (CRM и системы) ───── */
+
+export interface Integration {
+  id: string;
+  name: string;
+  category: "crm" | "data" | "automation";
+  description: string;
+  initials: string;
+  status: "live" | "beta" | "soon";
+}
