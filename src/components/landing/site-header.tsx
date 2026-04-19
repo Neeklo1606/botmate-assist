@@ -44,7 +44,7 @@ export function SiteHeader() {
 
           <div className="hidden items-center gap-2 md:flex">
             <Button asChild variant="ghostInk" size="sm">
-              <Link to="/">Войти</Link>
+              <Link to="/login">Войти</Link>
             </Button>
             <Button asChild variant="brand" size="sm">
               <Link to="/" hash="demo">
@@ -90,7 +90,7 @@ export function SiteHeader() {
             ))}
             <div className="mt-2 flex gap-2 pt-2">
               <Button asChild variant="outline" size="md" className="flex-1">
-                <Link to="/" onClick={() => setOpen(false)}>
+                <Link to="/login" onClick={() => setOpen(false)}>
                   Войти
                 </Link>
               </Button>
