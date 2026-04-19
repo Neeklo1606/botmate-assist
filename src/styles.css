@@ -239,6 +239,17 @@
     font-feature-settings:
       "ss01" on,
       "cv11" on;
+    /* Плавный скролл по якорям + сохранение под sticky-header (56px) с воздухом. */
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+
+  /* Любая секция-якорь должна "выезжать" из-под header. */
+  section[id],
+  [id="demo"],
+  [id="pricing-plans"],
+  [id="faq"] {
+    scroll-margin-top: 72px;
   }
 
   body {
