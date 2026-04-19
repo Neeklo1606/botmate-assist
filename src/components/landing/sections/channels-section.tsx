@@ -4,6 +4,7 @@
 import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ChannelIcon } from "@/components/brand/channel-icon";
+import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useChannels } from "@/lib/hooks/use-landing";
 
 export function ChannelsSection() {
@@ -18,11 +19,11 @@ export function ChannelsSection() {
           description="Один ассистент работает сразу везде. История диалогов и CRM-связки общие."
         />
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealGroup className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {channels.map((c) => (
-            <div
+            <RevealItem
               key={c.id}
-              className="flex items-start gap-3 rounded-xl border border-border bg-surface p-5"
+              className="flex items-start gap-3 rounded-xl border border-border bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-surface-muted text-foreground">
                 <ChannelIcon id={c.id} />
@@ -40,9 +41,9 @@ export function ChannelsSection() {
                 </div>
                 <p className="mt-1 text-sm text-ink-muted">{c.description}</p>
               </div>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </Container>
     </Section>
   );

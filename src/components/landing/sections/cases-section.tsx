@@ -3,6 +3,7 @@
  */
 import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
+import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useCases } from "@/lib/hooks/use-landing";
 import { nicheLabel } from "@/lib/format";
 
@@ -18,11 +19,12 @@ export function CasesSection() {
           description="Цифры из живых проектов. Не «увеличили продажи в 10 раз», а конкретные заявки и часы."
         />
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <RevealGroup className="grid gap-4 md:grid-cols-3">
           {cases.map((c) => (
-            <article
+            <RevealItem
               key={c.id}
-              className="flex flex-col rounded-xl border border-border bg-surface p-6"
+              as="article"
+              className="flex flex-col rounded-xl border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
             >
               <div className="inline-flex w-fit items-center rounded-full border border-border px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-ink-muted">
                 {nicheLabel[c.niche]}
@@ -37,9 +39,9 @@ export function CasesSection() {
                 <div className="font-medium text-foreground">{c.company}</div>
                 <div className="mt-0.5">{c.author}</div>
               </footer>
-            </article>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </Container>
     </Section>
   );

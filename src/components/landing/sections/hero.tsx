@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { MockChat } from "@/components/landing/mock-chat";
+import { Reveal } from "@/components/motion/reveal";
 import { useHeroChat } from "@/lib/hooks/use-landing";
 
 export function Hero() {
@@ -17,7 +18,7 @@ export function Hero() {
     <section className="relative overflow-hidden bg-background pb-12 pt-10 md:pb-20 md:pt-16">
       <Container>
         <div className="grid items-center gap-10 md:grid-cols-12 md:gap-12">
-          <div className="md:col-span-6 lg:col-span-7">
+          <Reveal onMount delay={0.1} className="md:col-span-6 lg:col-span-7">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-ink-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
               Запуск за 3 дня · все каналы · CRM из коробки
@@ -54,14 +55,14 @@ export function Hero() {
               <Stat label="Конверсия в лид" value="+38%" />
               <Stat label="Запуск" value="3 дня" />
             </dl>
-          </div>
+          </Reveal>
 
-          <div className="md:col-span-6 lg:col-span-5">
+          <Reveal onMount delay={0.25} className="md:col-span-6 lg:col-span-5">
             <div className="relative">
               <div aria-hidden className="absolute -inset-3 -z-10 rounded-2xl bg-surface-muted" />
               <MockChat messages={messages} />
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>
