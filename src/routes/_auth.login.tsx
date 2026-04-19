@@ -28,7 +28,11 @@ function LoginPage() {
     login.mutate(undefined, {
       onSuccess: (user) => {
         toast.success(`С возвращением, ${user.name.split(" ")[0]}`);
-        navigate({ to: redirect ?? "/app" });
+        if (redirect) {
+          navigate({ href: redirect });
+        } else {
+          navigate({ to: "/app" });
+        }
       },
       onError: () => {
         toast.error("Не удалось войти. Попробуйте ещё раз.");

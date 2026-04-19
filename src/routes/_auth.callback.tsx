@@ -3,22 +3,34 @@
  * Имитируем обработку и редирект на /app.
  */
 import { useEffect } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { useLoginWithTelegram } from "@/lib/hooks/use-auth";
 
+interface CallbackSearch {
+  redirect?: string;
+}
+
 export const Route = createFileRoute("/_auth/callback")({
+  validateSearch: (search: Record<string, unknown>): CallbackSearch => ({
+    redirect: typeof search.redirect === "string" ? search.redirect : undefined,
+  }),
   component: CallbackPage,
 });
 
 function CallbackPage() {
   const navigate = useNavigate();
+  const { redirect } = useSearch({ from: "/_auth/callback" });
   const login = useLoginWithTelegram();
 
   useEffect(() => {
     login.mutate(undefined, {
       onSuccess: () => {
-        navigate({ to: "/app", replace: true });
+        if (redirect) {
+          navigate({ href: redirect, replace: true });
+        } else {
+          navigate({ to: "/app", replace: true });
+        }
       },
       onError: () => {
         navigate({ to: "/login", replace: true });
