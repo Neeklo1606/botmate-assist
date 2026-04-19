@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_marketing/first-100")({
   head: () => ({
     meta: [
-      { title: "Первые 100 клиентов botme — настройка под ключ за 150 000 ₽" },
+      { title: "Первые 100 клиентов botme: настройка под ключ за 150 000 ₽" },
       {
         name: "description",
         content:
@@ -207,7 +207,7 @@ function First100Math() {
         <SectionHeading
           eyebrow="Математика оффера"
           title="Сколько вы экономите за первый год"
-          description="После 100 клиентов цены вернутся к стандартным. Сейчас — окно для тех, кто готов работать с нами вдолгую."
+          description="После 100 клиентов цены вернутся к стандартным. Сейчас открыто окно для тех, кто готов работать с нами вдолгую."
         />
 
         <div className="overflow-hidden rounded-xl border border-border">
@@ -313,7 +313,7 @@ function First100Final() {
               Заявка в программу
             </div>
             <h2 className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-4xl">
-              Заберите место — пока есть свободные
+              Заберите место, пока есть свободные
             </h2>
             <p className="mt-4 text-[15px] text-background/70 md:text-base">
               Менеджер свяжется в течение 30 минут в рабочее время, обсудит вашу нишу и закрепит за
@@ -323,7 +323,7 @@ function First100Final() {
             <div className="mt-6 space-y-2 text-sm text-background/80">
               <Bullet>Возврат 100% в первые 14 дней</Bullet>
               <Bullet>Договор и оплата на ИП или юрлицо</Bullet>
-              <Bullet>Приёмка после запуска — без скрытых условий</Bullet>
+              <Bullet>Приёмка после запуска без скрытых условий</Bullet>
             </div>
           </div>
 

@@ -24,13 +24,13 @@ import type { PricingPlan, PricingPeriod } from "@/types/entities";
 export const Route = createFileRoute("/_marketing/pricing")({
   head: () => ({
     meta: [
-      { title: "Тарифы botme — от 4 900 ₽ в месяц, без сюрпризов" },
+      { title: "Тарифы botme: от 4 900 ₽ в месяц, без сюрпризов" },
       {
         name: "description",
         content:
           "Старт, Рост и Масштаб. Понятные тарифы, без скрытых платежей. Возврат в первые 14 дней.",
       },
-      { property: "og:title", content: "Тарифы botme — от 4 900 ₽ в месяц" },
+      { property: "og:title", content: "Тарифы botme: от 4 900 ₽ в месяц" },
       {
         property: "og:description",
         content: "3 тарифа на любой объём бизнеса. Возврат 100% в первые 14 дней.",
@@ -106,7 +106,7 @@ function PricingHero({
             Понятные тарифы. Без сюрпризов.
           </h1>
           <p className="mt-4 text-[15px] text-ink-muted md:text-base">
-            Платите за работу ассистента — не за «лицензии», «места» и «места хранения».
+            Платите за работу ассистента, а не за лицензии и слоты хранения.
           </p>
 
           <div className="mt-7 inline-flex items-center rounded-full border border-border bg-surface p-1 text-sm">
