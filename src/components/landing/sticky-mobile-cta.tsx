@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { track } from "@/lib/analytics";
 
 export function StickyMobileCTA() {
   const [scrolled, setScrolled] = useState(false);
