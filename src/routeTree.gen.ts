@@ -13,23 +13,23 @@ import { Route as MarketingRouteImport } from './routes/_marketing'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as MarketingIndexRouteImport } from './routes/_marketing.index'
-import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as MarketingScenariosRouteImport } from './routes/_marketing.scenarios'
 import { Route as MarketingPricingRouteImport } from './routes/_marketing.pricing'
+import { Route as MarketingIntegrationsRouteImport } from './routes/_marketing.integrations'
 import { Route as MarketingFirst100RouteImport } from './routes/_marketing.first-100'
 import { Route as MarketingFeaturesRouteImport } from './routes/_marketing.features'
-import { Route as MarketingIntegrationsRouteImport } from './routes/_marketing.integrations'
-import { Route as MarketingCasesRouteImport } from './routes/_marketing.cases'
-import { Route as MarketingCasesSlugRouteImport } from './routes/_marketing.cases.$slug'
-import { Route as MarketingScenariosRouteImport } from './routes/_marketing.scenarios'
-import { Route as MarketingScenariosNicheRouteImport } from './routes/_marketing.scenarios.$niche'
 import { Route as MarketingFaqRouteImport } from './routes/_marketing.faq'
 import { Route as MarketingContactsRouteImport } from './routes/_marketing.contacts'
+import { Route as MarketingCasesRouteImport } from './routes/_marketing.cases'
 import { Route as MarketingAboutRouteImport } from './routes/_marketing.about'
+import { Route as AuthSignupRouteImport } from './routes/_auth.signup'
+import { Route as AuthLoginRouteImport } from './routes/_auth.login'
+import { Route as AuthCallbackRouteImport } from './routes/_auth.callback'
+import { Route as AppAppRouteImport } from './routes/_app.app'
+import { Route as MarketingScenariosNicheRouteImport } from './routes/_marketing.scenarios.$niche'
 import { Route as MarketingLegalPrivacyRouteImport } from './routes/_marketing.legal.privacy'
 import { Route as MarketingLegalOfferRouteImport } from './routes/_marketing.legal.offer'
-import { Route as AuthLoginRouteImport } from './routes/_auth.login'
-import { Route as AuthSignupRouteImport } from './routes/_auth.signup'
-import { Route as AuthCallbackRouteImport } from './routes/_auth.callback'
+import { Route as MarketingCasesSlugRouteImport } from './routes/_marketing.cases.$slug'
 
 const MarketingRoute = MarketingRouteImport.update({
   id: '/_marketing',
@@ -48,14 +48,19 @@ const MarketingIndexRoute = MarketingIndexRouteImport.update({
   path: '/',
   getParentRoute: () => MarketingRoute,
 } as any)
-const AppIndexRoute = AppIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRoute,
+const MarketingScenariosRoute = MarketingScenariosRouteImport.update({
+  id: '/scenarios',
+  path: '/scenarios',
+  getParentRoute: () => MarketingRoute,
 } as any)
 const MarketingPricingRoute = MarketingPricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => MarketingRoute,
+} as any)
+const MarketingIntegrationsRoute = MarketingIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
   getParentRoute: () => MarketingRoute,
 } as any)
 const MarketingFirst100Route = MarketingFirst100RouteImport.update({
@@ -68,31 +73,6 @@ const MarketingFeaturesRoute = MarketingFeaturesRouteImport.update({
   path: '/features',
   getParentRoute: () => MarketingRoute,
 } as any)
-const MarketingIntegrationsRoute = MarketingIntegrationsRouteImport.update({
-  id: '/integrations',
-  path: '/integrations',
-  getParentRoute: () => MarketingRoute,
-} as any)
-const MarketingCasesRoute = MarketingCasesRouteImport.update({
-  id: '/cases',
-  path: '/cases',
-  getParentRoute: () => MarketingRoute,
-} as any)
-const MarketingCasesSlugRoute = MarketingCasesSlugRouteImport.update({
-  id: '/cases/$slug',
-  path: '/cases/$slug',
-  getParentRoute: () => MarketingRoute,
-} as any)
-const MarketingScenariosRoute = MarketingScenariosRouteImport.update({
-  id: '/scenarios',
-  path: '/scenarios',
-  getParentRoute: () => MarketingRoute,
-} as any)
-const MarketingScenariosNicheRoute = MarketingScenariosNicheRouteImport.update({
-  id: '/scenarios/$niche',
-  path: '/scenarios/$niche',
-  getParentRoute: () => MarketingRoute,
-} as any)
 const MarketingFaqRoute = MarketingFaqRouteImport.update({
   id: '/faq',
   path: '/faq',
@@ -103,10 +83,40 @@ const MarketingContactsRoute = MarketingContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => MarketingRoute,
 } as any)
+const MarketingCasesRoute = MarketingCasesRouteImport.update({
+  id: '/cases',
+  path: '/cases',
+  getParentRoute: () => MarketingRoute,
+} as any)
 const MarketingAboutRoute = MarketingAboutRouteImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => MarketingRoute,
+} as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AppAppRoute = AppAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AppRoute,
+} as any)
+const MarketingScenariosNicheRoute = MarketingScenariosNicheRouteImport.update({
+  id: '/$niche',
+  path: '/$niche',
+  getParentRoute: () => MarketingScenariosRoute,
 } as any)
 const MarketingLegalPrivacyRoute = MarketingLegalPrivacyRouteImport.update({
   id: '/legal/privacy',
@@ -118,156 +128,146 @@ const MarketingLegalOfferRoute = MarketingLegalOfferRouteImport.update({
   path: '/legal/offer',
   getParentRoute: () => MarketingRoute,
 } as any)
-const AuthLoginRoute = AuthLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthSignupRoute = AuthSignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/callback',
-  path: '/callback',
-  getParentRoute: () => AuthRoute,
+const MarketingCasesSlugRoute = MarketingCasesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => MarketingCasesRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MarketingIndexRoute
-  '/first-100': typeof MarketingFirst100Route
-  '/pricing': typeof MarketingPricingRoute
-  '/features': typeof MarketingFeaturesRoute
-  '/integrations': typeof MarketingIntegrationsRoute
-  '/cases': typeof MarketingCasesRoute
-  '/cases/$slug': typeof MarketingCasesSlugRoute
-  '/scenarios': typeof MarketingScenariosRoute
-  '/scenarios/$niche': typeof MarketingScenariosNicheRoute
-  '/faq': typeof MarketingFaqRoute
-  '/contacts': typeof MarketingContactsRoute
-  '/about': typeof MarketingAboutRoute
-  '/legal/privacy': typeof MarketingLegalPrivacyRoute
-  '/legal/offer': typeof MarketingLegalOfferRoute
+  '/app': typeof AppAppRoute
+  '/callback': typeof AuthCallbackRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
-  '/callback': typeof AuthCallbackRoute
-  '/app': typeof AppIndexRoute
+  '/about': typeof MarketingAboutRoute
+  '/cases': typeof MarketingCasesRouteWithChildren
+  '/contacts': typeof MarketingContactsRoute
+  '/faq': typeof MarketingFaqRoute
+  '/features': typeof MarketingFeaturesRoute
+  '/first-100': typeof MarketingFirst100Route
+  '/integrations': typeof MarketingIntegrationsRoute
+  '/pricing': typeof MarketingPricingRoute
+  '/scenarios': typeof MarketingScenariosRouteWithChildren
+  '/cases/$slug': typeof MarketingCasesSlugRoute
+  '/legal/offer': typeof MarketingLegalOfferRoute
+  '/legal/privacy': typeof MarketingLegalPrivacyRoute
+  '/scenarios/$niche': typeof MarketingScenariosNicheRoute
 }
 export interface FileRoutesByTo {
-  '/first-100': typeof MarketingFirst100Route
-  '/pricing': typeof MarketingPricingRoute
-  '/features': typeof MarketingFeaturesRoute
-  '/integrations': typeof MarketingIntegrationsRoute
-  '/cases': typeof MarketingCasesRoute
-  '/cases/$slug': typeof MarketingCasesSlugRoute
-  '/scenarios': typeof MarketingScenariosRoute
-  '/scenarios/$niche': typeof MarketingScenariosNicheRoute
-  '/faq': typeof MarketingFaqRoute
-  '/contacts': typeof MarketingContactsRoute
-  '/about': typeof MarketingAboutRoute
-  '/legal/privacy': typeof MarketingLegalPrivacyRoute
-  '/legal/offer': typeof MarketingLegalOfferRoute
   '/': typeof MarketingIndexRoute
+  '/app': typeof AppAppRoute
+  '/callback': typeof AuthCallbackRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
-  '/callback': typeof AuthCallbackRoute
-  '/app': typeof AppIndexRoute
+  '/about': typeof MarketingAboutRoute
+  '/cases': typeof MarketingCasesRouteWithChildren
+  '/contacts': typeof MarketingContactsRoute
+  '/faq': typeof MarketingFaqRoute
+  '/features': typeof MarketingFeaturesRoute
+  '/first-100': typeof MarketingFirst100Route
+  '/integrations': typeof MarketingIntegrationsRoute
+  '/pricing': typeof MarketingPricingRoute
+  '/scenarios': typeof MarketingScenariosRouteWithChildren
+  '/cases/$slug': typeof MarketingCasesSlugRoute
+  '/legal/offer': typeof MarketingLegalOfferRoute
+  '/legal/privacy': typeof MarketingLegalPrivacyRoute
+  '/scenarios/$niche': typeof MarketingScenariosNicheRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_marketing': typeof MarketingRouteWithChildren
-  '/_auth': typeof AuthRouteWithChildren
   '/_app': typeof AppRouteWithChildren
-  '/_marketing/first-100': typeof MarketingFirst100Route
-  '/_marketing/pricing': typeof MarketingPricingRoute
-  '/_marketing/features': typeof MarketingFeaturesRoute
-  '/_marketing/integrations': typeof MarketingIntegrationsRoute
-  '/_marketing/cases': typeof MarketingCasesRoute
-  '/_marketing/cases/$slug': typeof MarketingCasesSlugRoute
-  '/_marketing/scenarios': typeof MarketingScenariosRoute
-  '/_marketing/scenarios/$niche': typeof MarketingScenariosNicheRoute
-  '/_marketing/faq': typeof MarketingFaqRoute
-  '/_marketing/contacts': typeof MarketingContactsRoute
-  '/_marketing/about': typeof MarketingAboutRoute
-  '/_marketing/legal/privacy': typeof MarketingLegalPrivacyRoute
-  '/_marketing/legal/offer': typeof MarketingLegalOfferRoute
-  '/_marketing/': typeof MarketingIndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_marketing': typeof MarketingRouteWithChildren
+  '/_app/app': typeof AppAppRoute
+  '/_auth/callback': typeof AuthCallbackRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
-  '/_auth/callback': typeof AuthCallbackRoute
-  '/_app/': typeof AppIndexRoute
+  '/_marketing/about': typeof MarketingAboutRoute
+  '/_marketing/cases': typeof MarketingCasesRouteWithChildren
+  '/_marketing/contacts': typeof MarketingContactsRoute
+  '/_marketing/faq': typeof MarketingFaqRoute
+  '/_marketing/features': typeof MarketingFeaturesRoute
+  '/_marketing/first-100': typeof MarketingFirst100Route
+  '/_marketing/integrations': typeof MarketingIntegrationsRoute
+  '/_marketing/pricing': typeof MarketingPricingRoute
+  '/_marketing/scenarios': typeof MarketingScenariosRouteWithChildren
+  '/_marketing/': typeof MarketingIndexRoute
+  '/_marketing/cases/$slug': typeof MarketingCasesSlugRoute
+  '/_marketing/legal/offer': typeof MarketingLegalOfferRoute
+  '/_marketing/legal/privacy': typeof MarketingLegalPrivacyRoute
+  '/_marketing/scenarios/$niche': typeof MarketingScenariosNicheRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/first-100'
-    | '/pricing'
-    | '/features'
-    | '/integrations'
-    | '/cases'
-    | '/cases/$slug'
-    | '/scenarios'
-    | '/scenarios/$niche'
-    | '/faq'
-    | '/contacts'
-    | '/about'
-    | '/legal/privacy'
-    | '/legal/offer'
+    | '/app'
+    | '/callback'
     | '/login'
     | '/signup'
-    | '/callback'
-    | '/app'
+    | '/about'
+    | '/cases'
+    | '/contacts'
+    | '/faq'
+    | '/features'
+    | '/first-100'
+    | '/integrations'
+    | '/pricing'
+    | '/scenarios'
+    | '/cases/$slug'
+    | '/legal/offer'
+    | '/legal/privacy'
+    | '/scenarios/$niche'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/first-100'
-    | '/pricing'
-    | '/features'
-    | '/integrations'
-    | '/cases'
-    | '/cases/$slug'
-    | '/scenarios'
-    | '/scenarios/$niche'
-    | '/faq'
-    | '/contacts'
-    | '/about'
-    | '/legal/privacy'
-    | '/legal/offer'
+    | '/app'
+    | '/callback'
     | '/login'
     | '/signup'
-    | '/callback'
-    | '/app'
+    | '/about'
+    | '/cases'
+    | '/contacts'
+    | '/faq'
+    | '/features'
+    | '/first-100'
+    | '/integrations'
+    | '/pricing'
+    | '/scenarios'
+    | '/cases/$slug'
+    | '/legal/offer'
+    | '/legal/privacy'
+    | '/scenarios/$niche'
   id:
     | '__root__'
-    | '/_marketing'
-    | '/_auth'
     | '/_app'
-    | '/_marketing/first-100'
-    | '/_marketing/pricing'
-    | '/_marketing/features'
-    | '/_marketing/integrations'
-    | '/_marketing/cases'
-    | '/_marketing/cases/$slug'
-    | '/_marketing/scenarios'
-    | '/_marketing/scenarios/$niche'
-    | '/_marketing/faq'
-    | '/_marketing/contacts'
-    | '/_marketing/about'
-    | '/_marketing/legal/privacy'
-    | '/_marketing/legal/offer'
-    | '/_marketing/'
+    | '/_auth'
+    | '/_marketing'
+    | '/_app/app'
+    | '/_auth/callback'
     | '/_auth/login'
     | '/_auth/signup'
-    | '/_auth/callback'
-    | '/_app/'
+    | '/_marketing/about'
+    | '/_marketing/cases'
+    | '/_marketing/contacts'
+    | '/_marketing/faq'
+    | '/_marketing/features'
+    | '/_marketing/first-100'
+    | '/_marketing/integrations'
+    | '/_marketing/pricing'
+    | '/_marketing/scenarios'
+    | '/_marketing/'
+    | '/_marketing/cases/$slug'
+    | '/_marketing/legal/offer'
+    | '/_marketing/legal/privacy'
+    | '/_marketing/scenarios/$niche'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  MarketingRoute: typeof MarketingRouteWithChildren
-  AuthRoute: typeof AuthRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
+  MarketingRoute: typeof MarketingRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -275,21 +275,21 @@ declare module '@tanstack/react-router' {
     '/_marketing': {
       id: '/_marketing'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof MarketingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
       id: '/_auth'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
       id: '/_app'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -300,11 +300,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingIndexRouteImport
       parentRoute: typeof MarketingRoute
     }
+    '/_marketing/scenarios': {
+      id: '/_marketing/scenarios'
+      path: '/scenarios'
+      fullPath: '/scenarios'
+      preLoaderRoute: typeof MarketingScenariosRouteImport
+      parentRoute: typeof MarketingRoute
+    }
     '/_marketing/pricing': {
       id: '/_marketing/pricing'
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof MarketingPricingRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_marketing/integrations': {
+      id: '/_marketing/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof MarketingIntegrationsRouteImport
       parentRoute: typeof MarketingRoute
     }
     '/_marketing/first-100': {
@@ -321,41 +335,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingFeaturesRouteImport
       parentRoute: typeof MarketingRoute
     }
-    '/_marketing/integrations': {
-      id: '/_marketing/integrations'
-      path: '/integrations'
-      fullPath: '/integrations'
-      preLoaderRoute: typeof MarketingIntegrationsRouteImport
-      parentRoute: typeof MarketingRoute
-    }
-    '/_marketing/cases': {
-      id: '/_marketing/cases'
-      path: '/cases'
-      fullPath: '/cases'
-      preLoaderRoute: typeof MarketingCasesRouteImport
-      parentRoute: typeof MarketingRoute
-    }
-    '/_marketing/cases/$slug': {
-      id: '/_marketing/cases/$slug'
-      path: '/cases/$slug'
-      fullPath: '/cases/$slug'
-      preLoaderRoute: typeof MarketingCasesSlugRouteImport
-      parentRoute: typeof MarketingRoute
-    }
-    '/_marketing/scenarios': {
-      id: '/_marketing/scenarios'
-      path: '/scenarios'
-      fullPath: '/scenarios'
-      preLoaderRoute: typeof MarketingScenariosRouteImport
-      parentRoute: typeof MarketingRoute
-    }
-    '/_marketing/scenarios/$niche': {
-      id: '/_marketing/scenarios/$niche'
-      path: '/scenarios/$niche'
-      fullPath: '/scenarios/$niche'
-      preLoaderRoute: typeof MarketingScenariosNicheRouteImport
-      parentRoute: typeof MarketingRoute
-    }
     '/_marketing/faq': {
       id: '/_marketing/faq'
       path: '/faq'
@@ -370,12 +349,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingContactsRouteImport
       parentRoute: typeof MarketingRoute
     }
+    '/_marketing/cases': {
+      id: '/_marketing/cases'
+      path: '/cases'
+      fullPath: '/cases'
+      preLoaderRoute: typeof MarketingCasesRouteImport
+      parentRoute: typeof MarketingRoute
+    }
     '/_marketing/about': {
       id: '/_marketing/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof MarketingAboutRouteImport
       parentRoute: typeof MarketingRoute
+    }
+    '/_auth/signup': {
+      id: '/_auth/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/callback': {
+      id: '/_auth/callback'
+      path: '/callback'
+      fullPath: '/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_app/app': {
+      id: '/_app/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppAppRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_marketing/scenarios/$niche': {
+      id: '/_marketing/scenarios/$niche'
+      path: '/$niche'
+      fullPath: '/scenarios/$niche'
+      preLoaderRoute: typeof MarketingScenariosNicheRouteImport
+      parentRoute: typeof MarketingScenariosRoute
     }
     '/_marketing/legal/privacy': {
       id: '/_marketing/legal/privacy'
@@ -391,103 +412,101 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingLegalOfferRouteImport
       parentRoute: typeof MarketingRoute
     }
-    '/_auth/login': {
-      id: '/_auth/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof AuthLoginRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/signup': {
-      id: '/_auth/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof AuthSignupRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/callback': {
-      id: '/_auth/callback'
-      path: '/callback'
-      fullPath: '/callback'
-      preLoaderRoute: typeof AuthCallbackRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_app/': {
-      id: '/_app/'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
+    '/_marketing/cases/$slug': {
+      id: '/_marketing/cases/$slug'
+      path: '/$slug'
+      fullPath: '/cases/$slug'
+      preLoaderRoute: typeof MarketingCasesSlugRouteImport
+      parentRoute: typeof MarketingCasesRoute
     }
   }
 }
 
-interface MarketingRouteChildren {
-  MarketingFirst100Route: typeof MarketingFirst100Route
-  MarketingPricingRoute: typeof MarketingPricingRoute
-  MarketingFeaturesRoute: typeof MarketingFeaturesRoute
-  MarketingIntegrationsRoute: typeof MarketingIntegrationsRoute
-  MarketingCasesRoute: typeof MarketingCasesRoute
+interface AppRouteChildren {
+  AppAppRoute: typeof AppAppRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAppRoute: AppAppRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface MarketingCasesRouteChildren {
   MarketingCasesSlugRoute: typeof MarketingCasesSlugRoute
-  MarketingScenariosRoute: typeof MarketingScenariosRoute
+}
+
+const MarketingCasesRouteChildren: MarketingCasesRouteChildren = {
+  MarketingCasesSlugRoute: MarketingCasesSlugRoute,
+}
+
+const MarketingCasesRouteWithChildren = MarketingCasesRoute._addFileChildren(
+  MarketingCasesRouteChildren,
+)
+
+interface MarketingScenariosRouteChildren {
   MarketingScenariosNicheRoute: typeof MarketingScenariosNicheRoute
-  MarketingFaqRoute: typeof MarketingFaqRoute
-  MarketingContactsRoute: typeof MarketingContactsRoute
+}
+
+const MarketingScenariosRouteChildren: MarketingScenariosRouteChildren = {
+  MarketingScenariosNicheRoute: MarketingScenariosNicheRoute,
+}
+
+const MarketingScenariosRouteWithChildren =
+  MarketingScenariosRoute._addFileChildren(MarketingScenariosRouteChildren)
+
+interface MarketingRouteChildren {
   MarketingAboutRoute: typeof MarketingAboutRoute
-  MarketingLegalPrivacyRoute: typeof MarketingLegalPrivacyRoute
-  MarketingLegalOfferRoute: typeof MarketingLegalOfferRoute
+  MarketingCasesRoute: typeof MarketingCasesRouteWithChildren
+  MarketingContactsRoute: typeof MarketingContactsRoute
+  MarketingFaqRoute: typeof MarketingFaqRoute
+  MarketingFeaturesRoute: typeof MarketingFeaturesRoute
+  MarketingFirst100Route: typeof MarketingFirst100Route
+  MarketingIntegrationsRoute: typeof MarketingIntegrationsRoute
+  MarketingPricingRoute: typeof MarketingPricingRoute
+  MarketingScenariosRoute: typeof MarketingScenariosRouteWithChildren
   MarketingIndexRoute: typeof MarketingIndexRoute
+  MarketingLegalOfferRoute: typeof MarketingLegalOfferRoute
+  MarketingLegalPrivacyRoute: typeof MarketingLegalPrivacyRoute
 }
 
 const MarketingRouteChildren: MarketingRouteChildren = {
-  MarketingFirst100Route: MarketingFirst100Route,
-  MarketingPricingRoute: MarketingPricingRoute,
-  MarketingFeaturesRoute: MarketingFeaturesRoute,
-  MarketingIntegrationsRoute: MarketingIntegrationsRoute,
-  MarketingCasesRoute: MarketingCasesRoute,
-  MarketingCasesSlugRoute: MarketingCasesSlugRoute,
-  MarketingScenariosRoute: MarketingScenariosRoute,
-  MarketingScenariosNicheRoute: MarketingScenariosNicheRoute,
-  MarketingFaqRoute: MarketingFaqRoute,
-  MarketingContactsRoute: MarketingContactsRoute,
   MarketingAboutRoute: MarketingAboutRoute,
-  MarketingLegalPrivacyRoute: MarketingLegalPrivacyRoute,
-  MarketingLegalOfferRoute: MarketingLegalOfferRoute,
+  MarketingCasesRoute: MarketingCasesRouteWithChildren,
+  MarketingContactsRoute: MarketingContactsRoute,
+  MarketingFaqRoute: MarketingFaqRoute,
+  MarketingFeaturesRoute: MarketingFeaturesRoute,
+  MarketingFirst100Route: MarketingFirst100Route,
+  MarketingIntegrationsRoute: MarketingIntegrationsRoute,
+  MarketingPricingRoute: MarketingPricingRoute,
+  MarketingScenariosRoute: MarketingScenariosRouteWithChildren,
   MarketingIndexRoute: MarketingIndexRoute,
+  MarketingLegalOfferRoute: MarketingLegalOfferRoute,
+  MarketingLegalPrivacyRoute: MarketingLegalPrivacyRoute,
 }
 
 const MarketingRouteWithChildren = MarketingRoute._addFileChildren(
   MarketingRouteChildren,
 )
 
-interface AuthRouteChildren {
-  AuthLoginRoute: typeof AuthLoginRoute
-  AuthSignupRoute: typeof AuthSignupRoute
-  AuthCallbackRoute: typeof AuthCallbackRoute
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthLoginRoute: AuthLoginRoute,
-  AuthSignupRoute: AuthSignupRoute,
-  AuthCallbackRoute: AuthCallbackRoute,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
-interface AppRouteChildren {
-  AppIndexRoute: typeof AppIndexRoute
-}
-
-const AppRouteChildren: AppRouteChildren = {
-  AppIndexRoute: AppIndexRoute,
-}
-
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
-  MarketingRoute: MarketingRouteWithChildren,
-  AuthRoute: AuthRouteWithChildren,
   AppRoute: AppRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
+  MarketingRoute: MarketingRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
