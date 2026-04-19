@@ -10,6 +10,7 @@ import { Container } from "@/components/layout/container";
 import { MockChat } from "@/components/landing/mock-chat";
 import { Reveal } from "@/components/motion/reveal";
 import { useHeroChat } from "@/lib/hooks/use-landing";
+import { track } from "@/lib/analytics";
 
 export function Hero() {
   const { data: messages = [] } = useHeroChat();
@@ -38,13 +39,21 @@ export function Hero() {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button asChild variant="brand" size="lg">
-                <Link to="/" hash="demo">
+                <Link
+                  to="/"
+                  hash="demo"
+                  onClick={() => track("cta-click", { location: "hero", intent: "demo" })}
+                >
                   Запустить за 3 дня
                   <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link to="/" hash="how">
+                <Link
+                  to="/"
+                  hash="how"
+                  onClick={() => track("cta-click", { location: "hero", intent: "how" })}
+                >
                   Как это работает
                 </Link>
               </Button>
