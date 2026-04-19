@@ -3,7 +3,7 @@
  * Hero + переключатель Месяц/Год → 3 plan-карточки → таблица сравнения →
  * Enterprise-блок → FAQ по тарифам → финальный CTA.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,7 @@ import { formatRub } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { PricingPlan, PricingPeriod } from "@/types/entities";
 import { buildPageMeta, canonicalLink } from "@/lib/seo";
+import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/_marketing/pricing")({
   head: () => ({
@@ -69,6 +70,11 @@ const pricingFaq = [
 
 function PricingPage() {
   const [period, setPeriod] = useState<PricingPeriod>("monthly");
+
+  // Один раз при маунте — фиксируем заход на страницу тарифов.
+  useEffect(() => {
+    track("pricing-view", { from: "direct" });
+  }, []);
 
   return (
     <>

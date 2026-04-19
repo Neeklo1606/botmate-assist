@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { track } from "@/lib/analytics";
 
 export function StickyMobileCTA() {
   const [scrolled, setScrolled] = useState(false);
@@ -49,7 +50,11 @@ export function StickyMobileCTA() {
       aria-hidden={!visible}
     >
       <Button asChild variant="brand" size="lg" className="w-full" tabIndex={visible ? 0 : -1}>
-        <Link to="/" hash="demo">
+        <Link
+          to="/"
+          hash="demo"
+          onClick={() => track("cta-click", { location: "sticky", intent: "demo" })}
+        >
           Запустить за 3 дня
         </Link>
       </Button>

@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-quer
 import { Toaster } from "@/components/ui/sonner";
 import { repository } from "@/lib/mock/repository";
 import { qk } from "@/lib/query-keys";
+import { PLAUSIBLE_DOMAIN, PLAUSIBLE_SRC } from "@/lib/analytics";
 import type { AuthRouterState } from "@/router";
 
 import appCss from "../styles.css?url";
@@ -114,6 +115,15 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico" },
+    ],
+    scripts: [
+      // Plausible — lightweight, без cookies. defer не блокирует рендер.
+      // Скрипт инжектит window.plausible(name, { props }), который дергает src/lib/analytics.ts.
+      {
+        src: PLAUSIBLE_SRC,
+        defer: true,
+        "data-domain": PLAUSIBLE_DOMAIN,
+      },
     ],
   }),
   shellComponent: RootShell,

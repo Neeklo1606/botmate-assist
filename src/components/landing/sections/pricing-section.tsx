@@ -10,6 +10,7 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { usePricing } from "@/lib/hooks/use-landing";
 import { formatRub } from "@/lib/format";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 export function PricingSection() {
@@ -66,7 +67,16 @@ export function PricingSection() {
                   size="md"
                   className="w-full"
                 >
-                  <Link to="/" hash="demo">
+                  <Link
+                    to="/"
+                    hash="demo"
+                    onClick={() =>
+                      track("cta-click", {
+                        location: "pricing",
+                        intent: `plan-${plan.id}`,
+                      })
+                    }
+                  >
                     {plan.cta.label}
                   </Link>
                 </Button>
@@ -79,6 +89,7 @@ export function PricingSection() {
           Нужно сравнение тарифов и ответы по биллингу?{" "}
           <Link
             to="/pricing"
+            onClick={() => track("pricing-view", { from: "pricing-section-link" })}
             className="font-medium text-foreground underline-offset-4 hover:underline"
           >
             Подробная страница тарифов →

@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { BotmeLogo } from "@/components/brand/botme-logo";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -34,6 +35,7 @@ export function SiteHeader() {
               <Link
                 key={item.to}
                 to={item.to}
+                onClick={() => track("nav-click", { to: item.to, location: "header" })}
                 className="rounded-md px-3 py-2 text-sm font-medium text-ink-muted transition-colors hover:bg-surface-muted hover:text-foreground"
                 activeProps={{ className: "text-foreground bg-surface-muted" }}
               >
@@ -47,7 +49,11 @@ export function SiteHeader() {
               <Link to="/login">Войти</Link>
             </Button>
             <Button asChild variant="brand" size="sm">
-              <Link to="/" hash="demo">
+              <Link
+                to="/"
+                hash="demo"
+                onClick={() => track("cta-click", { location: "header", intent: "demo" })}
+              >
                 Запустить за 3 дня
               </Link>
             </Button>
