@@ -1,11 +1,12 @@
 /**
- * Расширенный Button. Brand-варианты botme:
- * - brand   — primary deep ink-blue
- * - signal  — warm amber, для редких highlight CTA
- * - ink     — solid graphite (нейтральный CTA для второго экрана)
- * - ghostInk— спокойная альтернатива outline на тёмном фоне секции
+ * Расширенный Button. Brand-варианты botme (Graphite Ink + Electric Lime).
+ * - brand   — primary CTA: графит фон + lime-подчёркивание на hover
+ * - signal  — редкий ударный CTA на lime-фоне (текст всегда графит)
+ * - ink     — инверсия для тёмных секций: светлый фон + графит текст
+ * - outline — нейтральный secondary, тонкая граница border-strong
+ * - ghostInk— тихая альтернатива без рамки
  *
- * Используем variant вместо ad-hoc классов в JSX.
+ * Никаких хардкод hex — только токены.
  */
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
@@ -13,26 +14,33 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary-hover",
+        default:
+          "bg-primary text-primary-foreground hover:bg-primary-hover",
+        // Primary: графит + lime-подчёркивание снизу на hover
         brand:
-          "bg-primary text-primary-foreground hover:bg-primary-hover shadow-xs hover:shadow-sm",
+          "bg-primary text-primary-foreground hover:bg-primary-hover after:pointer-events-none after:absolute after:left-3 after:right-3 after:bottom-1 after:h-[2px] after:rounded-full after:bg-accent after:opacity-0 after:transition-opacity after:duration-200 hover:after:opacity-100 active:bg-black",
+        // Signal: lime-плашка, текст всегда графит
         signal:
-          "bg-signal text-signal-foreground hover:brightness-95 shadow-xs",
+          "bg-accent text-accent-ink hover:bg-accent-hover",
+        // Ink: инверсия для тёмных секций
         ink:
-          "bg-foreground text-background hover:opacity-90",
+          "bg-background text-foreground hover:bg-surface border border-border-strong",
         outline:
-          "border border-border-strong bg-surface text-foreground hover:bg-muted",
+          "border border-border-strong bg-transparent text-foreground hover:bg-surface-muted",
         ghostInk:
-          "border border-border bg-transparent text-foreground hover:bg-muted",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-muted",
+          "bg-transparent text-foreground hover:bg-surface-muted",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-surface-muted",
         destructive:
           "bg-destructive text-destructive-foreground hover:opacity-90 shadow-xs",
-        ghost: "hover:bg-muted text-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        ghost:
+          "hover:bg-surface-muted text-foreground",
+        link:
+          "text-foreground underline-offset-4 hover:underline decoration-accent decoration-2",
       },
       size: {
         sm: "h-8 px-3 text-xs",
