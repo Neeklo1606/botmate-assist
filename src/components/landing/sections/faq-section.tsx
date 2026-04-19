@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useFaq } from "@/lib/hooks/use-landing";
+import { track } from "@/lib/analytics";
 
 export function FaqSection() {
   const { data: faq = [] } = useFaq();
@@ -27,6 +28,9 @@ export function FaqSection() {
             <Accordion
               type="single"
               collapsible
+              onValueChange={(v) => {
+                if (v) track("faq-open", { question_id: v });
+              }}
               className="rounded-xl border border-border bg-surface"
             >
               {items.map((item) => (
