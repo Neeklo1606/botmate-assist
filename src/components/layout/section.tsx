@@ -1,9 +1,12 @@
 /**
  * Section — вертикальный ритм секций лендинга.
  * Tone задаёт цвет фона из дизайн-системы (никогда — ad-hoc).
+ * SectionHeading — fadeUp при появлении в viewport (см. lib/motion).
  */
 import * as React from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { fadeUp, inViewProps } from "@/lib/motion";
 
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   tone?: "default" | "muted" | "ink";
@@ -52,7 +55,9 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <div
+    <motion.div
+      variants={fadeUp}
+      {...inViewProps}
       className={cn(
         "mb-10 md:mb-14 max-w-[720px]",
         align === "center" && "mx-auto text-center",
@@ -70,6 +75,6 @@ export function SectionHeading({
           {description}
         </p>
       ) : null}
-    </div>
+    </motion.div>
   );
 }
