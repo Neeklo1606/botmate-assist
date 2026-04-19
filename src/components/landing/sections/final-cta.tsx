@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { track } from "@/lib/analytics";
 
 export function FinalCTA() {
   return (
@@ -22,13 +23,22 @@ export function FinalCTA() {
 
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild variant="signal" size="lg">
-              <Link to="/" hash="demo">
+              <Link
+                to="/"
+                hash="demo"
+                onClick={() => track("cta-click", { location: "final-cta", intent: "demo" })}
+              >
                 Получить демо
                 <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
               </Link>
             </Button>
             <Button asChild variant="ink" size="lg">
-              <Link to="/first-100">Программа «Первые 100»</Link>
+              <Link
+                to="/first-100"
+                onClick={() => track("cta-click", { location: "final-cta", intent: "first-100" })}
+              >
+                Программа «Первые 100»
+              </Link>
             </Button>
           </div>
         </div>
