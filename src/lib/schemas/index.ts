@@ -42,3 +42,16 @@ export const assistantDraftSchema = z.object({
 });
 
 export type AssistantDraftInput = z.infer<typeof assistantDraftSchema>;
+
+export const contactRequestSchema = z.object({
+  name: z.string().trim().min(2, "Укажите имя").max(80),
+  email: z.string().trim().email("Введите корректный email").max(120),
+  topic: z.string().trim().min(3, "Опишите тему кратко").max(120),
+  message: z
+    .string()
+    .trim()
+    .min(10, "Расскажите чуть подробнее")
+    .max(2000, "Слишком длинное сообщение"),
+});
+
+export type ContactRequestInput = z.infer<typeof contactRequestSchema>;
