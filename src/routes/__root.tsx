@@ -4,14 +4,20 @@ import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
+  useRouter,
 } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
+import { repository } from "@/lib/mock/repository";
+import { qk } from "@/lib/query-keys";
+import type { AuthRouterState } from "@/router";
 
 import appCss from "../styles.css?url";
 
 interface RouterContext {
   queryClient: QueryClient;
+  auth: AuthRouterState;
 }
 
 function NotFoundComponent() {
@@ -50,10 +56,40 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * AuthSync — пробрасывает текущего user в router.context.auth,
+ * чтобы beforeLoad в _app.tsx видел актуальное состояние без
+ * локального стораджа. Чисто in-memory на уровне TanStack Query cache.
+ */
+function AuthSync() {
+  const router = useRouter();
+  const { data: user } = useQuery({
+    queryKey: qk.auth.currentUser,
+    queryFn: () => repository.getCurrentUser(),
+    staleTime: Infinity,
+  });
+
+  useEffect(() => {
+    router.update({
+      context: {
+        ...router.options.context,
+        auth: {
+          isAuthenticated: !!user,
+          user: user ?? null,
+        },
+      },
+    });
+    router.invalidate();
+  }, [user, router]);
+
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthSync />
       <Outlet />
       <Toaster richColors position="top-center" />
     </QueryClientProvider>
