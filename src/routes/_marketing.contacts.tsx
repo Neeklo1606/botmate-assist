@@ -18,12 +18,12 @@ import { useCreateContactRequest } from "@/lib/hooks/use-marketing";
 export const Route = createFileRoute("/_marketing/contacts")({
   head: () => ({
     meta: [
-      { title: "Контакты — botme" },
+      { title: "Контакты botme" },
       {
         name: "description",
         content: "Связаться с командой botme: Telegram-поддержка, email, форма обратной связи.",
       },
-      { property: "og:title", content: "Контакты — botme" },
+      { property: "og:title", content: "Контакты botme" },
       {
         property: "og:description",
         content: "Свяжитесь с командой botme.",
@@ -65,7 +65,7 @@ function ContactsPage() {
               Свяжитесь с командой botme
             </h1>
             <p className="mt-5 text-base text-ink-muted">
-              Отвечаем в течение часа в рабочее время. Telegram — самый быстрый канал.
+              Отвечаем в течение часа в рабочее время. Telegram самый быстрый канал.
             </p>
 
             <div className="mt-8 space-y-4">
@@ -108,7 +108,7 @@ function ContactsPage() {
                     Время ответа
                   </div>
                   <div className="text-sm text-ink-muted">
-                    Пн–Пт, 10:00–20:00 МСК. Лиды-демо — в любой день.
+                    Пн–Пт, 10:00–20:00 МСК. Лиды-демо в любой день.
                   </div>
                 </div>
               </div>
@@ -179,7 +179,7 @@ function ContactsPage() {
               <Textarea
                 id="contact-message"
                 {...form.register("message")}
-                placeholder="Расскажите коротко — про бизнес, задачу, ожидания."
+                placeholder="Расскажите коротко: про бизнес, задачу, ожидания."
                 rows={6}
                 aria-invalid={!!form.formState.errors.message}
                 className="mt-1.5 resize-none"
