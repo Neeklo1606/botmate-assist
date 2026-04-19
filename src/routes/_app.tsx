@@ -58,18 +58,18 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { to: "/app", label: "Дашборд", icon: LayoutDashboard, exact: true },
-  { to: "/app", label: "Ассистенты", icon: Bot },
-  { to: "/app", label: "Лиды", icon: Inbox },
-  { to: "/app", label: "Аналитика", icon: BarChart3 },
-  { to: "/app", label: "Команда", icon: Users2 },
-  { to: "/app", label: "Настройки", icon: Settings },
+  { to: "/app/assistants", label: "Ассистенты", icon: Bot },
+  { to: "/app/leads", label: "Лиды", icon: Inbox },
+  { to: "/app/analytics", label: "Аналитика", icon: BarChart3 },
+  { to: "/app/team", label: "Команда", icon: Users2 },
+  { to: "/app/settings", label: "Настройки", icon: Settings },
 ];
 
 const MOBILE_NAV: NavItem[] = [
   { to: "/app", label: "Дашборд", icon: LayoutDashboard, exact: true },
-  { to: "/app", label: "Ассистенты", icon: Bot },
-  { to: "/app", label: "Лиды", icon: Inbox },
-  { to: "/app", label: "Меню", icon: Settings },
+  { to: "/app/assistants", label: "Ассистенты", icon: Bot },
+  { to: "/app/leads", label: "Лиды", icon: Inbox },
+  { to: "/app/settings", label: "Ещё", icon: Settings },
 ];
 
 function AppLayout() {
@@ -101,12 +101,14 @@ function Sidebar() {
         </Link>
       </div>
       <nav aria-label="Кабинет" className="flex-1 space-y-0.5 p-3">
-        {NAV_ITEMS.map((item, idx) => {
-          // Все ведут на /app пока — отличаем визуально первый как активный
-          const isActive = idx === 0 && location.pathname === "/app";
+        {NAV_ITEMS.map((item) => {
+          const isActive = item.exact
+            ? location.pathname === item.to
+            : location.pathname === item.to ||
+              location.pathname.startsWith(`${item.to}/`);
           return (
             <Link
-              key={`${item.label}-${idx}`}
+              key={item.to}
               to={item.to}
               className={cn(
                 "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
@@ -226,11 +228,14 @@ function MobileBottomNav() {
       aria-label="Мобильная навигация"
       className="fixed inset-x-0 bottom-0 z-30 grid h-[64px] grid-cols-4 border-t border-border bg-background md:hidden"
     >
-      {MOBILE_NAV.map((item, idx) => {
-        const isActive = idx === 0 && location.pathname === "/app";
+      {MOBILE_NAV.map((item) => {
+        const isActive = item.exact
+          ? location.pathname === item.to
+          : location.pathname === item.to ||
+            location.pathname.startsWith(`${item.to}/`);
         return (
           <Link
-            key={`${item.label}-${idx}`}
+            key={item.to}
             to={item.to}
             className={cn(
               "flex flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors",

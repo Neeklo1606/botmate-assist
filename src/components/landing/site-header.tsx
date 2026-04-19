@@ -11,8 +11,11 @@ import { BotmeLogo } from "@/components/brand/botme-logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
+  { to: "/features", label: "Возможности" },
+  { to: "/cases", label: "Кейсы" },
+  { to: "/scenarios", label: "Сценарии" },
   { to: "/pricing", label: "Тарифы" },
-  { to: "/first-100", label: "Первые 100" },
+  { to: "/faq", label: "FAQ" },
 ] as const;
 
 export function SiteHeader() {

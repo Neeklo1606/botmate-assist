@@ -25,7 +25,12 @@ import { Route as MarketingAboutRouteImport } from './routes/_marketing.about'
 import { Route as AuthSignupRouteImport } from './routes/_auth.signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
 import { Route as AuthCallbackRouteImport } from './routes/_auth.callback'
+import { Route as AppTeamRouteImport } from './routes/_app.team'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppLeadsRouteImport } from './routes/_app.leads'
+import { Route as AppAssistantsRouteImport } from './routes/_app.assistants'
 import { Route as AppAppRouteImport } from './routes/_app.app'
+import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
 import { Route as MarketingScenariosNicheRouteImport } from './routes/_marketing.scenarios.$niche'
 import { Route as MarketingLegalPrivacyRouteImport } from './routes/_marketing.legal.privacy'
 import { Route as MarketingLegalOfferRouteImport } from './routes/_marketing.legal.offer'
@@ -108,9 +113,34 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/callback',
   getParentRoute: () => AuthRoute,
 } as any)
+const AppTeamRoute = AppTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLeadsRoute = AppLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAssistantsRoute = AppAssistantsRouteImport.update({
+  id: '/assistants',
+  path: '/assistants',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAppRoute = AppAppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const MarketingScenariosNicheRoute = MarketingScenariosNicheRouteImport.update({
@@ -136,7 +166,12 @@ const MarketingCasesSlugRoute = MarketingCasesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof MarketingIndexRoute
+  '/analytics': typeof AppAnalyticsRoute
   '/app': typeof AppAppRoute
+  '/assistants': typeof AppAssistantsRoute
+  '/leads': typeof AppLeadsRoute
+  '/settings': typeof AppSettingsRoute
+  '/team': typeof AppTeamRoute
   '/callback': typeof AuthCallbackRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
@@ -156,7 +191,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof MarketingIndexRoute
+  '/analytics': typeof AppAnalyticsRoute
   '/app': typeof AppAppRoute
+  '/assistants': typeof AppAssistantsRoute
+  '/leads': typeof AppLeadsRoute
+  '/settings': typeof AppSettingsRoute
+  '/team': typeof AppTeamRoute
   '/callback': typeof AuthCallbackRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
@@ -179,7 +219,12 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
   '/_marketing': typeof MarketingRouteWithChildren
+  '/_app/analytics': typeof AppAnalyticsRoute
   '/_app/app': typeof AppAppRoute
+  '/_app/assistants': typeof AppAssistantsRoute
+  '/_app/leads': typeof AppLeadsRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/team': typeof AppTeamRoute
   '/_auth/callback': typeof AuthCallbackRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
@@ -202,7 +247,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics'
     | '/app'
+    | '/assistants'
+    | '/leads'
+    | '/settings'
+    | '/team'
     | '/callback'
     | '/login'
     | '/signup'
@@ -222,7 +272,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/app'
+    | '/assistants'
+    | '/leads'
+    | '/settings'
+    | '/team'
     | '/callback'
     | '/login'
     | '/signup'
@@ -244,7 +299,12 @@ export interface FileRouteTypes {
     | '/_app'
     | '/_auth'
     | '/_marketing'
+    | '/_app/analytics'
     | '/_app/app'
+    | '/_app/assistants'
+    | '/_app/leads'
+    | '/_app/settings'
+    | '/_app/team'
     | '/_auth/callback'
     | '/_auth/login'
     | '/_auth/signup'
@@ -384,11 +444,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_app/team': {
+      id: '/_app/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof AppTeamRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/leads': {
+      id: '/_app/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof AppLeadsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/assistants': {
+      id: '/_app/assistants'
+      path: '/assistants'
+      fullPath: '/assistants'
+      preLoaderRoute: typeof AppAssistantsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/app': {
       id: '/_app/app'
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppAppRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/analytics': {
+      id: '/_app/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_marketing/scenarios/$niche': {
@@ -423,11 +518,21 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppAppRoute: typeof AppAppRoute
+  AppAssistantsRoute: typeof AppAssistantsRoute
+  AppLeadsRoute: typeof AppLeadsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppTeamRoute: typeof AppTeamRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
   AppAppRoute: AppAppRoute,
+  AppAssistantsRoute: AppAssistantsRoute,
+  AppLeadsRoute: AppLeadsRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppTeamRoute: AppTeamRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -511,3 +616,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
