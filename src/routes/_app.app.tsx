@@ -25,7 +25,7 @@ import { ChannelIcon } from "@/components/brand/channel-icon";
 import { cn } from "@/lib/utils";
 import type { DashboardKpi, SparkPoint } from "@/types/entities";
 
-export const Route = createFileRoute("/_app/")({
+export const Route = createFileRoute("/_app/app")({
   component: DashboardPage,
 });
 
