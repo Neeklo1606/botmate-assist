@@ -7,21 +7,23 @@ import { Container } from "@/components/layout/container";
 import { BotmeLogo } from "@/components/brand/botme-logo";
 
 const productLinks = [
+  { to: "/features", label: "Возможности" },
+  { to: "/integrations", label: "Каналы и интеграции" },
+  { to: "/scenarios", label: "Сценарии под нишу" },
   { to: "/pricing", label: "Тарифы" },
   { to: "/first-100", label: "Первые 100" },
-  { to: "/", label: "Возможности" },
-  { to: "/", label: "Каналы и интеграции" },
 ] as const;
 
 const companyLinks = [
-  { to: "/", label: "О команде" },
-  { to: "/", label: "Кейсы" },
-  { to: "/", label: "Контакты" },
+  { to: "/about", label: "О команде" },
+  { to: "/cases", label: "Кейсы" },
+  { to: "/faq", label: "FAQ" },
+  { to: "/contacts", label: "Контакты" },
 ] as const;
 
 const legalLinks = [
-  { to: "/", label: "Политика конфиденциальности" },
-  { to: "/", label: "Договор-оферта" },
+  { to: "/legal/privacy", label: "Политика конфиденциальности" },
+  { to: "/legal/offer", label: "Договор-оферта" },
 ] as const;
 
 export function SiteFooter() {

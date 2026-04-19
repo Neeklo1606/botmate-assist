@@ -1,8 +1,8 @@
 /**
- * Хуки для marketing-страниц: cases, scenarios, integrations, team, legal.
+ * Хуки для marketing-страниц: cases, scenarios, integrations, team, legal, contact.
  */
-import { useQuery } from "@tanstack/react-query";
-import { repository } from "@/lib/mock/repository";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { repository, type ContactRequestPayload } from "@/lib/mock/repository";
 import { qk } from "@/lib/query-keys";
 import type { Niche } from "@/types/entities";
 
@@ -16,6 +16,7 @@ export const useCaseStudy = (slug: string) =>
   useQuery({
     queryKey: qk.marketing.caseBySlug(slug),
     queryFn: () => repository.getCaseBySlug(slug),
+    enabled: !!slug,
   });
 
 export const useScenarioDetails = () =>
@@ -47,3 +48,14 @@ export const useLegalDoc = (slug: "privacy" | "offer") =>
     queryKey: qk.marketing.legal(slug),
     queryFn: () => repository.getLegalDoc(slug),
   });
+
+export const useCreateContactRequest = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: ContactRequestPayload) =>
+      repository.createContactRequest(payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["marketing", "contact-requests"] });
+    },
+  });
+};
