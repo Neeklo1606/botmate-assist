@@ -5,20 +5,14 @@
  * UX: чат не «прыгает» — фиксированная высота с внутренним скроллом.
  * Поле ввода disabled. На mobile тап по полю → toast с CTA «оставить заявку».
  */
+import { useEffect, useState } from "react";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 import type { ChatMessage } from "@/types/entities";
 import { cn } from "@/lib/utils";
+import type { MockChatProps } from "./mock-chat-types";
 
-interface MockChatProps {
-  title?: string;
-  subtitle?: string;
-  messages: ChatMessage[];
-  variant?: "light" | "dark";
-  className?: string;
-}
-
-export function MockChat({
+export default function MockChatImpl({
   title = "Ассистент botme",
   subtitle = "онлайн",
   messages,
@@ -26,6 +20,21 @@ export function MockChat({
   className,
 }: MockChatProps) {
   const isDark = variant === "dark";
+
+  // Typing indicator: показать один раз перед последним сообщением бота.
+  // Состояние: "typing" → виден индикатор, последнее сообщение скрыто.
+  //            "done"   → индикатор скрыт, все сообщения видны.
+  const lastIsBot = messages.length > 0 && messages[messages.length - 1].role === "bot";
+  const [phase, setPhase] = useState<"typing" | "done">(lastIsBot ? "typing" : "done");
+
+  useEffect(() => {
+    if (!lastIsBot) return;
+    const t = setTimeout(() => setPhase("done"), 1400);
+    return () => clearTimeout(t);
+  }, [lastIsBot]);
+
+  const visibleMessages =
+    lastIsBot && phase === "typing" ? messages.slice(0, -1) : messages;
 
   const handleDemoTap = () => {
     toast("Это демо-режим", {
