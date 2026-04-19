@@ -29,7 +29,7 @@ export function LegalLayout({ doc, isLoading }: LegalLayoutProps) {
           <div className="mx-auto max-w-md text-center">
             <h1 className="font-display text-3xl font-semibold text-foreground">
               Документ не найден
-                         </h1>
+            </h1>
           </div>
         </Container>
       </Section>
@@ -47,9 +47,7 @@ export function LegalLayout({ doc, isLoading }: LegalLayoutProps) {
             <h1 className="mt-2 font-display text-3xl font-semibold tracking-[-0.02em] text-foreground md:text-4xl">
               {doc.title}
             </h1>
-            <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">
-              {doc.intro}
-            </p>
+            <p className="mt-4 text-[15px] leading-relaxed text-ink-muted">{doc.intro}</p>
           </header>
 
           <div className="space-y-8">

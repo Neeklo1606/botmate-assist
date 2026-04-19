@@ -12,10 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  contactRequestSchema,
-  type ContactRequestInput,
-} from "@/lib/schemas";
+import { contactRequestSchema, type ContactRequestInput } from "@/lib/schemas";
 import { useCreateContactRequest } from "@/lib/hooks/use-marketing";
 
 export const Route = createFileRoute("/_marketing/contacts")({
@@ -24,8 +21,7 @@ export const Route = createFileRoute("/_marketing/contacts")({
       { title: "Контакты — botme" },
       {
         name: "description",
-        content:
-          "Связаться с командой botme: Telegram-поддержка, email, форма обратной связи.",
+        content: "Связаться с командой botme: Telegram-поддержка, email, форма обратной связи.",
       },
       { property: "og:title", content: "Контакты — botme" },
       {
@@ -98,9 +94,7 @@ function ContactsPage() {
                   <Mail className="h-5 w-5" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <div className="font-display text-base font-semibold text-foreground">
-                    Email
-                  </div>
+                  <div className="font-display text-base font-semibold text-foreground">Email</div>
                   <div className="text-sm text-ink-muted">hello@botme.ru</div>
                 </div>
               </a>

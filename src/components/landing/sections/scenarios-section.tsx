@@ -19,10 +19,7 @@ export function ScenariosSection() {
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {scenarios.map((s) => (
-            <div
-              key={s.id}
-              className="rounded-xl border border-border bg-surface p-5"
-            >
+            <div key={s.id} className="rounded-xl border border-border bg-surface p-5">
               <div className="font-display text-[15px] font-semibold text-foreground">
                 {s.title}
               </div>

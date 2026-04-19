@@ -43,8 +43,8 @@ function CasesPage() {
               Что меняется через 30 дней после запуска
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              6 клиентов из недвижимости, авто, клиник, школ, услуг и агентств. Цифры
-              — без приукрашивания.
+              6 клиентов из недвижимости, авто, клиник, школ, услуг и агентств. Цифры — без
+              приукрашивания.
             </p>
           </div>
         </Container>
@@ -84,9 +84,7 @@ function CasesPage() {
                   <h3 className="font-display text-xl font-semibold text-foreground">
                     {c.company}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                    {c.summary}
-                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">{c.summary}</p>
 
                   <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border pt-5">
                     {c.heroMetrics.map((m) => (

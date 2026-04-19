@@ -62,9 +62,8 @@ function AboutPage() {
               Делаем AI-ассистенты, которые приносят выручку
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              botme — продукт студии neeklo.studio. Мы строим инструменты, которые
-              экономят бизнесу часы и деньги. Без волшебства — на проверенных
-              технологиях.
+              botme — продукт студии neeklo.studio. Мы строим инструменты, которые экономят бизнесу
+              часы и деньги. Без волшебства — на проверенных технологиях.
             </p>
           </div>
         </Container>
@@ -80,21 +79,14 @@ function AboutPage() {
           />
           <div className="grid gap-4 md:grid-cols-3">
             {PRINCIPLES.map((p, i) => (
-              <article
-                key={p.title}
-                className="rounded-xl border border-border bg-background p-6"
-              >
+              <article key={p.title} className="rounded-xl border border-border bg-background p-6">
                 <div className="font-display text-2xl font-semibold tabular-nums text-accent-ink">
-                  <span className="rounded-md bg-accent px-2 py-0.5">
-                    0{i + 1}
-                  </span>
+                  <span className="rounded-md bg-accent px-2 py-0.5">0{i + 1}</span>
                 </div>
                 <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
                   {p.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                  {p.description}
-                </p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">{p.description}</p>
               </article>
             ))}
           </div>
@@ -110,22 +102,15 @@ function AboutPage() {
           />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {team.map((p) => (
-              <article
-                key={p.id}
-                className="rounded-xl border border-border bg-surface p-6"
-              >
+              <article key={p.id} className="rounded-xl border border-border bg-surface p-6">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-foreground font-display text-lg font-semibold text-background">
                   {p.initials}
                 </div>
                 <h3 className="mt-4 font-display text-base font-semibold text-foreground">
                   {p.name}
                 </h3>
-                <div className="text-xs uppercase tracking-wide text-ink-subtle">
-                  {p.role}
-                </div>
-                <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                  {p.bio}
-                </p>
+                <div className="text-xs uppercase tracking-wide text-ink-subtle">{p.role}</div>
+                <p className="mt-3 text-sm leading-relaxed text-ink-muted">{p.bio}</p>
               </article>
             ))}
           </div>
@@ -135,8 +120,7 @@ function AboutPage() {
               Хотите познакомиться?
             </h3>
             <p className="max-w-md text-sm text-ink-muted">
-              Расскажите о бизнесе — за 30 минут покажем, как ассистент будет работать
-              именно у вас.
+              Расскажите о бизнесе — за 30 минут покажем, как ассистент будет работать именно у вас.
             </p>
             <Button asChild variant="brand" size="lg" className="mt-2">
               <Link to="/" hash="demo">

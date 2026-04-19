@@ -15,16 +15,16 @@ export function FinalCTA() {
         <div className="mx-auto max-w-[760px] text-center text-background">
           <h2 className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-[42px]">
             Запустите ассистента за 3 дня. Платите, когда увидите первые лиды.
-                       </h2>
+          </h2>
           <p className="mt-4 text-[15px] text-background/70 md:text-base">
             Бесплатное демо за 30 минут. Возврат в первые 14 дней. Без долгих контрактов.
-                       </p>
+          </p>
 
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild variant="signal" size="lg">
               <Link to="/" hash="demo">
                 Получить демо
-                               <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
+                <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
               </Link>
             </Button>
             <Button asChild variant="ink" size="lg">

@@ -69,8 +69,8 @@ function FeaturesPage() {
               Один ассистент закрывает работу команды поддержки и продаж
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              botme отвечает клиентам мгновенно, квалифицирует, продаёт и складывает
-              сделки в CRM. Без выходных и обеда.
+              botme отвечает клиентам мгновенно, квалифицирует, продаёт и складывает сделки в CRM.
+              Без выходных и обеда.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button asChild variant="brand" size="lg">
@@ -106,12 +106,8 @@ function FeaturesPage() {
                   <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-foreground text-background">
                     <Icon className="h-5 w-5" strokeWidth={1.5} />
                   </div>
-                  <h3 className="font-display text-lg font-semibold text-foreground">
-                    {f.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                    {f.description}
-                  </p>
+                  <h3 className="font-display text-lg font-semibold text-foreground">{f.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">{f.description}</p>
                 </article>
               );
             })}
@@ -130,15 +126,8 @@ function FeaturesPage() {
             {benefits.map((b) => {
               const Icon = ICONS[b.icon] ?? Shield;
               return (
-                <div
-                  key={b.id}
-                  className="rounded-xl border border-border bg-surface p-5"
-                >
-                  <Icon
-                    className="h-5 w-5 text-foreground"
-                    strokeWidth={1.5}
-                    aria-hidden
-                  />
+                <div key={b.id} className="rounded-xl border border-border bg-surface p-5">
+                  <Icon className="h-5 w-5 text-foreground" strokeWidth={1.5} aria-hidden />
                   <h3 className="mt-3 font-display text-base font-semibold text-foreground">
                     {b.title}
                   </h3>
@@ -160,14 +149,9 @@ function FeaturesPage() {
           />
           <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {how.map((step) => (
-              <li
-                key={step.id}
-                className="rounded-xl border border-border bg-background p-5"
-              >
+              <li key={step.id} className="rounded-xl border border-border bg-background p-5">
                 <div className="font-display text-2xl font-semibold tabular-nums text-accent-ink">
-                  <span className="rounded-md bg-accent px-2 py-0.5">
-                    {step.number}
-                  </span>
+                  <span className="rounded-md bg-accent px-2 py-0.5">{step.number}</span>
                 </div>
                 <h3 className="mt-4 font-display text-base font-semibold text-foreground">
                   {step.title}

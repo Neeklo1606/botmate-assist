@@ -1,13 +1,7 @@
 /**
  * BenefitsSection — 4 преимущества против найма менеджера.
  */
-import {
-  Moon,
-  BookOpen,
-  Battery,
-  Shield,
-  type LucideIcon,
-} from "lucide-react";
+import { Moon, BookOpen, Battery, Shield, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { useBenefits } from "@/lib/hooks/use-landing";
@@ -30,10 +24,7 @@ export function BenefitsSection() {
           {benefits.map((b) => {
             const Icon = iconMap[b.icon] ?? Shield;
             return (
-              <div
-                key={b.id}
-                className="rounded-xl border border-border bg-surface p-5"
-              >
+              <div key={b.id} className="rounded-xl border border-border bg-surface p-5">
                 <Icon className="h-5 w-5 text-foreground" strokeWidth={1.5} />
                 <div className="mt-4 font-display text-lg font-semibold text-foreground">
                   {b.title}

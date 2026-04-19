@@ -44,8 +44,8 @@ function ScenariosPage() {
               Готовые сценарии под вашу нишу
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              Не «универсальный бот» — а ассистент, заточенный под специфику вашего
-              бизнеса. Знает, какие вопросы задавать и когда передавать менеджеру.
+              Не «универсальный бот» — а ассистент, заточенный под специфику вашего бизнеса. Знает,
+              какие вопросы задавать и когда передавать менеджеру.
             </p>
           </div>
         </Container>
@@ -53,10 +53,7 @@ function ScenariosPage() {
 
       <Section tone="muted" size="md">
         <Container>
-          <SectionHeading
-            eyebrow="Ниши"
-            title="6 сценариев с детальной механикой"
-          />
+          <SectionHeading eyebrow="Ниши" title="6 сценариев с детальной механикой" />
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -79,9 +76,7 @@ function ScenariosPage() {
                   <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
                     {s.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                    {s.pain}
-                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">{s.pain}</p>
 
                   <ul className="mt-5 space-y-1.5 border-t border-border pt-5 text-sm text-foreground">
                     {s.tasks.slice(0, 3).map((t) => (
@@ -110,8 +105,8 @@ function ScenariosPage() {
               Не нашли свою нишу?
             </h3>
             <p className="mx-auto mt-2 max-w-md text-sm text-ink-muted">
-              Команда neeklo соберёт ассистента под любой бизнес — от логистики до
-              b2b SaaS. Запуск 5–7 дней.
+              Команда neeklo соберёт ассистента под любой бизнес — от логистики до b2b SaaS. Запуск
+              5–7 дней.
             </p>
             <Button asChild variant="brand" size="md" className="mt-4">
               <Link to="/contacts">Обсудить вашу нишу</Link>

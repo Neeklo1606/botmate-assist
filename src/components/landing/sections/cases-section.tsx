@@ -32,7 +32,7 @@ export function CasesSection() {
               </div>
               <blockquote className="mt-4 flex-1 text-[15px] leading-snug text-foreground">
                 «{c.quote}»
-                       </blockquote>
+              </blockquote>
               <footer className="mt-5 text-xs text-ink-muted">
                 <div className="font-medium text-foreground">{c.company}</div>
                 <div className="mt-0.5">{c.author}</div>

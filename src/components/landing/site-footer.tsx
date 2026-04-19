@@ -35,19 +35,25 @@ export function SiteFooter() {
             <BotmeLogo />
             <p className="mt-3 max-w-[280px] text-sm text-ink-muted">
               AI-ассистенты, которые отвечают клиентам, квалифицируют лидов и доводят до сделки.
-                           </p>
+            </p>
             <div className="mt-6 space-y-1.5 text-sm">
               <div className="text-ink-muted">
                 Telegram:{" "}
-                <a className="text-foreground underline-offset-4 hover:underline" href="https://t.me/botme_support">
+                <a
+                  className="text-foreground underline-offset-4 hover:underline"
+                  href="https://t.me/botme_support"
+                >
                   @botme_support
-                                   </a>
+                </a>
               </div>
               <div className="text-ink-muted">
                 Email:{" "}
-                <a className="text-foreground underline-offset-4 hover:underline" href="mailto:hello@botme.ru">
+                <a
+                  className="text-foreground underline-offset-4 hover:underline"
+                  href="mailto:hello@botme.ru"
+                >
                   hello@botme.ru
-                                   </a>
+                </a>
               </div>
             </div>
           </div>

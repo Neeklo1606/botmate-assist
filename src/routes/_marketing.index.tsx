@@ -34,8 +34,7 @@ export const Route = createFileRoute("/_marketing/")({
       { property: "og:title", content: "botme — AI-ассистент, который не теряет ваших клиентов" },
       {
         property: "og:description",
-        content:
-          "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня.",
+        content: "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня.",
       },
     ],
   }),

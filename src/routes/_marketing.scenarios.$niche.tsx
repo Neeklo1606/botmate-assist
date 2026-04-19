@@ -115,9 +115,7 @@ function ScenarioPage() {
               <h1 className="mt-2 font-display text-3xl font-semibold tracking-[-0.02em] text-foreground md:text-5xl md:leading-[1.1]">
                 {scenario.title}
               </h1>
-              <p className="mt-5 text-base text-ink-muted md:text-lg">
-                {scenario.pain}
-              </p>
+              <p className="mt-5 text-base text-ink-muted md:text-lg">{scenario.pain}</p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="brand" size="lg">
                   <Link to="/" hash="demo">
@@ -161,10 +159,7 @@ function ScenarioPage() {
                   className="flex items-start gap-3 rounded-xl border border-border bg-background p-4"
                 >
                   <span className="mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-full bg-accent">
-                    <Check
-                      className="h-3.5 w-3.5 text-accent-ink"
-                      strokeWidth={3}
-                    />
+                    <Check className="h-3.5 w-3.5 text-accent-ink" strokeWidth={3} />
                   </span>
                   <span className="text-[15px] text-foreground">{t}</span>
                 </li>
@@ -184,10 +179,7 @@ function ScenarioPage() {
               </h2>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {scenario.integrations.map((i) => (
-                  <div
-                    key={i.name}
-                    className="rounded-xl border border-border bg-surface p-4"
-                  >
+                  <div key={i.name} className="rounded-xl border border-border bg-surface p-4">
                     <div className="font-display text-base font-semibold text-foreground">
                       {i.name}
                     </div>

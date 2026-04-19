@@ -101,11 +101,7 @@ function FaqPage() {
             ) : (
               <Accordion type="single" collapsible className="divide-y divide-border">
                 {filtered.map((item) => (
-                  <AccordionItem
-                    key={item.id}
-                    value={item.id}
-                    className="border-b-0 px-5"
-                  >
+                  <AccordionItem key={item.id} value={item.id} className="border-b-0 px-5">
                     <AccordionTrigger className="text-left font-display text-base font-semibold text-foreground hover:no-underline">
                       {item.question}
                     </AccordionTrigger>
@@ -119,12 +115,9 @@ function FaqPage() {
           </div>
 
           <div className="mt-10 rounded-xl border border-border-strong bg-background p-6 text-center">
-            <h3 className="font-display text-lg font-semibold text-foreground">
-              Не нашли ответа?
-            </h3>
+            <h3 className="font-display text-lg font-semibold text-foreground">Не нашли ответа?</h3>
             <p className="mx-auto mt-2 max-w-md text-sm text-ink-muted">
-              Напишите в Telegram-поддержку или оставьте контакт — менеджер свяжется в
-              течение часа.
+              Напишите в Telegram-поддержку или оставьте контакт — менеджер свяжется в течение часа.
             </p>
             <Button asChild variant="brand" size="md" className="mt-4">
               <Link to="/contacts">Связаться</Link>

@@ -11,8 +11,7 @@ export const Route = createFileRoute("/_marketing/legal/privacy")({
       { title: "Политика конфиденциальности — botme" },
       {
         name: "description",
-        content:
-          "Как botme обрабатывает персональные данные. Соответствие 152-ФЗ. Хранение в РФ.",
+        content: "Как botme обрабатывает персональные данные. Соответствие 152-ФЗ. Хранение в РФ.",
       },
       { property: "og:title", content: "Политика конфиденциальности — botme" },
     ],

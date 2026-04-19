@@ -41,7 +41,12 @@ export const channels: Channel[] = [
   { id: "avito", name: "Avito", description: "Ответы на сообщения по объявлениям", status: "live" },
   { id: "vk", name: "ВКонтакте", description: "Сообщения сообщества", status: "live" },
   { id: "whatsapp", name: "WhatsApp", description: "Через официальный WABA", status: "beta" },
-  { id: "instagram", name: "Instagram DM", description: "Личные сообщения профиля", status: "beta" },
+  {
+    id: "instagram",
+    name: "Instagram DM",
+    description: "Личные сообщения профиля",
+    status: "beta",
+  },
 ];
 
 export const features: FeatureItem[] = [
@@ -109,13 +114,15 @@ export const howItWorks: HowItWorksStep[] = [
     id: "h2",
     number: "02",
     title: "Настраиваем тон и сценарии",
-    description: "Под бренд: от строгого юриста до дружелюбного консультанта. Прописываем, что делать в нестандартных кейсах.",
+    description:
+      "Под бренд: от строгого юриста до дружелюбного консультанта. Прописываем, что делать в нестандартных кейсах.",
   },
   {
     id: "h3",
     number: "03",
     title: "Подключаем каналы",
-    description: "Telegram, сайт, Avito, ВКонтакте: подключаем за пару часов. Тестируем на реальных диалогах.",
+    description:
+      "Telegram, сайт, Avito, ВКонтакте: подключаем за пару часов. Тестируем на реальных диалогах.",
   },
   {
     id: "h4",
@@ -234,7 +241,10 @@ export const pricingComparison: PricingComparisonRow[] = [
   { feature: "Каналы", values: { start: "1 на выбор", pro: "все", max: "все + API" } },
   { feature: "Диалогов в месяц", values: { start: "1 000", pro: "10 000", max: "без лимита" } },
   { feature: "База знаний", values: { start: "50 МБ", pro: "без лимита", max: "без лимита" } },
-  { feature: "CRM-интеграции", values: { start: "—", pro: "amoCRM, Bitrix24", max: "все + кастом" } },
+  {
+    feature: "CRM-интеграции",
+    values: { start: "—", pro: "amoCRM, Bitrix24", max: "все + кастом" },
+  },
   { feature: "API доступ", values: { start: "—", pro: "—", max: "✓" } },
   { feature: "SLA", values: { start: "—", pro: "—", max: "99.9%" } },
   { feature: "Менеджер onboarding", values: { start: "—", pro: "✓", max: "выделенный" } },
@@ -274,22 +284,19 @@ export const faq: FaqItem[] = [
     id: "q5",
     category: "general",
     question: "А если клиент захочет говорить с человеком?",
-    answer:
-      "Передаём диалог менеджеру в один клик с полной историей. Контроль остаётся за вами.",
+    answer: "Передаём диалог менеджеру в один клик с полной историей. Контроль остаётся за вами.",
   },
   {
     id: "q6",
     category: "pricing",
     question: "Можно ли вернуть деньги, если не подойдёт?",
-    answer:
-      "Да, в первые 14 дней возврат 100% без вопросов. Дальше работаем по договору.",
+    answer: "Да, в первые 14 дней возврат 100% без вопросов. Дальше работаем по договору.",
   },
   {
     id: "q7",
     category: "security",
     question: "Где хранятся данные клиентов?",
-    answer:
-      "На серверах в РФ, в соответствии с 152-ФЗ. Доступ только у вас и вашей команды.",
+    answer: "На серверах в РФ, в соответствии с 152-ФЗ. Доступ только у вас и вашей команды.",
   },
 ];
 
@@ -369,7 +376,8 @@ export const first100Benefits: First100Benefit[] = [
   {
     id: "f1",
     title: "Личная настройка под нишу",
-    description: "Команда neeklo собирает ассистента под ваш бизнес. 40+ часов работы лида и продакта.",
+    description:
+      "Команда neeklo собирает ассистента под ваш бизнес. 40+ часов работы лида и продакта.",
     icon: "Wrench",
   },
   {
@@ -478,15 +486,78 @@ export const mockUser: User = {
    ════════════════════════════════════════════════════════════════ */
 
 export const integrations: Integration[] = [
-  { id: "amocrm", name: "amoCRM", category: "crm", description: "Создаёт сделки, задачи, заполняет поля по диалогу.", initials: "AM", status: "live" },
-  { id: "bitrix24", name: "Битрикс24", category: "crm", description: "Лиды, сделки, задачи, ответственные, всё в Битриксе.", initials: "Б24", status: "live" },
-  { id: "yclients", name: "YClients", category: "crm", description: "Запись клиентов в YClients прямо из чата.", initials: "YC", status: "live" },
-  { id: "retailcrm", name: "retailCRM", category: "crm", description: "Заказы, клиенты, сегменты, синхронизируем.", initials: "RC", status: "beta" },
-  { id: "gsheets", name: "Google Sheets", category: "data", description: "Лиды и диалоги в вашу таблицу. Без программистов.", initials: "GS", status: "live" },
-  { id: "notion", name: "Notion", category: "data", description: "База знаний из вашего Notion-воркспейса.", initials: "N", status: "live" },
-  { id: "webhook", name: "Webhook", category: "automation", description: "Отправляем события в любую систему через HTTP.", initials: "WH", status: "live" },
-  { id: "zapier", name: "Zapier", category: "automation", description: "5000+ интеграций через Zapier. Без кода.", initials: "Z", status: "beta" },
-  { id: "telegram_crm", name: "Telegram-уведомления", category: "automation", description: "Каждый лид, сразу в чат менеджера в Telegram.", initials: "TG", status: "live" },
+  {
+    id: "amocrm",
+    name: "amoCRM",
+    category: "crm",
+    description: "Создаёт сделки, задачи, заполняет поля по диалогу.",
+    initials: "AM",
+    status: "live",
+  },
+  {
+    id: "bitrix24",
+    name: "Битрикс24",
+    category: "crm",
+    description: "Лиды, сделки, задачи, ответственные, всё в Битриксе.",
+    initials: "Б24",
+    status: "live",
+  },
+  {
+    id: "yclients",
+    name: "YClients",
+    category: "crm",
+    description: "Запись клиентов в YClients прямо из чата.",
+    initials: "YC",
+    status: "live",
+  },
+  {
+    id: "retailcrm",
+    name: "retailCRM",
+    category: "crm",
+    description: "Заказы, клиенты, сегменты, синхронизируем.",
+    initials: "RC",
+    status: "beta",
+  },
+  {
+    id: "gsheets",
+    name: "Google Sheets",
+    category: "data",
+    description: "Лиды и диалоги в вашу таблицу. Без программистов.",
+    initials: "GS",
+    status: "live",
+  },
+  {
+    id: "notion",
+    name: "Notion",
+    category: "data",
+    description: "База знаний из вашего Notion-воркспейса.",
+    initials: "N",
+    status: "live",
+  },
+  {
+    id: "webhook",
+    name: "Webhook",
+    category: "automation",
+    description: "Отправляем события в любую систему через HTTP.",
+    initials: "WH",
+    status: "live",
+  },
+  {
+    id: "zapier",
+    name: "Zapier",
+    category: "automation",
+    description: "5000+ интеграций через Zapier. Без кода.",
+    initials: "Z",
+    status: "beta",
+  },
+  {
+    id: "telegram_crm",
+    name: "Telegram-уведомления",
+    category: "automation",
+    description: "Каждый лид, сразу в чат менеджера в Telegram.",
+    initials: "TG",
+    status: "live",
+  },
 ];
 
 /* ════════════════════════════════════════════════════════════════
@@ -510,7 +581,8 @@ export const caseStudies: CaseStudy[] = [
     niche: "services",
     industry: industryByNiche.services,
     region: "Санкт-Петербург",
-    summary: "Ассистент закрывает ночные заявки и считает смету в первом сообщении. Менеджеры выходят на горячих лидов.",
+    summary:
+      "Ассистент закрывает ночные заявки и считает смету в первом сообщении. Менеджеры выходят на горячих лидов.",
     heroMetrics: [
       { label: "Заявок в месяц", value: "+62", delta: "+41%" },
       { label: "Заявки ночью", value: "100%", delta: "обработка" },
@@ -548,7 +620,8 @@ export const caseStudies: CaseStudy[] = [
     niche: "auto",
     industry: industryByNiche.auto,
     region: "Краснодар",
-    summary: "Avito-менеджер был узким горлом. Ассистент закрыл 3 ставки, ускорил ответ до 5 секунд, отсёк перекупов.",
+    summary:
+      "Avito-менеджер был узким горлом. Ассистент закрыл 3 ставки, ускорил ответ до 5 секунд, отсёк перекупов.",
     heroMetrics: [
       { label: "Сообщений в день", value: "320+", delta: "100% ответы" },
       { label: "Сэкономлено ФОТ", value: "−420к ₽", delta: "/ мес" },
@@ -586,7 +659,8 @@ export const caseStudies: CaseStudy[] = [
     niche: "clinic",
     industry: industryByNiche.clinic,
     region: "Москва",
-    summary: "92% записей идёт без участия администратора. Ассистент работает 24/7 в WhatsApp и на сайте.",
+    summary:
+      "92% записей идёт без участия администратора. Ассистент работает 24/7 в WhatsApp и на сайте.",
     heroMetrics: [
       { label: "Запись без оператора", value: "92%", delta: "" },
       { label: "Среднее время записи", value: "1.5 мин", delta: "−7 мин" },
@@ -624,7 +698,8 @@ export const caseStudies: CaseStudy[] = [
     niche: "real_estate",
     industry: industryByNiche.real_estate,
     region: "Екатеринбург",
-    summary: "Ассистент квалифицирует по бюджету, ипотеке и району, бронирует показ. Менеджеры приходят к готовому к покупке клиенту.",
+    summary:
+      "Ассистент квалифицирует по бюджету, ипотеке и району, бронирует показ. Менеджеры приходят к готовому к покупке клиенту.",
     heroMetrics: [
       { label: "Конверсия в показ", value: "+38%", delta: "" },
       { label: "Время до показа", value: "1.2 дня", delta: "−3 дня" },
@@ -662,7 +737,8 @@ export const caseStudies: CaseStudy[] = [
     niche: "online_school",
     industry: industryByNiche.online_school,
     region: "удалённо",
-    summary: "Ассистент рассказывает программу, считает рассрочку и доводит до оплаты. Конверсия трафика выросла в 2.1 раза.",
+    summary:
+      "Ассистент рассказывает программу, считает рассрочку и доводит до оплаты. Конверсия трафика выросла в 2.1 раза.",
     heroMetrics: [
       { label: "Выручка с трафика", value: "×2.1", delta: "" },
       { label: "Цена лида", value: "−43%", delta: "" },
@@ -700,7 +776,8 @@ export const caseStudies: CaseStudy[] = [
     niche: "agency",
     industry: industryByNiche.agency,
     region: "Москва",
-    summary: "Брифинг занимал 3 встречи. Ассистент квалифицирует клиента до созвона, команда экономит десятки часов в неделю.",
+    summary:
+      "Брифинг занимал 3 встречи. Ассистент квалифицирует клиента до созвона, команда экономит десятки часов в неделю.",
     heroMetrics: [
       { label: "Время на брифинг", value: "−40%", delta: "" },
       { label: "Качество ТЗ", value: "+62%", delta: "по нашей шкале" },
@@ -752,12 +829,32 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
       "Напоминает о просмотрах и переносит при отмене",
     ],
     dialog: [
-      { id: "rd1", role: "user", text: "Здравствуйте, есть двушка в Парусе до 14 млн?", time: "14:32" },
-      { id: "rd2", role: "bot", text: "Да, есть 3 варианта. Подскажите — нужен балкон и какой этаж предпочтителен?", time: "14:32" },
+      {
+        id: "rd1",
+        role: "user",
+        text: "Здравствуйте, есть двушка в Парусе до 14 млн?",
+        time: "14:32",
+      },
+      {
+        id: "rd2",
+        role: "bot",
+        text: "Да, есть 3 варианта. Подскажите — нужен балкон и какой этаж предпочтителен?",
+        time: "14:32",
+      },
       { id: "rd3", role: "user", text: "Балкон да, этаж от 5-го", time: "14:33" },
-      { id: "rd4", role: "bot", text: "Подобрал две квартиры — 8 и 12 этаж, обе с балконом и видом на парк. Удобно записать на показ в субботу?", time: "14:33" },
+      {
+        id: "rd4",
+        role: "bot",
+        text: "Подобрал две квартиры — 8 и 12 этаж, обе с балконом и видом на парк. Удобно записать на показ в субботу?",
+        time: "14:33",
+      },
       { id: "rd5", role: "user", text: "Давайте на 12:00", time: "14:34" },
-      { id: "rd6", role: "bot", text: "Готово. Записал к Анне на субботу в 12:00. Скину адрес и контакт менеджера в Telegram.", time: "14:34" },
+      {
+        id: "rd6",
+        role: "bot",
+        text: "Готово. Записал к Анне на субботу в 12:00. Скину адрес и контакт менеджера в Telegram.",
+        time: "14:34",
+      },
     ],
     integrations: [
       { name: "Битрикс24", description: "Показ → задача менеджеру" },
@@ -781,11 +878,26 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
     ],
     dialog: [
       { id: "au1", role: "user", text: "Kia Rio 2019 ещё в наличии?", time: "11:08" },
-      { id: "au2", role: "bot", text: "Да, в наличии. Подскажите — для себя смотрите или под перепродажу?", time: "11:08" },
+      {
+        id: "au2",
+        role: "bot",
+        text: "Да, в наличии. Подскажите — для себя смотрите или под перепродажу?",
+        time: "11:08",
+      },
       { id: "au3", role: "user", text: "Себе, в кредит", time: "11:09" },
-      { id: "au4", role: "bot", text: "Хорошо. С нашим партнёром одобрение за 30 минут, ставка от 6.5%. Удобно подъехать на тест-драйв в субботу?", time: "11:09" },
+      {
+        id: "au4",
+        role: "bot",
+        text: "Хорошо. С нашим партнёром одобрение за 30 минут, ставка от 6.5%. Удобно подъехать на тест-драйв в субботу?",
+        time: "11:09",
+      },
       { id: "au5", role: "user", text: "Да, в первой половине дня", time: "11:10" },
-      { id: "au6", role: "bot", text: "Записал на 11:00 в субботу. Машину закреплю за вами на 24 часа. Менеджер Сергей подтвердит и пришлёт адрес.", time: "11:10" },
+      {
+        id: "au6",
+        role: "bot",
+        text: "Записал на 11:00 в субботу. Машину закреплю за вами на 24 часа. Менеджер Сергей подтвердит и пришлёт адрес.",
+        time: "11:10",
+      },
     ],
     integrations: [
       { name: "retailCRM", description: "Сделка по машине" },
@@ -808,12 +920,32 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
       "Отвечает на вопросы по услугам и ценам",
     ],
     dialog: [
-      { id: "cl1", role: "user", text: "Здравствуйте, можно записаться к ортодонту?", time: "20:14" },
-      { id: "cl2", role: "bot", text: "Конечно. Это для консультации или для продолжения лечения?", time: "20:14" },
+      {
+        id: "cl1",
+        role: "user",
+        text: "Здравствуйте, можно записаться к ортодонту?",
+        time: "20:14",
+      },
+      {
+        id: "cl2",
+        role: "bot",
+        text: "Конечно. Это для консультации или для продолжения лечения?",
+        time: "20:14",
+      },
       { id: "cl3", role: "user", text: "Консультация", time: "20:15" },
-      { id: "cl4", role: "bot", text: "Ближайшее время у Анны Викторовны — пятница 16:00 или суббота 11:30. Какой вариант удобен?", time: "20:15" },
+      {
+        id: "cl4",
+        role: "bot",
+        text: "Ближайшее время у Анны Викторовны — пятница 16:00 или суббота 11:30. Какой вариант удобен?",
+        time: "20:15",
+      },
       { id: "cl5", role: "user", text: "Суббота 11:30", time: "20:15" },
-      { id: "cl6", role: "bot", text: "Записал. За день до визита пришлю напоминание. Адрес: Тверская, 12, 3 этаж.", time: "20:16" },
+      {
+        id: "cl6",
+        role: "bot",
+        text: "Записал. За день до визита пришлю напоминание. Адрес: Тверская, 12, 3 этаж.",
+        time: "20:16",
+      },
     ],
     integrations: [
       { name: "YClients", description: "Расписание и запись" },
@@ -836,12 +968,32 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
       "Передаёт сложные кейсы менеджеру",
     ],
     dialog: [
-      { id: "sc1", role: "user", text: "Подскажите, курс по Python подойдёт без опыта?", time: "13:02" },
-      { id: "sc2", role: "bot", text: "Да, в курсе есть подготовительный модуль на 2 недели — с нуля до базового уровня. После него — основная программа.", time: "13:02" },
+      {
+        id: "sc1",
+        role: "user",
+        text: "Подскажите, курс по Python подойдёт без опыта?",
+        time: "13:02",
+      },
+      {
+        id: "sc2",
+        role: "bot",
+        text: "Да, в курсе есть подготовительный модуль на 2 недели — с нуля до базового уровня. После него — основная программа.",
+        time: "13:02",
+      },
       { id: "sc3", role: "user", text: "А по оплате — есть рассрочка?", time: "13:03" },
-      { id: "sc4", role: "bot", text: "Конечно. Тинькофф и Альфа дают до 12 месяцев — по 7 900 ₽/мес без переплат. Хотите оформить заявку?", time: "13:03" },
+      {
+        id: "sc4",
+        role: "bot",
+        text: "Конечно. Тинькофф и Альфа дают до 12 месяцев — по 7 900 ₽/мес без переплат. Хотите оформить заявку?",
+        time: "13:03",
+      },
       { id: "sc5", role: "user", text: "Давайте", time: "13:04" },
-      { id: "sc6", role: "bot", text: "Отправляю ссылку на анкету. Решение за 5 минут, после — сразу доступ к курсу.", time: "13:04" },
+      {
+        id: "sc6",
+        role: "bot",
+        text: "Отправляю ссылку на анкету. Решение за 5 минут, после — сразу доступ к курсу.",
+        time: "13:04",
+      },
     ],
     integrations: [
       { name: "amoCRM", description: "Воронка студента" },
@@ -865,11 +1017,26 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
     ],
     dialog: [
       { id: "sv1", role: "user", text: "Сколько будет стоить ремонт двушки 60 м²?", time: "23:47" },
-      { id: "sv2", role: "bot", text: "Смотря какой уровень — косметический, капитальный или дизайнерский?", time: "23:47" },
+      {
+        id: "sv2",
+        role: "bot",
+        text: "Смотря какой уровень — косметический, капитальный или дизайнерский?",
+        time: "23:47",
+      },
       { id: "sv3", role: "user", text: "Капитальный, под чистовую", time: "23:48" },
-      { id: "sv4", role: "bot", text: "По типовому прайсу — от 1 350 000 ₽ с материалами эконом-сегмента. Срок 8–10 недель. Прислать PDF со сметой по комнатам?", time: "23:48" },
+      {
+        id: "sv4",
+        role: "bot",
+        text: "По типовому прайсу — от 1 350 000 ₽ с материалами эконом-сегмента. Срок 8–10 недель. Прислать PDF со сметой по комнатам?",
+        time: "23:48",
+      },
       { id: "sv5", role: "user", text: "Да, и можно посмотреть портфолио", time: "23:49" },
-      { id: "sv6", role: "bot", text: "Отправляю. Если устроит — забронируем замер на удобный день. С утра свяжется менеджер Антон.", time: "23:49" },
+      {
+        id: "sv6",
+        role: "bot",
+        text: "Отправляю. Если устроит — забронируем замер на удобный день. С утра свяжется менеджер Антон.",
+        time: "23:49",
+      },
     ],
     integrations: [
       { name: "amoCRM", description: "Сделка с заполненной сметой" },
@@ -893,11 +1060,26 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
     ],
     dialog: [
       { id: "ag1", role: "user", text: "Хочу заказать сайт для нового бренда", time: "16:18" },
-      { id: "ag2", role: "bot", text: "Здорово. Расскажите кратко — какая индустрия, есть ли уже бренд-айдентика и какой ориентировочный бюджет?", time: "16:18" },
+      {
+        id: "ag2",
+        role: "bot",
+        text: "Здорово. Расскажите кратко — какая индустрия, есть ли уже бренд-айдентика и какой ориентировочный бюджет?",
+        time: "16:18",
+      },
       { id: "ag3", role: "user", text: "Косметика, айдентика есть, бюджет 1.5 млн", time: "16:19" },
-      { id: "ag4", role: "bot", text: "Отлично, это в нашей зоне. Подскажите сроки и цели — продажи через сайт, имидж бренда или что-то ещё?", time: "16:19" },
+      {
+        id: "ag4",
+        role: "bot",
+        text: "Отлично, это в нашей зоне. Подскажите сроки и цели — продажи через сайт, имидж бренда или что-то ещё?",
+        time: "16:19",
+      },
       { id: "ag5", role: "user", text: "Запуск к сентябрю, основное — продажи", time: "16:20" },
-      { id: "ag6", role: "bot", text: "Принял. Назначу встречу с продактом Анной — она профильно ведёт e-commerce. Удобно в четверг 11:00 или пятницу 15:00?", time: "16:20" },
+      {
+        id: "ag6",
+        role: "bot",
+        text: "Принял. Назначу встречу с продактом Анной — она профильно ведёт e-commerce. Удобно в четверг 11:00 или пятницу 15:00?",
+        time: "16:20",
+      },
     ],
     integrations: [
       { name: "Notion", description: "База клиентов и брифов" },
@@ -929,16 +1111,64 @@ export const scenarioDetails: Record<string, ScenarioDetail> = {
    ════════════════════════════════════════════════════════════════ */
 
 export const teamPeople: TeamPerson[] = [
-  { id: "p1", name: "Никита Клочко", role: "Founder, продукт", bio: "8 лет в продуктах для b2b. До botme, продакт-директор в neeklo.studio.", initials: "НК" },
-  { id: "p2", name: "Игорь Шамин", role: "Lead Engineer", bio: "Архитектура, инфраструктура, надёжность. Строит системы, которые не падают.", initials: "ИШ" },
-  { id: "p3", name: "Данил Прохоров", role: "Product Manager", bio: "Отвечает за onboarding и customer success. Лично запускает первых клиентов.", initials: "ДП" },
-  { id: "p4", name: "Ренат Юсупов", role: "Sales & Partnerships", bio: "Работает с клиентами и интеграторами. Знает CRM и боль продаж изнутри.", initials: "РЮ" },
+  {
+    id: "p1",
+    name: "Никита Клочко",
+    role: "Founder, продукт",
+    bio: "8 лет в продуктах для b2b. До botme, продакт-директор в neeklo.studio.",
+    initials: "НК",
+  },
+  {
+    id: "p2",
+    name: "Игорь Шамин",
+    role: "Lead Engineer",
+    bio: "Архитектура, инфраструктура, надёжность. Строит системы, которые не падают.",
+    initials: "ИШ",
+  },
+  {
+    id: "p3",
+    name: "Данил Прохоров",
+    role: "Product Manager",
+    bio: "Отвечает за onboarding и customer success. Лично запускает первых клиентов.",
+    initials: "ДП",
+  },
+  {
+    id: "p4",
+    name: "Ренат Юсупов",
+    role: "Sales & Partnerships",
+    bio: "Работает с клиентами и интеграторами. Знает CRM и боль продаж изнутри.",
+    initials: "РЮ",
+  },
 ];
 
 export const teamMembers: TeamMember[] = [
-  { id: "tm1", name: "Никита Клочко", email: "nikita@neeklo.studio", role: "owner", status: "active", initials: "НК", joinedAt: "2025-09-01" },
-  { id: "tm2", name: "Анна Степанова", email: "anna@neeklo.studio", role: "admin", status: "active", initials: "АС", joinedAt: "2025-11-12" },
-  { id: "tm3", name: "Дмитрий Орлов", email: "dmitry@example.com", role: "editor", status: "pending", initials: "ДО", joinedAt: "2026-04-15" },
+  {
+    id: "tm1",
+    name: "Никита Клочко",
+    email: "nikita@neeklo.studio",
+    role: "owner",
+    status: "active",
+    initials: "НК",
+    joinedAt: "2025-09-01",
+  },
+  {
+    id: "tm2",
+    name: "Анна Степанова",
+    email: "anna@neeklo.studio",
+    role: "admin",
+    status: "active",
+    initials: "АС",
+    joinedAt: "2025-11-12",
+  },
+  {
+    id: "tm3",
+    name: "Дмитрий Орлов",
+    email: "dmitry@example.com",
+    role: "editor",
+    status: "pending",
+    initials: "ДО",
+    joinedAt: "2026-04-15",
+  },
 ];
 
 /* ════════════════════════════════════════════════════════════════
@@ -946,11 +1176,50 @@ export const teamMembers: TeamMember[] = [
    ════════════════════════════════════════════════════════════════ */
 
 export const notifications: Notification[] = [
-  { id: "n1", kind: "lead", title: "Новый качественный лид", description: "Telegram · ассистент «Продажи квартир ЖК Парус» · бюджет 12 млн", createdAt: "2026-04-19T07:42:00Z", read: false, href: "/app/inbox" },
-  { id: "n2", kind: "channel_error", title: "Ошибка подключения Avito", description: "Токен истёк, ассистент «Avito: авто с пробегом» не отвечает.", createdAt: "2026-04-19T05:11:00Z", read: false, href: "/app/integrations" },
-  { id: "n3", kind: "quota", title: "Использовано 80% сообщений месяца", description: "8 015 из 10 000. Осталось 11 дней до сброса.", createdAt: "2026-04-18T22:00:00Z", read: false, href: "/app/billing" },
-  { id: "n4", kind: "billing", title: "Списание прошло успешно", description: "Тариф Рост, 12 900 ₽. Чек отправили на email.", createdAt: "2026-04-15T10:00:00Z", read: true, href: "/app/billing" },
-  { id: "n5", kind: "system", title: "Новая фича: голосовые ассистенты в бете", description: "Можно тестировать на тарифе Рост и выше. Подключить?", createdAt: "2026-04-12T14:30:00Z", read: true },
+  {
+    id: "n1",
+    kind: "lead",
+    title: "Новый качественный лид",
+    description: "Telegram · ассистент «Продажи квартир ЖК Парус» · бюджет 12 млн",
+    createdAt: "2026-04-19T07:42:00Z",
+    read: false,
+    href: "/app/inbox",
+  },
+  {
+    id: "n2",
+    kind: "channel_error",
+    title: "Ошибка подключения Avito",
+    description: "Токен истёк, ассистент «Avito: авто с пробегом» не отвечает.",
+    createdAt: "2026-04-19T05:11:00Z",
+    read: false,
+    href: "/app/integrations",
+  },
+  {
+    id: "n3",
+    kind: "quota",
+    title: "Использовано 80% сообщений месяца",
+    description: "8 015 из 10 000. Осталось 11 дней до сброса.",
+    createdAt: "2026-04-18T22:00:00Z",
+    read: false,
+    href: "/app/billing",
+  },
+  {
+    id: "n4",
+    kind: "billing",
+    title: "Списание прошло успешно",
+    description: "Тариф Рост, 12 900 ₽. Чек отправили на email.",
+    createdAt: "2026-04-15T10:00:00Z",
+    read: true,
+    href: "/app/billing",
+  },
+  {
+    id: "n5",
+    kind: "system",
+    title: "Новая фича: голосовые ассистенты в бете",
+    description: "Можно тестировать на тарифе Рост и выше. Подключить?",
+    createdAt: "2026-04-12T14:30:00Z",
+    read: true,
+  },
 ];
 
 export const usageStat: UsageStat = {
@@ -968,10 +1237,31 @@ export const usageStat: UsageStat = {
 const sp = (vals: number[]) => vals.map((y, i) => ({ x: i, y }));
 
 export const dashboardKpis: DashboardKpi[] = [
-  { label: "Новые лиды (7д)", value: "141", trend: { delta: "+18%", positive: true }, spark: sp([12, 18, 14, 22, 19, 28, 28]) },
-  { label: "Диалоги (7д)", value: "680", trend: { delta: "+12%", positive: true }, spark: sp([78, 92, 88, 110, 96, 105, 111]) },
-  { label: "Среднее время ответа", value: "8 сек", trend: { delta: "−3 сек", positive: true }, spark: sp([14, 12, 11, 10, 9, 9, 8]) },
-  { label: "Использовано сообщений", value: "80%", trend: { delta: "8 015 / 10 000", positive: false }, spark: sp([22, 35, 48, 56, 64, 72, 80]), hint: "До сброса 11 дней" },
+  {
+    label: "Новые лиды (7д)",
+    value: "141",
+    trend: { delta: "+18%", positive: true },
+    spark: sp([12, 18, 14, 22, 19, 28, 28]),
+  },
+  {
+    label: "Диалоги (7д)",
+    value: "680",
+    trend: { delta: "+12%", positive: true },
+    spark: sp([78, 92, 88, 110, 96, 105, 111]),
+  },
+  {
+    label: "Среднее время ответа",
+    value: "8 сек",
+    trend: { delta: "−3 сек", positive: true },
+    spark: sp([14, 12, 11, 10, 9, 9, 8]),
+  },
+  {
+    label: "Использовано сообщений",
+    value: "80%",
+    trend: { delta: "8 015 / 10 000", positive: false },
+    spark: sp([22, 35, 48, 56, 64, 72, 80]),
+    hint: "До сброса 11 дней",
+  },
 ];
 
 export const activity30d: ActivityPoint[] = Array.from({ length: 30 }, (_, i) => {
@@ -1117,8 +1407,18 @@ export const kpi: KpiSnapshot = {
 
 export const onboarding: OnboardingStep[] = [
   { id: "o1", title: "Подключить канал", description: "Telegram, сайт или Avito.", done: true },
-  { id: "o2", title: "Загрузить базу знаний", description: "PDF, ссылки, тексты о продукте.", done: true },
-  { id: "o3", title: "Настроить тон ассистента", description: "От строгого до дружелюбного.", done: false },
+  {
+    id: "o2",
+    title: "Загрузить базу знаний",
+    description: "PDF, ссылки, тексты о продукте.",
+    done: true,
+  },
+  {
+    id: "o3",
+    title: "Настроить тон ассистента",
+    description: "От строгого до дружелюбного.",
+    done: false,
+  },
   { id: "o4", title: "Подключить CRM", description: "amoCRM, Битрикс24, YClients.", done: false },
   { id: "o5", title: "Запустить в работу", description: "После проверки сценариев.", done: false },
 ];

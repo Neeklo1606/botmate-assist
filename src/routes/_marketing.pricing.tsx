@@ -15,12 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePricing, usePricingComparison } from "@/lib/hooks/use-landing";
 import { formatRub } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -49,8 +44,7 @@ const pricingFaq = [
   {
     id: "p1",
     question: "Можно ли вернуть деньги?",
-    answer:
-      "Да, в первые 14 дней — возврат 100%. Без вопросов и формуляров. После — по договору.",
+    answer: "Да, в первые 14 дней — возврат 100%. Без вопросов и формуляров. После — по договору.",
   },
   {
     id: "p2",
@@ -116,16 +110,10 @@ function PricingHero({
           </p>
 
           <div className="mt-7 inline-flex items-center rounded-full border border-border bg-surface p-1 text-sm">
-            <PeriodToggle
-              active={period === "monthly"}
-              onClick={() => onChange("monthly")}
-            >
+            <PeriodToggle active={period === "monthly"} onClick={() => onChange("monthly")}>
               Месяц
             </PeriodToggle>
-            <PeriodToggle
-              active={period === "yearly"}
-              onClick={() => onChange("yearly")}
-            >
+            <PeriodToggle active={period === "yearly"} onClick={() => onChange("yearly")}>
               Год
               <span className="ml-1.5 inline-flex items-center rounded-sm bg-accent px-1.5 py-0.5 text-[10px] font-semibold tracking-wide text-accent-ink">
                 −15%
@@ -153,9 +141,7 @@ function PeriodToggle({
       onClick={onClick}
       className={cn(
         "inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-        active
-          ? "bg-foreground text-background"
-          : "text-ink-muted hover:text-foreground",
+        active ? "bg-foreground text-background" : "text-ink-muted hover:text-foreground",
       )}
       aria-pressed={active}
     >
@@ -183,9 +169,7 @@ function PricingPlans({ period }: { period: PricingPeriod }) {
 function PlanCard({ plan, period }: { plan: PricingPlan; period: PricingPeriod }) {
   const discount = plan.yearlyDiscount ?? 0;
   const monthly =
-    period === "yearly"
-      ? Math.round((plan.priceRub * (1 - discount)) / 100) * 100
-      : plan.priceRub;
+    period === "yearly" ? Math.round((plan.priceRub * (1 - discount)) / 100) * 100 : plan.priceRub;
 
   return (
     <article
@@ -304,7 +288,10 @@ function PricingComparison() {
             >
               <ul className="divide-y divide-border">
                 {rows.map((row) => (
-                  <li key={row.feature} className="flex items-center justify-between gap-4 px-4 py-3">
+                  <li
+                    key={row.feature}
+                    className="flex items-center justify-between gap-4 px-4 py-3"
+                  >
                     <span className="text-sm text-foreground">{row.feature}</span>
                     <span className="shrink-0">{renderCell(row.values[tab])}</span>
                   </li>
@@ -372,11 +359,7 @@ function PricingFaq() {
       <Container>
         <SectionHeading eyebrow="FAQ по тарифам" title="Биллинг, лимиты и возвраты" />
 
-        <Accordion
-          type="single"
-          collapsible
-          className="rounded-xl border border-border bg-surface"
-        >
+        <Accordion type="single" collapsible className="rounded-xl border border-border bg-surface">
           {pricingFaq.map((item) => (
             <AccordionItem
               key={item.id}

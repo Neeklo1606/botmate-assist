@@ -34,10 +34,7 @@ export function LaunchSection() {
 
         <ol className="grid gap-3 md:grid-cols-3">
           {days.map((d, idx) => (
-            <li
-              key={d.day}
-              className="relative rounded-xl border border-border bg-surface p-5"
-            >
+            <li key={d.day} className="relative rounded-xl border border-border bg-surface p-5">
               <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-ink-subtle">
                 <span className="font-mono tabular text-foreground">0{idx + 1}</span>
                 <span>{d.day}</span>

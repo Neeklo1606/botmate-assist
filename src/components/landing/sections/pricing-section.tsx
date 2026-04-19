@@ -35,12 +35,10 @@ export function PricingSection() {
               {plan.highlighted ? (
                 <div className="absolute -top-3 left-6 inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-accent-ink">
                   Хит
-                           </div>
+                </div>
               ) : null}
 
-              <div className="font-display text-xl font-semibold text-foreground">
-                {plan.name}
-              </div>
+              <div className="font-display text-xl font-semibold text-foreground">{plan.name}</div>
               <p className="mt-1 text-sm text-ink-muted">{plan.tagline}</p>
 
               <div className="mt-5 flex items-baseline gap-1.5">
@@ -53,10 +51,7 @@ export function PricingSection() {
               <ul className="mt-5 space-y-2.5">
                 {plan.features.map((feat) => (
                   <li key={feat} className="flex gap-2 text-sm text-foreground">
-                    <Check
-                      className="mt-0.5 h-4 w-4 shrink-0 text-foreground"
-                      strokeWidth={1.5}
-                    />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" strokeWidth={1.5} />
                     <span>{feat}</span>
                   </li>
                 ))}
@@ -85,7 +80,7 @@ export function PricingSection() {
             className="font-medium text-foreground underline-offset-4 hover:underline"
           >
             Подробная страница тарифов →
-                       </Link>
+          </Link>
         </div>
       </Container>
     </Section>

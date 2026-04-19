@@ -36,9 +36,7 @@ export const Route = createFileRoute("/_marketing/cases/$slug")({
     <Section size="lg">
       <Container>
         <div className="mx-auto max-w-md text-center">
-          <h1 className="font-display text-3xl font-semibold text-foreground">
-            Кейс не найден
-          </h1>
+          <h1 className="font-display text-3xl font-semibold text-foreground">Кейс не найден</h1>
           <p className="mt-2 text-sm text-ink-muted">
             Возможно, ссылка устарела или кейс ещё не опубликован.
           </p>
@@ -72,9 +70,7 @@ function CasePage() {
       <Section size="lg">
         <Container>
           <div className="mx-auto max-w-md text-center">
-            <h1 className="font-display text-3xl font-semibold text-foreground">
-              Кейс не найден
-            </h1>
+            <h1 className="font-display text-3xl font-semibold text-foreground">Кейс не найден</h1>
             <Button asChild variant="brand" size="md" className="mt-5">
               <Link to="/cases">Все кейсы</Link>
             </Button>
@@ -112,9 +108,7 @@ function CasePage() {
               <h1 className="font-display text-3xl font-semibold tracking-[-0.02em] text-foreground md:text-5xl md:leading-[1.1]">
                 {study.company}
               </h1>
-              <p className="mt-4 text-base text-ink-muted md:text-lg">
-                {study.summary}
-              </p>
+              <p className="mt-4 text-base text-ink-muted md:text-lg">{study.summary}</p>
             </div>
             <div className="md:col-span-5">
               <div className="grid grid-cols-3 gap-3 rounded-xl border border-border bg-surface p-5">
@@ -127,9 +121,7 @@ function CasePage() {
                       {m.label}
                     </div>
                     {m.delta ? (
-                      <div className="mt-1 text-[11px] font-medium text-foreground">
-                        {m.delta}
-                      </div>
+                      <div className="mt-1 text-[11px] font-medium text-foreground">{m.delta}</div>
                     ) : null}
                   </div>
                 ))}
@@ -144,9 +136,7 @@ function CasePage() {
         <Container>
           <div className="grid gap-10 md:grid-cols-2">
             <article>
-              <h2 className="mb-4 font-display text-2xl font-semibold text-foreground">
-                Задача
-              </h2>
+              <h2 className="mb-4 font-display text-2xl font-semibold text-foreground">Задача</h2>
               <div className="space-y-3 text-[15px] leading-relaxed text-ink-muted">
                 {study.task.map((p, i) => (
                   <p key={i}>{p}</p>
@@ -176,17 +166,11 @@ function CasePage() {
             </h2>
             <div className="grid gap-6 md:grid-cols-3">
               <div>
-                <div className="text-xs uppercase tracking-wide text-ink-subtle">
-                  Ассистент
-                </div>
-                <div className="mt-1.5 font-medium text-foreground">
-                  {study.setup.assistant}
-                </div>
+                <div className="text-xs uppercase tracking-wide text-ink-subtle">Ассистент</div>
+                <div className="mt-1.5 font-medium text-foreground">{study.setup.assistant}</div>
               </div>
               <div>
-                <div className="text-xs uppercase tracking-wide text-ink-subtle">
-                  Каналы
-                </div>
+                <div className="text-xs uppercase tracking-wide text-ink-subtle">Каналы</div>
                 <div className="mt-1.5 flex flex-wrap items-center gap-2">
                   {study.setup.channels.map((ch) => (
                     <span
@@ -200,9 +184,7 @@ function CasePage() {
                 </div>
               </div>
               <div>
-                <div className="text-xs uppercase tracking-wide text-ink-subtle">
-                  Интеграции
-                </div>
+                <div className="text-xs uppercase tracking-wide text-ink-subtle">Интеграции</div>
                 <div className="mt-1.5 flex flex-wrap gap-2">
                   {study.setup.integrations.map((it) => (
                     <span
@@ -227,10 +209,7 @@ function CasePage() {
           </h2>
           <div className="grid gap-3 sm:grid-cols-3">
             {study.resultMetrics.map((m) => (
-              <div
-                key={m.label}
-                className="rounded-xl border border-border bg-background p-5"
-              >
+              <div key={m.label} className="rounded-xl border border-border bg-background p-5">
                 <div className="font-display text-3xl font-semibold tabular-nums text-foreground">
                   {m.value}
                 </div>
@@ -245,11 +224,7 @@ function CasePage() {
           </div>
 
           <figure className="mt-10 rounded-xl border border-border bg-background p-6 md:p-8">
-            <Quote
-              className="h-8 w-8 text-accent"
-              strokeWidth={1.5}
-              aria-hidden
-            />
+            <Quote className="h-8 w-8 text-accent" strokeWidth={1.5} aria-hidden />
             <blockquote className="mt-4 font-display text-xl font-medium leading-relaxed text-foreground md:text-2xl">
               «{study.quote.text}»
             </blockquote>
@@ -282,9 +257,7 @@ function CasePage() {
                     <div className="mt-1 font-display text-base font-semibold text-foreground">
                       {c.company}
                     </div>
-                    <p className="mt-1 line-clamp-2 text-sm text-ink-muted">
-                      {c.summary}
-                    </p>
+                    <p className="mt-1 line-clamp-2 text-sm text-ink-muted">{c.summary}</p>
                   </div>
                   <ArrowRight
                     className="mt-1 h-5 w-5 flex-none text-ink-muted transition-transform group-hover:translate-x-0.5"
