@@ -30,10 +30,10 @@ export type AnalyticsEventMap = {
     intent: string;
   };
   "demo-form-submit": {
-    /** Откуда отправили форму. */
-    source: "landing" | "first-100" | "pricing" | "footer";
+    /** Откуда отправили форму. Значение из demoRequestSchema.source. */
+    source: string;
     niche: string;
-    /** phone | email | telegram (определяется на клиенте). */
+    /** phone | email | telegram | unknown (определяется на клиенте). */
     contact_kind: string;
   };
   "pricing-view": {
