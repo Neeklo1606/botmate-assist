@@ -48,7 +48,7 @@ export const features: FeatureItem[] = [
   {
     id: "answer",
     title: "Отвечает за 7 секунд",
-    description: "Клиент пишет, ассистент отвечает мгновенно, в вашем тоне, по вашим правилам.",
+    description: "Клиент пишет. Ассистент отвечает мгновенно, в вашем тоне, по вашим правилам.",
     icon: "MessageSquare",
   },
   {
@@ -93,7 +93,7 @@ export const benefits: BenefitItem[] = [
   {
     id: "b4",
     title: "Не уходит к конкурентам",
-    description: "Один раз настроили, работает год. Без увольнений и переобучения.",
+    description: "Один раз настроили и работает год. Без увольнений и переобучения.",
     icon: "Shield",
   },
 ];
@@ -115,7 +115,7 @@ export const howItWorks: HowItWorksStep[] = [
     id: "h3",
     number: "03",
     title: "Подключаем каналы",
-    description: "Telegram, сайт, Avito, ВКонтакте, за пару часов. Тестируем на реальных диалогах.",
+    description: "Telegram, сайт, Avito, ВКонтакте: подключаем за пару часов. Тестируем на реальных диалогах.",
   },
   {
     id: "h4",
@@ -282,7 +282,7 @@ export const faq: FaqItem[] = [
     category: "pricing",
     question: "Можно ли вернуть деньги, если не подойдёт?",
     answer:
-      "Да, в первые 14 дней, возврат 100% без вопросов. Дальше, работа по договору.",
+      "Да, в первые 14 дней возврат 100% без вопросов. Дальше работаем по договору.",
   },
   {
     id: "q7",
@@ -415,7 +415,7 @@ export const assistants: Assistant[] = [
   },
   {
     id: "a2",
-    name: "Avito, авто с пробегом",
+    name: "Avito: авто с пробегом",
     niche: "auto",
     status: "active",
     channels: ["avito"],
@@ -426,7 +426,7 @@ export const assistants: Assistant[] = [
   },
   {
     id: "a3",
-    name: "Стоматология, запись",
+    name: "Стоматология: запись",
     niche: "clinic",
     status: "paused",
     channels: ["website", "telegram"],
@@ -947,7 +947,7 @@ export const teamMembers: TeamMember[] = [
 
 export const notifications: Notification[] = [
   { id: "n1", kind: "lead", title: "Новый качественный лид", description: "Telegram · ассистент «Продажи квартир ЖК Парус» · бюджет 12 млн", createdAt: "2026-04-19T07:42:00Z", read: false, href: "/app/inbox" },
-  { id: "n2", kind: "channel_error", title: "Ошибка подключения Avito", description: "Токен истёк, ассистент «Avito, авто с пробегом» не отвечает.", createdAt: "2026-04-19T05:11:00Z", read: false, href: "/app/integrations" },
+  { id: "n2", kind: "channel_error", title: "Ошибка подключения Avito", description: "Токен истёк, ассистент «Avito: авто с пробегом» не отвечает.", createdAt: "2026-04-19T05:11:00Z", read: false, href: "/app/integrations" },
   { id: "n3", kind: "quota", title: "Использовано 80% сообщений месяца", description: "8 015 из 10 000. Осталось 11 дней до сброса.", createdAt: "2026-04-18T22:00:00Z", read: false, href: "/app/billing" },
   { id: "n4", kind: "billing", title: "Списание прошло успешно", description: "Тариф Рост, 12 900 ₽. Чек отправили на email.", createdAt: "2026-04-15T10:00:00Z", read: true, href: "/app/billing" },
   { id: "n5", kind: "system", title: "Новая фича: голосовые ассистенты в бете", description: "Можно тестировать на тарифе Рост и выше. Подключить?", createdAt: "2026-04-12T14:30:00Z", read: true },
