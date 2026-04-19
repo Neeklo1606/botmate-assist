@@ -85,7 +85,10 @@ export const getRouter = () => {
       queryClient,
       auth: { isAuthenticated: false, user: null } as AuthRouterState,
     },
-    scrollRestoration: true,
+    // scrollRestoration отключён намеренно — кастомный hash-scroll живёт
+    // в _marketing.tsx (useHashScroll). Иначе происходит конфликт: восстановление
+    // позиции перетирает таргетный скролл к якорю и клик-нагору.
+    scrollRestoration: false,
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultErrorComponent,
   });
