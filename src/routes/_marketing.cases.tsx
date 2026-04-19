@@ -8,22 +8,17 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { useCaseStudies } from "@/lib/hooks/use-marketing";
 import { FinalCTA } from "@/components/landing/sections/final-cta";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/cases")({
   head: () => ({
-    meta: [
-      { title: "Кейсы клиентов botme" },
-      {
-        name: "description",
-        content:
-          "Как клиенты botme экономят на ФОТ, увеличивают конверсию и закрывают ночные заявки. Реальные цифры по 6 нишам.",
-      },
-      { property: "og:title", content: "Кейсы клиентов botme" },
-      {
-        property: "og:description",
-        content: "Реальные истории и метрики 6 клиентов botme.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "Кейсы клиентов botme — реальные цифры по 6 нишам",
+      description:
+        "Как клиенты botme экономят на ФОТ, увеличивают конверсию и закрывают ночные заявки. Недвижимость, авто, клиники, услуги, школы, агентства.",
+      path: "/cases",
+    }),
+    links: [canonicalLink("/cases")],
   }),
   component: CasesPage,
 });

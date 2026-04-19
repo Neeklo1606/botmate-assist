@@ -22,21 +22,17 @@ import { CasesSection } from "@/components/landing/sections/cases-section";
 import { FaqSection } from "@/components/landing/sections/faq-section";
 import { FinalCTA } from "@/components/landing/sections/final-cta";
 
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
+
 export const Route = createFileRoute("/_marketing/")({
   head: () => ({
-    meta: [
-      { title: "botme: AI-ассистент, который не теряет ваших клиентов" },
-      {
-        name: "description",
-        content:
-          "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня. Отвечает за 7 секунд, квалифицирует лида, доводит до сделки.",
-      },
-      { property: "og:title", content: "botme: AI-ассистент, который не теряет ваших клиентов" },
-      {
-        property: "og:description",
-        content: "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "botme — AI-ассистент, который не теряет ваших клиентов",
+      description:
+        "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня. Отвечает за 7 секунд, квалифицирует лида, доводит до сделки.",
+      path: "/",
+    }),
+    links: [canonicalLink("/")],
   }),
   component: LandingPage,
 });

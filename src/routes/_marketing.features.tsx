@@ -20,22 +20,17 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { useFeatures, useBenefits, useHowItWorks } from "@/lib/hooks/use-landing";
 import { FinalCTA } from "@/components/landing/sections/final-cta";
+import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/features")({
   head: () => ({
-    meta: [
-      { title: "Возможности botme" },
-      {
-        name: "description",
-        content:
-          "Что умеет AI-ассистент botme: отвечает за 7 секунд, квалифицирует лидов, доводит до сделки и пишет в CRM.",
-      },
-      { property: "og:title", content: "Возможности botme" },
-      {
-        property: "og:description",
-        content: "Полный список возможностей AI-ассистента botme.",
-      },
-    ],
+    meta: buildPageMeta({
+      title: "Возможности botme — что умеет AI-ассистент",
+      description:
+        "4 ключевые роли в одном ассистенте: ответы за 7 секунд, квалификация лидов, продажи и запись в CRM. Без выгорания, ночью и в выходные.",
+      path: "/features",
+    }),
+    links: [canonicalLink("/features")],
   }),
   component: FeaturesPage,
 });
