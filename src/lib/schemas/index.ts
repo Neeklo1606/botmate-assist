@@ -15,6 +15,8 @@ export const nicheEnum = z.enum([
   "other",
 ]);
 
+export const demoSourceEnum = z.enum(["landing", "first-100", "pricing", "contacts"]);
+
 export const demoRequestSchema = z.object({
   name: z
     .string()
@@ -27,6 +29,7 @@ export const demoRequestSchema = z.object({
     .min(5, "Укажите телефон, email или @username")
     .max(120, "Слишком длинный контакт"),
   niche: nicheEnum,
+  source: demoSourceEnum.optional(),
 });
 
 export type DemoRequestInput = z.infer<typeof demoRequestSchema>;

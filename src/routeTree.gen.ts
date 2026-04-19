@@ -9,50 +9,116 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as MarketingRouteImport } from './routes/_marketing'
+import { Route as MarketingIndexRouteImport } from './routes/_marketing.index'
+import { Route as MarketingPricingRouteImport } from './routes/_marketing.pricing'
+import { Route as MarketingFirst100RouteImport } from './routes/_marketing.first-100'
 
-const IndexRoute = IndexRouteImport.update({
+const MarketingRoute = MarketingRouteImport.update({
+  id: '/_marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketingIndexRoute = MarketingIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => MarketingRoute,
+} as any)
+const MarketingPricingRoute = MarketingPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => MarketingRoute,
+} as any)
+const MarketingFirst100Route = MarketingFirst100RouteImport.update({
+  id: '/first-100',
+  path: '/first-100',
+  getParentRoute: () => MarketingRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof MarketingIndexRoute
+  '/first-100': typeof MarketingFirst100Route
+  '/pricing': typeof MarketingPricingRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/first-100': typeof MarketingFirst100Route
+  '/pricing': typeof MarketingPricingRoute
+  '/': typeof MarketingIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_marketing': typeof MarketingRouteWithChildren
+  '/_marketing/first-100': typeof MarketingFirst100Route
+  '/_marketing/pricing': typeof MarketingPricingRoute
+  '/_marketing/': typeof MarketingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/first-100' | '/pricing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/first-100' | '/pricing' | '/'
+  id:
+    | '__root__'
+    | '/_marketing'
+    | '/_marketing/first-100'
+    | '/_marketing/pricing'
+    | '/_marketing/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  MarketingRoute: typeof MarketingRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_marketing': {
+      id: '/_marketing'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_marketing/': {
+      id: '/_marketing/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof MarketingIndexRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_marketing/pricing': {
+      id: '/_marketing/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof MarketingPricingRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_marketing/first-100': {
+      id: '/_marketing/first-100'
+      path: '/first-100'
+      fullPath: '/first-100'
+      preLoaderRoute: typeof MarketingFirst100RouteImport
+      parentRoute: typeof MarketingRoute
     }
   }
 }
 
+interface MarketingRouteChildren {
+  MarketingFirst100Route: typeof MarketingFirst100Route
+  MarketingPricingRoute: typeof MarketingPricingRoute
+  MarketingIndexRoute: typeof MarketingIndexRoute
+}
+
+const MarketingRouteChildren: MarketingRouteChildren = {
+  MarketingFirst100Route: MarketingFirst100Route,
+  MarketingPricingRoute: MarketingPricingRoute,
+  MarketingIndexRoute: MarketingIndexRoute,
+}
+
+const MarketingRouteWithChildren = MarketingRoute._addFileChildren(
+  MarketingRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  MarketingRoute: MarketingRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

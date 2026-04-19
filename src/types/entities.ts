@@ -70,14 +70,23 @@ export interface OnboardingStep {
 
 /* ───── Landing ───── */
 
+export type PricingPeriod = "monthly" | "yearly";
+
 export interface PricingPlan {
   id: string;
   name: string;
-  priceRub: number; // месячная цена в ₽
+  priceRub: number; // месячная цена в ₽ (при monthly)
+  yearlyDiscount?: number; // 0..1
   tagline: string;
+  forWho: string;
   features: string[];
   highlighted?: boolean;
   cta: { label: string; intent: "primary" | "secondary" };
+}
+
+export interface PricingComparisonRow {
+  feature: string;
+  values: { start: string; pro: string; max: string };
 }
 
 export interface FeatureItem {
@@ -97,12 +106,14 @@ export interface ScenarioItem {
 
 export interface FaqItem {
   id: string;
+  category: "general" | "pricing" | "tech" | "security" | "integrations";
   question: string;
   answer: string;
 }
 
 export interface CaseItem {
   id: string;
+  slug: string;
   company: string;
   niche: Niche;
   quote: string;
@@ -115,6 +126,47 @@ export interface TrustLogo {
   name: string;
   initials: string; // используем для mock-логотипа
 }
+
+export interface BenefitItem {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface HowItWorksStep {
+  id: string;
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: "user" | "bot";
+  text: string;
+  time?: string; // "14:32"
+}
+
+export interface First100Stats {
+  taken: number;
+  total: number; // 100
+}
+
+export interface First100Benefit {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface First100MathRow {
+  feature: string;
+  regular: string;
+  now: string;
+}
+
+/* ───── Sections (data-driven landing) ───── */
 
 export type LandingSectionType =
   | "hero"

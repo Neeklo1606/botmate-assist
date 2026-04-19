@@ -9,9 +9,18 @@ export const qk = {
     features: ["landing", "features"] as const,
     scenarios: ["landing", "scenarios"] as const,
     pricing: ["landing", "pricing"] as const,
+    pricingComparison: ["landing", "pricing-comparison"] as const,
     faq: ["landing", "faq"] as const,
     cases: ["landing", "cases"] as const,
     trust: ["landing", "trust"] as const,
+    benefits: ["landing", "benefits"] as const,
+    how: ["landing", "how"] as const,
+    heroChat: ["landing", "hero-chat"] as const,
+  },
+  first100: {
+    stats: ["first100", "stats"] as const,
+    benefits: ["first100", "benefits"] as const,
+    math: ["first100", "math"] as const,
   },
   app: {
     assistants: ["app", "assistants"] as const,
