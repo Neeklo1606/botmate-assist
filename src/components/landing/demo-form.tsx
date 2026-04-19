@@ -1,13 +1,22 @@
 /**
- * DemoForm — форма заявки. RHF + zod из /lib/schemas.
- * Используется на главной (Demo секция), в /first-100 и /pricing.
- * source-prop проставляет hidden поле для трекинга.
+ * DemoForm — премиум форма заявки.
+ *
+ * Особенности:
+ *  — RHF + zod (demoRequestSchema) с inline-ошибками под полями.
+ *  — Автодетект типа контакта (phone / email / @telegram) → подсказка справа в поле.
+ *  — Валидация onChange после первой попытки submit (mode: "onTouched").
+ *  — Success-state: lime-галочка с пульсирующим кольцом, краткая инструкция,
+ *    кнопка «Отправить ещё одну».
+ *
+ * Используется на главной (Demo), /first-100, /pricing.
+ * source-prop пробрасывается в payload для трекинга.
  */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Check, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { AtSign, Check, Loader2, Mail, Phone } from "lucide-react";
+import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +28,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { demoRequestSchema, type DemoRequestInput } from "@/lib/schemas";
+import {
+  demoRequestSchema,
+  detectContactKind,
+  type ContactKind,
+  type DemoRequestInput,
+} from "@/lib/schemas";
 import { useCreateDemoRequest } from "@/lib/hooks/use-landing";
 import { nicheOptions } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -30,6 +44,12 @@ interface DemoFormProps {
   ctaLabel?: string;
   className?: string;
 }
+
+const CONTACT_LABEL: Record<Exclude<ContactKind, "unknown">, string> = {
+  phone: "Телефон",
+  email: "Email",
+  telegram: "Telegram",
+};
 
 export function DemoForm({
   source = "landing",
@@ -47,13 +67,17 @@ export function DemoForm({
     setValue,
     watch,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm<DemoRequestInput>({
     resolver: zodResolver(demoRequestSchema),
+    mode: "onTouched",
+    reValidateMode: "onChange",
     defaultValues: { name: "", contact: "", niche: "real_estate", source },
   });
 
   const niche = watch("niche");
+  const contactValue = watch("contact");
+  const contactKind = useMemo(() => detectContactKind(contactValue ?? ""), [contactValue]);
 
   const onSubmit = (data: DemoRequestInput) => {
     mutation.mutate(
@@ -77,23 +101,36 @@ export function DemoForm({
 
   if (done) {
     return (
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          "flex flex-col items-start gap-3 rounded-xl border p-6",
+          "flex flex-col items-start gap-4 rounded-xl border p-6 md:p-7",
           isDark
             ? "border-border-strong/30 bg-background/5 text-background"
             : "border-border bg-surface text-foreground",
           className,
         )}
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-ink">
-          <Check className="h-5 w-5" strokeWidth={2} />
+        <div className="relative">
+          <span
+            aria-hidden
+            className="absolute inset-0 -z-10 animate-ping rounded-full bg-accent/40"
+            style={{ animationDuration: "1.6s" }}
+          />
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-accent-ink shadow-lift">
+            <Check className="h-6 w-6" strokeWidth={2.25} />
+          </div>
         </div>
         <div>
-          <div className="text-lg font-semibold">Готово, мы получили заявку</div>
-          <p className={cn("mt-1 text-sm", isDark ? "text-background/70" : "text-ink-muted")}>
-            Менеджер напишет в течение 30 минут в рабочее время. По срочным вопросам, в Telegram{" "}
-            <a className="underline-offset-2 hover:underline" href="https://t.me/botme_support">
+          <div className="font-display text-lg font-semibold">Готово, мы получили заявку</div>
+          <p className={cn("mt-1.5 text-sm", isDark ? "text-background/70" : "text-ink-muted")}>
+            Менеджер напишет в течение 30 минут в рабочее время. По срочным вопросам — Telegram{" "}
+            <a
+              className="font-medium underline-offset-2 hover:underline"
+              href="https://t.me/botme_support"
+            >
               @botme_support
             </a>
             .
@@ -107,7 +144,7 @@ export function DemoForm({
         >
           Отправить ещё одну
         </Button>
-      </div>
+      </motion.div>
     );
   }
 
@@ -122,11 +159,17 @@ export function DemoForm({
       )}
     >
       <div className="grid gap-4">
-        <Field id="demo-name" label="Как вас зовут" isDark={isDark} error={errors.name?.message}>
+        <Field
+          id="demo-name"
+          label="Как вас зовут"
+          isDark={isDark}
+          error={errors.name?.message}
+        >
           <Input
             id="demo-name"
             autoComplete="name"
             placeholder="Иван"
+            aria-invalid={Boolean(errors.name)}
             className={cn(
               isDark &&
                 "border-border-strong/30 bg-background/5 text-background placeholder:text-background/40",
@@ -140,16 +183,41 @@ export function DemoForm({
           label="Телефон, email или @username"
           isDark={isDark}
           error={errors.contact?.message}
+          hint={
+            !errors.contact && contactKind !== "unknown" ? (
+              <ContactHint kind={contactKind} isDark={isDark} />
+            ) : null
+          }
         >
-          <Input
-            id="demo-contact"
-            placeholder="+7 999 123-45-67 или @ivan"
-            className={cn(
-              isDark &&
-                "border-border-strong/30 bg-background/5 text-background placeholder:text-background/40",
-            )}
-            {...register("contact")}
-          />
+          <div className="relative">
+            <Input
+              id="demo-contact"
+              inputMode="text"
+              autoComplete="tel"
+              placeholder="+7 999 123-45-67 или @ivan"
+              aria-invalid={Boolean(errors.contact)}
+              className={cn(
+                "pr-24",
+                isDark &&
+                  "border-border-strong/30 bg-background/5 text-background placeholder:text-background/40",
+              )}
+              {...register("contact")}
+            />
+            {contactKind !== "unknown" && !errors.contact ? (
+              <span
+                aria-hidden
+                className={cn(
+                  "pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium",
+                  isDark
+                    ? "bg-accent/20 text-accent"
+                    : "bg-accent/15 text-foreground",
+                )}
+              >
+                <ContactIcon kind={contactKind} />
+                {CONTACT_LABEL[contactKind]}
+              </span>
+            ) : null}
+          </div>
         </Field>
 
         <Field id="demo-niche" label="Ниша" isDark={isDark} error={errors.niche?.message}>
@@ -159,7 +227,9 @@ export function DemoForm({
           >
             <SelectTrigger
               id="demo-niche"
-              className={cn(isDark && "border-border-strong/30 bg-background/5 text-background")}
+              className={cn(
+                isDark && "border-border-strong/30 bg-background/5 text-background",
+              )}
             >
               <SelectValue placeholder="Выберите нишу" />
             </SelectTrigger>
@@ -189,6 +259,18 @@ export function DemoForm({
           )}
         </Button>
 
+        {isSubmitted && (errors.name || errors.contact) ? (
+          <p
+            role="alert"
+            className={cn(
+              "text-xs",
+              isDark ? "text-accent" : "text-destructive",
+            )}
+          >
+            Проверьте подсвеченные поля и отправьте ещё раз.
+          </p>
+        ) : null}
+
         <p className={cn("text-xs", isDark ? "text-background/60" : "text-ink-subtle")}>
           Отправляя заявку, вы соглашаетесь с обработкой персональных данных.
         </p>
@@ -197,17 +279,43 @@ export function DemoForm({
   );
 }
 
+function ContactIcon({ kind }: { kind: Exclude<ContactKind, "unknown"> }) {
+  if (kind === "phone") return <Phone className="h-3 w-3" strokeWidth={2} />;
+  if (kind === "email") return <Mail className="h-3 w-3" strokeWidth={2} />;
+  return <AtSign className="h-3 w-3" strokeWidth={2} />;
+}
+
+function ContactHint({
+  kind,
+  isDark,
+}: {
+  kind: Exclude<ContactKind, "unknown">;
+  isDark: boolean;
+}) {
+  const text =
+    kind === "phone"
+      ? "Распознали телефон — позвоним или напишем в WhatsApp."
+      : kind === "email"
+        ? "Распознали email — отправим демо-доступ туда."
+        : "Распознали Telegram — напишем в личку.";
+  return (
+    <span className={cn(isDark ? "text-background/60" : "text-ink-subtle")}>{text}</span>
+  );
+}
+
 function Field({
   id,
   label,
   isDark,
   error,
+  hint,
   children,
 }: {
   id: string;
   label: string;
   isDark: boolean;
   error?: string;
+  hint?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -223,7 +331,14 @@ function Field({
       </Label>
       {children}
       {error ? (
-        <p className={cn("mt-1.5 text-xs", isDark ? "text-accent" : "text-destructive")}>{error}</p>
+        <p
+          role="alert"
+          className={cn("mt-1.5 text-xs", isDark ? "text-accent" : "text-destructive")}
+        >
+          {error}
+        </p>
+      ) : hint ? (
+        <p className="mt-1.5 text-xs">{hint}</p>
       ) : null}
     </div>
   );
