@@ -21,7 +21,7 @@ export function Hero() {
           <Reveal onMount delay={0.1} className="md:col-span-6 lg:col-span-7">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-ink-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-              Запуск за 3 дня · все каналы · CRM из коробки
+              Запуск за 3 дня. Все каналы.
             </div>
 
             <h1 className="font-display text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] text-foreground md:text-[56px]">
@@ -50,7 +50,7 @@ export function Hero() {
               </Button>
             </div>
 
-            <dl className="mt-10 grid max-w-[520px] grid-cols-3 gap-6 border-t border-border pt-6">
+            <dl className="mt-10 grid max-w-[520px] grid-cols-3 gap-4 border-t border-border pt-6 sm:gap-6">
               <Stat label="Среднее время ответа" value="7 сек" />
               <Stat label="Конверсия в лид" value="+38%" />
               <Stat label="Запуск" value="3 дня" />
