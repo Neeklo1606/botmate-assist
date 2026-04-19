@@ -3,6 +3,7 @@
  */
 import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
+import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useHowItWorks } from "@/lib/hooks/use-landing";
 
 export function HowItWorks() {
@@ -17,11 +18,12 @@ export function HowItWorks() {
           description="Без долгих внедрений и кода. Мы делаем ассистента руками, вы согласовываете тексты и сценарии."
         />
 
-        <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup as="ol" className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step) => (
-            <li
+            <RevealItem
               key={step.id}
-              className="group rounded-xl border border-border bg-surface p-5 transition-colors hover:border-border-strong"
+              as="li"
+              className="group rounded-xl border border-border bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-sm"
             >
               <div className="font-display text-xs font-semibold tabular text-ink-subtle">
                 {step.number}
@@ -30,9 +32,9 @@ export function HowItWorks() {
                 {step.title}
               </div>
               <p className="mt-2 text-sm text-ink-muted">{step.description}</p>
-            </li>
+            </RevealItem>
           ))}
-        </ol>
+        </RevealGroup>
       </Container>
     </Section>
   );

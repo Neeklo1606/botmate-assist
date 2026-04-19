@@ -7,6 +7,7 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
+import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { usePricing } from "@/lib/hooks/use-landing";
 import { formatRub } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -23,12 +24,13 @@ export function PricingSection() {
           description="Платите за работу ассистента, а не за «лицензии» и «места». Возврат в первые 14 дней."
         />
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <RevealGroup className="grid gap-4 md:grid-cols-3">
           {plans.map((plan) => (
-            <article
+            <RevealItem
               key={plan.id}
+              as="article"
               className={cn(
-                "relative flex flex-col rounded-xl border bg-surface p-6",
+                "relative flex flex-col rounded-xl border bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm",
                 plan.highlighted ? "border-accent shadow-lift" : "border-border",
               )}
             >
@@ -69,9 +71,9 @@ export function PricingSection() {
                   </Link>
                 </Button>
               </div>
-            </article>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
 
         <div className="mt-8 text-center text-sm text-ink-muted">
           Нужно сравнение тарифов и ответы по биллингу?{" "}
