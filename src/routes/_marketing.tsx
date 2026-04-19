@@ -17,33 +17,39 @@ export const Route = createFileRoute("/_marketing")({
   component: MarketingLayout,
 });
 
-const HEADER_OFFSET = 72;
-
 function useHashScroll() {
   const location = useLocation();
   const hash = location.hash;
+  const pathname = location.pathname;
 
   useEffect(() => {
     if (!hash) {
-      // Без hash — на верх страницы. scrollRestoration TanStack восстанавливает
-      // позицию для back/forward, но при обычном переходе хотим начало.
+      // Без hash — на верх страницы. scrollRestoration TanStack отключён в router.
       window.scrollTo({ top: 0, behavior: "instant" });
       return;
     }
-    // RAF + небольшой timeout — ждём, пока lazy-секции отрисуются.
+    // Lazy-секции ниже #demo (Pricing/Cases/FAQ) не влияют на позицию #demo,
+    // но дожидаемся 1-2 RAF + ретраи для подстраховки.
+    let cancelled = false;
     const tryScroll = (attempt: number) => {
+      if (cancelled) return;
       const el = document.getElementById(hash);
       if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-        window.scrollTo({ top, behavior: "smooth" });
+        // scrollIntoView уважает CSS scroll-margin-top из html { scroll-padding-top }
+        // и section[id] { scroll-margin-top }. Никакого ручного offset.
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
-      if (attempt < 10) {
+      if (attempt < 12) {
         setTimeout(() => tryScroll(attempt + 1), 80);
       }
     };
-    tryScroll(0);
-  }, [hash, location.pathname]);
+    // Первая попытка после двух RAF — гарантия, что DOM закоммичен.
+    requestAnimationFrame(() => requestAnimationFrame(() => tryScroll(0)));
+    return () => {
+      cancelled = true;
+    };
+  }, [hash, pathname]);
 }
 
 function MarketingLayout() {
