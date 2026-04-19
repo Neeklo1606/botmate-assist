@@ -194,10 +194,10 @@ function UserMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link to="/app">Настройки</Link>
+          <Link to="/app/settings">Настройки</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link to="/">Помощь</Link>
+          <Link to="/faq">Помощь</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
