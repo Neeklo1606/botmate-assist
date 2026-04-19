@@ -1,9 +1,12 @@
 /**
  * MockChat — статичная mock-переписка в стиле мессенджера.
  * Используется в Hero, Demo и посадочных по нишам.
- * Без интерактива, без таймеров — чисто визуальная демонстрация.
+ *
+ * UX: чат не «прыгает» — фиксированная высота с внутренним скроллом.
+ * Поле ввода disabled. На mobile тап по полю → toast с CTA «оставить заявку».
  */
 import { Send } from "lucide-react";
+import { toast } from "sonner";
 import type { ChatMessage } from "@/types/entities";
 import { cn } from "@/lib/utils";
 
@@ -24,18 +27,31 @@ export function MockChat({
 }: MockChatProps) {
   const isDark = variant === "dark";
 
+  const handleDemoTap = () => {
+    toast("Это демо-режим", {
+      description: "Чтобы попробовать настоящего ассистента — оставьте заявку.",
+      action: {
+        label: "Оставить заявку",
+        onClick: () => {
+          const el = document.getElementById("demo");
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        },
+      },
+    });
+  };
+
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-xl border shadow-lift",
+        "flex h-[440px] max-h-[60vh] flex-col overflow-hidden rounded-xl border shadow-lift md:h-[580px] md:max-h-none",
         isDark ? "border-border-strong/40 bg-foreground" : "border-border bg-surface",
         className,
       )}
     >
-      {/* Header */}
+      {/* Header (fixed, 64px) */}
       <div
         className={cn(
-          "flex items-center gap-3 border-b px-4 py-3",
+          "flex h-16 flex-none items-center gap-3 border-b px-4",
           isDark ? "border-border-strong/30" : "border-border",
         )}
       >
@@ -48,10 +64,10 @@ export function MockChat({
         >
           bm
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <div
             className={cn(
-              "text-sm font-medium leading-tight truncate",
+              "truncate text-sm font-medium leading-tight",
               isDark ? "text-background" : "text-foreground",
             )}
           >
@@ -69,9 +85,12 @@ export function MockChat({
         </div>
       </div>
 
-      {/* Messages */}
+      {/* Messages (flex-1, internal scroll) */}
       <div
-        className={cn("space-y-2.5 px-4 py-5", isDark ? "bg-foreground" : "bg-surface-muted/40")}
+        className={cn(
+          "flex-1 space-y-2.5 overflow-y-auto px-4 py-5",
+          isDark ? "bg-foreground" : "bg-surface-muted/40",
+        )}
       >
         {messages.map((msg) => {
           const isBot = msg.role === "bot";
@@ -87,7 +106,7 @@ export function MockChat({
                     isBot
                       ? isDark
                         ? "rounded-tl-sm bg-background/10 text-background"
-                        : "rounded-tl-sm bg-surface text-foreground border border-border"
+                        : "rounded-tl-sm border border-border bg-surface text-foreground"
                       : isDark
                         ? "rounded-tr-sm bg-accent text-accent-ink"
                         : "rounded-tr-sm bg-foreground text-background",
@@ -98,7 +117,7 @@ export function MockChat({
                 {msg.time ? (
                   <div
                     className={cn(
-                      "mt-1 text-[11px] tabular px-1",
+                      "mt-1 px-1 text-[11px] tabular-nums",
                       isBot ? "text-left" : "text-right",
                       isDark ? "text-background/40" : "text-ink-subtle",
                     )}
@@ -112,27 +131,31 @@ export function MockChat({
         })}
       </div>
 
-      {/* Composer (decorative) */}
+      {/* Composer — disabled, demo-mode (fixed, 64px) */}
       <div
         className={cn(
-          "flex items-center gap-2 border-t px-3 py-2.5",
+          "flex h-16 flex-none items-center gap-2 border-t px-3",
           isDark ? "border-border-strong/30 bg-foreground" : "border-border bg-surface",
         )}
       >
-        <div
-          className={cn(
-            "flex-1 rounded-md px-3 py-2 text-[13px]",
-            isDark ? "bg-background/10 text-background/40" : "bg-surface-muted text-ink-subtle",
-          )}
-        >
-          Напишите сообщение…
-        </div>
         <button
           type="button"
-          tabIndex={-1}
-          aria-label="Отправить"
+          onClick={handleDemoTap}
           className={cn(
-            "flex h-9 w-9 items-center justify-center rounded-md transition-colors",
+            "flex-1 cursor-pointer rounded-md px-3 py-2 text-left text-[13px] transition-colors",
+            isDark
+              ? "bg-background/10 text-background/40 hover:bg-background/15"
+              : "bg-surface-muted text-ink-subtle hover:bg-surface-muted/80",
+          )}
+        >
+          Демо-режим. Попробуйте вашего ассистента.
+        </button>
+        <button
+          type="button"
+          onClick={handleDemoTap}
+          aria-label="Это демо. Оставьте заявку."
+          className={cn(
+            "flex h-9 w-9 flex-none items-center justify-center rounded-md transition-colors",
             isDark
               ? "bg-accent text-accent-ink hover:bg-accent-hover"
               : "bg-foreground text-background hover:bg-primary-hover",

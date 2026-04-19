@@ -1,20 +1,45 @@
 /**
  * StickyMobileCTA — sticky-bar внизу экрана на mobile.
  * Появляется после первого скролла. Один primary-CTA на demo-секцию.
+ *
+ * Скрывается, когда в viewport попадает элемент с [data-hide-sticky-cta]
+ * (используется на секциях с собственными CTA — Pricing, FinalCTA).
  */
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 
 export function StickyMobileCTA() {
-  const [visible, setVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [overlapping, setOverlapping] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 480);
+    const onScroll = () => setScrolled(window.scrollY > 480);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const targets = document.querySelectorAll<HTMLElement>("[data-hide-sticky-cta]");
+    if (!targets.length) return;
+
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) visible.add(e.target);
+          else visible.delete(e.target);
+        });
+        setOverlapping(visible.size > 0);
+      },
+      { rootMargin: "0px 0px -20% 0px", threshold: 0 },
+    );
+    targets.forEach((t) => io.observe(t));
+    return () => io.disconnect();
+  }, []);
+
+  const visible = scrolled && !overlapping;
 
   return (
     <div

@@ -154,7 +154,7 @@ function PricingPlans({ period }: { period: PricingPeriod }) {
   const { data: plans = [] } = usePricing();
 
   return (
-    <Section tone="default" size="sm">
+    <Section tone="default" size="sm" data-hide-sticky-cta>
       <Container>
         <div className="grid gap-4 md:grid-cols-3">
           {plans.map((plan) => (

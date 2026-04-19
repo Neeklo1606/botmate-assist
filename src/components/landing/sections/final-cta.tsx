@@ -10,7 +10,7 @@ import { Section } from "@/components/layout/section";
 
 export function FinalCTA() {
   return (
-    <Section tone="ink" size="md">
+    <Section tone="ink" size="md" data-hide-sticky-cta>
       <Container>
         <div className="mx-auto max-w-[760px] text-center text-background">
           <h2 className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-[42px]">

@@ -16,7 +16,7 @@ export function PricingSection() {
   const { data: plans = [] } = usePricing();
 
   return (
-    <Section id="pricing" tone="default" size="md">
+    <Section id="pricing" tone="default" size="md" data-hide-sticky-cta>
       <Container>
         <SectionHeading
           eyebrow="Тарифы"
