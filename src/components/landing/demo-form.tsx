@@ -14,6 +14,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { Link } from "@tanstack/react-router";
 import { AtSign, Check, Loader2, Mail, Phone } from "lucide-react";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -272,7 +273,27 @@ export function DemoForm({
         ) : null}
 
         <p className={cn("text-xs", isDark ? "text-background/60" : "text-ink-subtle")}>
-          Отправляя заявку, вы соглашаетесь с обработкой персональных данных.
+          Отправляя заявку, вы соглашаетесь с{" "}
+          <Link
+            to="/legal/privacy"
+            className={cn(
+              "underline-offset-2 hover:underline",
+              isDark ? "text-background/80" : "text-foreground",
+            )}
+          >
+            обработкой персональных данных
+          </Link>{" "}
+          и условиями{" "}
+          <Link
+            to="/legal/offer"
+            className={cn(
+              "underline-offset-2 hover:underline",
+              isDark ? "text-background/80" : "text-foreground",
+            )}
+          >
+            оферты
+          </Link>
+          .
         </p>
       </div>
     </form>
