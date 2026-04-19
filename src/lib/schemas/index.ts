@@ -17,17 +17,42 @@ export const nicheEnum = z.enum([
 
 export const demoSourceEnum = z.enum(["landing", "first-100", "pricing", "contacts"]);
 
+/**
+ * Тип контакта определяется автоматически по содержимому строки.
+ * Используется в DemoForm для inline-подсказок и в дальнейшем — для маршрутизации
+ * заявки в нужный канал (Telegram-бот / call-центр / email).
+ */
+export type ContactKind = "phone" | "email" | "telegram" | "unknown";
+
+const PHONE_RE = /^[+\d][\d\s\-()]{6,}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const TG_RE = /^@?[a-zA-Z][a-zA-Z0-9_]{4,31}$/;
+
+export function detectContactKind(raw: string): ContactKind {
+  const v = raw.trim();
+  if (!v) return "unknown";
+  if (EMAIL_RE.test(v)) return "email";
+  const digits = v.replace(/\D/g, "");
+  if (PHONE_RE.test(v) && digits.length >= 7 && digits.length <= 15) return "phone";
+  if (TG_RE.test(v)) return "telegram";
+  return "unknown";
+}
+
 export const demoRequestSchema = z.object({
   name: z
     .string()
     .trim()
     .min(2, "Имя слишком короткое")
-    .max(80, "Слишком длинное имя"),
+    .max(80, "Слишком длинное имя")
+    .regex(/^[\p{L}\p{M}\s'’\-]+$/u, "Только буквы, пробел и дефис"),
   contact: z
     .string()
     .trim()
     .min(5, "Укажите телефон, email или @username")
-    .max(120, "Слишком длинный контакт"),
+    .max(120, "Слишком длинный контакт")
+    .refine((v) => detectContactKind(v) !== "unknown", {
+      message: "Похоже на опечатку. Пример: +7 999 123-45-67, ivan@mail.ru, @ivan",
+    }),
   niche: nicheEnum,
   source: demoSourceEnum.optional(),
 });
