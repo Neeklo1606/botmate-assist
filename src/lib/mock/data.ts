@@ -193,7 +193,7 @@ export const pricing: PricingPlan[] = [
       "Email-поддержка",
       "Базовая аналитика",
     ],
-    cta: { label: "Запустить за 3 дня", intent: "secondary" },
+    cta: { label: "Попробовать Старт", intent: "secondary" },
   },
   {
     id: "growth",
@@ -213,7 +213,7 @@ export const pricing: PricingPlan[] = [
       "Экспорт в Excel",
     ],
     highlighted: true,
-    cta: { label: "Запустить за 3 дня", intent: "primary" },
+    cta: { label: "Выбрать Рост", intent: "primary" },
   },
   {
     id: "scale",
