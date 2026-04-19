@@ -25,14 +25,14 @@ const VALID_NICHES: Niche[] = [
 export const Route = createFileRoute("/_marketing/scenarios/$niche")({
   head: ({ params }) => ({
     meta: [
-      { title: `AI-ассистент для ниши ${params.niche} — botme` },
+      { title: `AI-ассистент для ниши ${params.niche}: botme` },
       {
         name: "description",
         content: `Готовый AI-ассистент под нишу ${params.niche}: задачи, диалог, интеграции и кейс клиента.`,
       },
       {
         property: "og:title",
-        content: `AI-ассистент для ниши ${params.niche} — botme`,
+        content: `AI-ассистент для ниши ${params.niche}: botme`,
       },
       {
         property: "og:description",

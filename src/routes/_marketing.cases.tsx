@@ -12,13 +12,13 @@ import { FinalCTA } from "@/components/landing/sections/final-cta";
 export const Route = createFileRoute("/_marketing/cases")({
   head: () => ({
     meta: [
-      { title: "Кейсы клиентов — botme" },
+      { title: "Кейсы клиентов botme" },
       {
         name: "description",
         content:
           "Как клиенты botme экономят на ФОТ, увеличивают конверсию и закрывают ночные заявки. Реальные цифры по 6 нишам.",
       },
-      { property: "og:title", content: "Кейсы клиентов — botme" },
+      { property: "og:title", content: "Кейсы клиентов botme" },
       {
         property: "og:description",
         content: "Реальные истории и метрики 6 клиентов botme.",
@@ -43,7 +43,7 @@ function CasesPage() {
               Что меняется через 30 дней после запуска
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              6 клиентов из недвижимости, авто, клиник, школ, услуг и агентств. Цифры — без
+              6 клиентов из недвижимости, авто, клиник, школ, услуг и агентств. Цифры без
               приукрашивания.
             </p>
           </div>

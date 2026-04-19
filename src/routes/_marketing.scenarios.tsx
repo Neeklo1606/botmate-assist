@@ -12,13 +12,13 @@ import { FinalCTA } from "@/components/landing/sections/final-cta";
 export const Route = createFileRoute("/_marketing/scenarios")({
   head: () => ({
     meta: [
-      { title: "Сценарии под нишу — botme" },
+      { title: "Сценарии под нишу: botme" },
       {
         name: "description",
         content:
           "AI-ассистент для недвижимости, авто, клиник, онлайн-школ, услуг и агентств. Готовые сценарии под каждую нишу.",
       },
-      { property: "og:title", content: "Сценарии под нишу — botme" },
+      { property: "og:title", content: "Сценарии под нишу: botme" },
       {
         property: "og:description",
         content: "6 готовых сценариев AI-ассистента под индустрию.",
@@ -44,7 +44,7 @@ function ScenariosPage() {
               Готовые сценарии под вашу нишу
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              Не «универсальный бот» — а ассистент, заточенный под специфику вашего бизнеса. Знает,
+              Не «универсальный бот», а ассистент, заточенный под специфику вашего бизнеса. Знает,
               какие вопросы задавать и когда передавать менеджеру.
             </p>
           </div>
@@ -105,7 +105,7 @@ function ScenariosPage() {
               Не нашли свою нишу?
             </h3>
             <p className="mx-auto mt-2 max-w-md text-sm text-ink-muted">
-              Команда neeklo соберёт ассистента под любой бизнес — от логистики до b2b SaaS. Запуск
+              Команда neeklo соберёт ассистента под любой бизнес: от логистики до b2b SaaS. Запуск
               5–7 дней.
             </p>
             <Button asChild variant="brand" size="md" className="mt-4">

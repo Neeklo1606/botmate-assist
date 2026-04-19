@@ -13,12 +13,12 @@ import { FinalCTA } from "@/components/landing/sections/final-cta";
 export const Route = createFileRoute("/_marketing/cases/$slug")({
   head: ({ params }) => ({
     meta: [
-      { title: `Кейс ${params.slug} — botme` },
+      { title: `Кейс ${params.slug}: botme` },
       {
         name: "description",
         content: `Подробный кейс клиента botme: задача, решение, метрики и результат.`,
       },
-      { property: "og:title", content: `Кейс ${params.slug} — botme` },
+      { property: "og:title", content: `Кейс ${params.slug}: botme` },
       {
         property: "og:description",
         content: "Реальный кейс клиента botme с цифрами.",
@@ -230,7 +230,7 @@ function CasePage() {
             </blockquote>
             <figcaption className="mt-5 text-sm text-ink-muted">
               <span className="font-medium text-foreground">{study.quote.author}</span>
-              {" — "}
+              {", "}
               {study.quote.role}
             </figcaption>
           </figure>

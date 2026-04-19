@@ -17,13 +17,13 @@ import type { Integration } from "@/types/entities";
 export const Route = createFileRoute("/_marketing/integrations")({
   head: () => ({
     meta: [
-      { title: "Интеграции и каналы — botme" },
+      { title: "Интеграции и каналы botme" },
       {
         name: "description",
         content:
           "Telegram, сайт, Avito, ВКонтакте, WhatsApp, Instagram. Связки с amoCRM, Битрикс24, YClients, Notion, Google Sheets и Webhook.",
       },
-      { property: "og:title", content: "Интеграции и каналы — botme" },
+      { property: "og:title", content: "Интеграции и каналы botme" },
       {
         property: "og:description",
         content: "Все каналы общения и интеграции с CRM, базами знаний и автоматизациями.",
@@ -73,7 +73,7 @@ function IntegrationsPage() {
               Подключаем туда, где уже общаются ваши клиенты
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              6 каналов общения и 9+ готовых интеграций. Кастомные связки — на тарифе «Масштаб»
+              6 каналов общения и 9+ готовых интеграций. Кастомные связки доступны на тарифе «Масштаб»
               через API и Webhook.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -97,7 +97,7 @@ function IntegrationsPage() {
           <SectionHeading
             eyebrow="Каналы"
             title="Где работает ассистент"
-            description="Один аккаунт, один тон, единая база знаний — все каналы синхронизированы."
+            description="Один аккаунт, один тон, единая база знаний. Все каналы синхронизированы."
           />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {channels.map((ch) => (
@@ -135,7 +135,7 @@ function IntegrationsPage() {
       {/* Integrations grouped */}
       <Section size="md">
         <Container>
-          <SectionHeading eyebrow="Интеграции" title="С вашими системами — без программистов" />
+          <SectionHeading eyebrow="Интеграции" title="С вашими системами без программистов" />
           <div className="space-y-12">
             {grouped.map(({ cat, items }) => (
               <div key={cat}>

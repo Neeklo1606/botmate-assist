@@ -25,13 +25,13 @@ import { FinalCTA } from "@/components/landing/sections/final-cta";
 export const Route = createFileRoute("/_marketing/")({
   head: () => ({
     meta: [
-      { title: "botme — AI-ассистент, который не теряет ваших клиентов" },
+      { title: "botme: AI-ассистент, который не теряет ваших клиентов" },
       {
         name: "description",
         content:
           "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня. Отвечает за 7 секунд, квалифицирует лида, доводит до сделки.",
       },
-      { property: "og:title", content: "botme — AI-ассистент, который не теряет ваших клиентов" },
+      { property: "og:title", content: "botme: AI-ассистент, который не теряет ваших клиентов" },
       {
         property: "og:description",
         content: "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня.",
