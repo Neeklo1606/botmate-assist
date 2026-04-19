@@ -134,7 +134,7 @@ function DashboardPage() {
                 className="flex items-start gap-4 px-5 py-4 transition-colors hover:bg-surface-muted/60 md:px-6"
               >
                 <div className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-md bg-surface-muted">
-                  <ChannelIcon channelId={lead.channel} className="h-4 w-4" />
+                  <ChannelIcon id={lead.channel} className="h-4 w-4" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -271,8 +271,8 @@ function ActivityChart({ data }: { data: { date: string; messages: number; leads
                 month: "short",
               })
             }
-            formatter={(value: number, name: string) => [
-              value.toLocaleString("ru-RU"),
+            formatter={(value, name) => [
+              typeof value === "number" ? value.toLocaleString("ru-RU") : String(value),
               name === "messages" ? "Сообщения" : "Лиды",
             ]}
           />
