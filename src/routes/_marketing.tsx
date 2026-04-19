@@ -24,27 +24,35 @@ function useHashScroll() {
 
   useEffect(() => {
     if (!hash) {
-      // Без hash — на верх страницы. scrollRestoration TanStack отключён в router.
-      window.scrollTo({ top: 0, behavior: "instant" });
+      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
       return;
     }
-    // Lazy-секции ниже #demo (Pricing/Cases/FAQ) не влияют на позицию #demo,
-    // но дожидаемся 1-2 RAF + ретраи для подстраховки.
+    // Lazy-секции (Pricing/Cases/FAQ) грузятся ниже #demo и могут изменять
+    // body.scrollHeight уже после старта smooth-анимации, что в Chromium
+    // прерывает её на промежуточной позиции. Поэтому делаем коррекцию
+    // через 350ms после первого скролла.
     let cancelled = false;
+    const HEADER_GAP = 72;
+
+    const scrollNow = () => {
+      const el = document.getElementById(hash);
+      if (!el) return false;
+      const top = el.getBoundingClientRect().top + window.scrollY - HEADER_GAP;
+      window.scrollTo({ top, behavior: "smooth" });
+      return true;
+    };
+
     const tryScroll = (attempt: number) => {
       if (cancelled) return;
-      const el = document.getElementById(hash);
-      if (el) {
-        // scrollIntoView уважает CSS scroll-margin-top из html { scroll-padding-top }
-        // и section[id] { scroll-margin-top }. Никакого ручного offset.
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (scrollNow()) {
+        setTimeout(() => {
+          if (!cancelled) scrollNow();
+        }, 350);
         return;
       }
-      if (attempt < 12) {
-        setTimeout(() => tryScroll(attempt + 1), 80);
-      }
+      if (attempt < 12) setTimeout(() => tryScroll(attempt + 1), 80);
     };
-    // Первая попытка после двух RAF — гарантия, что DOM закоммичен.
+
     requestAnimationFrame(() => requestAnimationFrame(() => tryScroll(0)));
     return () => {
       cancelled = true;
