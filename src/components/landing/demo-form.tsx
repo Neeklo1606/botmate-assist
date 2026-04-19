@@ -37,6 +37,7 @@ import {
 } from "@/lib/schemas";
 import { useCreateDemoRequest } from "@/lib/hooks/use-landing";
 import { nicheOptions } from "@/lib/format";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 interface DemoFormProps {
@@ -85,6 +86,11 @@ export function DemoForm({
       { ...data, source },
       {
         onSuccess: () => {
+          track("demo-form-submit", {
+            source,
+            niche: data.niche,
+            contact_kind: detectContactKind(data.contact),
+          });
           toast.success("Заявка отправлена", {
             description: "Свяжемся в течение 30 минут в рабочее время.",
           });
