@@ -19,6 +19,7 @@ import { ArrowUpRight, ArrowDownRight, Plus, MessageSquare } from "lucide-react"
 import { PageHeader } from "@/components/app/page-header";
 import { EmptyState } from "@/components/app/empty-state";
 import { Button } from "@/components/ui/button";
+import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useActivity30d, useDashboardKpis, useLeads } from "@/lib/hooks/use-app";
 import { useCurrentUser } from "@/lib/hooks/use-auth";
 import { ChannelIcon } from "@/components/brand/channel-icon";

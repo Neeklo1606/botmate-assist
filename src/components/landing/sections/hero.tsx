@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { MockChat } from "@/components/landing/mock-chat";
+import { Reveal } from "@/components/motion/reveal";
 import { useHeroChat } from "@/lib/hooks/use-landing";
 
 export function Hero() {
