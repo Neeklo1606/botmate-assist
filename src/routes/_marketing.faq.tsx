@@ -29,13 +29,13 @@ const CATEGORIES: { id: FaqItem["category"] | "all"; label: string }[] = [
 export const Route = createFileRoute("/_marketing/faq")({
   head: () => ({
     meta: [
-      { title: "Частые вопросы — botme" },
+      { title: "Частые вопросы botme" },
       {
         name: "description",
         content:
           "Ответы на вопросы о botme: запуск, цены, технологии, интеграции и безопасность данных.",
       },
-      { property: "og:title", content: "Частые вопросы — botme" },
+      { property: "og:title", content: "Частые вопросы botme" },
       {
         property: "og:description",
         content: "Что спрашивают о botme до запуска ассистента.",
@@ -66,7 +66,7 @@ function FaqPage() {
               Что обычно спрашивают
             </h1>
             <p className="mt-5 text-base text-ink-muted md:text-lg">
-              Если ответа нет — напишите в Telegram, разберёмся.
+              Если ответа нет, напишите в Telegram, разберёмся.
             </p>
           </div>
         </Container>
@@ -117,7 +117,7 @@ function FaqPage() {
           <div className="mt-10 rounded-xl border border-border-strong bg-background p-6 text-center">
             <h3 className="font-display text-lg font-semibold text-foreground">Не нашли ответа?</h3>
             <p className="mx-auto mt-2 max-w-md text-sm text-ink-muted">
-              Напишите в Telegram-поддержку или оставьте контакт — менеджер свяжется в течение часа.
+              Напишите в Telegram-поддержку или оставьте контакт. Менеджер свяжется в течение часа.
             </p>
             <Button asChild variant="brand" size="md" className="mt-4">
               <Link to="/contacts">Связаться</Link>

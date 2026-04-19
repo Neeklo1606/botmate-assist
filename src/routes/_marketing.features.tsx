@@ -24,13 +24,13 @@ import { FinalCTA } from "@/components/landing/sections/final-cta";
 export const Route = createFileRoute("/_marketing/features")({
   head: () => ({
     meta: [
-      { title: "Возможности — botme" },
+      { title: "Возможности botme" },
       {
         name: "description",
         content:
           "Что умеет AI-ассистент botme: отвечает за 7 секунд, квалифицирует лидов, доводит до сделки и пишет в CRM.",
       },
-      { property: "og:title", content: "Возможности — botme" },
+      { property: "og:title", content: "Возможности botme" },
       {
         property: "og:description",
         content: "Полный список возможностей AI-ассистента botme.",
@@ -93,7 +93,7 @@ function FeaturesPage() {
           <SectionHeading
             eyebrow="Что делает"
             title="4 ключевые роли в одном ассистенте"
-            description="Не просто чат-бот по скриптам — полноценный сотрудник, который держит контекст и доводит до результата."
+            description="Не просто чат-бот по скриптам, а полноценный сотрудник, который держит контекст и доводит до результата."
           />
           <div className="grid gap-4 md:grid-cols-2">
             {features.map((f) => {
@@ -145,7 +145,7 @@ function FeaturesPage() {
           <SectionHeading
             eyebrow="Как запускаем"
             title="4 шага до работающего ассистента"
-            description="От первой встречи до боевого запуска — 3 рабочих дня."
+            description="От первой встречи до боевого запуска: 3 рабочих дня."
           />
           <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {how.map((step) => (
