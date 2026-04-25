@@ -2,9 +2,10 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { JwtClaims, Role } from "./types";
 import { verifyApiKeyRaw } from "./api-keys";
-import { checkApiKeyRateLimit } from "./rate-limit";
+import { checkApiKeyRateLimit, checkTenantRateLimit } from "./rate-limit";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-me";
+const TENANT_LIMIT_PER_MIN = Number(process.env.TENANT_RATE_LIMIT_PER_MIN ?? "120");
 
 export interface AuthContext {
   userId: string;
@@ -90,6 +91,20 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
       });
       return;
     }
+    const tenantCheck = checkTenantRateLimit({
+      tenantId: checked.value!.tenantId,
+      limitPerMin: TENANT_LIMIT_PER_MIN,
+    });
+    if (!tenantCheck.allowed) {
+      reply.code(429).send({
+        error: {
+          code: "RATE_001",
+          message: "Rate limit exceeded",
+          trace_id: request.id,
+        },
+      });
+      return;
+    }
     return;
   }
 
@@ -114,6 +129,20 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
       role: decoded.role,
       authType: "jwt",
     };
+    const tenantCheck = checkTenantRateLimit({
+      tenantId: decoded.tenantId,
+      limitPerMin: TENANT_LIMIT_PER_MIN,
+    });
+    if (!tenantCheck.allowed) {
+      reply.code(429).send({
+        error: {
+          code: "RATE_001",
+          message: "Rate limit exceeded",
+          trace_id: request.id,
+        },
+      });
+      return;
+    }
   } catch {
     reply.code(401).send({
       error: {

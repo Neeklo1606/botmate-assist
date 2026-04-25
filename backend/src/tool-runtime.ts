@@ -1,6 +1,7 @@
 import { state } from "./state";
 import { prisma } from "./prisma";
 import { Prisma } from "@prisma/client";
+import { createHash } from "crypto";
 
 type ToolErrorCode = "TOOL_001" | "TOOL_002" | "TOOL_003";
 
@@ -29,6 +30,26 @@ function parseCreateLeadIntent(message: string): { name: string; contact: string
     name: createLeadMatch[1].trim(),
     contact: createLeadMatch[2].trim(),
   };
+}
+
+function buildIdempotencyKey(input: {
+  tenantId: string;
+  userId: string;
+  sessionId: string;
+  toolName: string;
+  payload: { name: string; contact: string };
+}): string {
+  const normalized = JSON.stringify({
+    tenantId: input.tenantId,
+    userId: input.userId,
+    sessionId: input.sessionId,
+    toolName: input.toolName,
+    payload: {
+      name: input.payload.name.trim().toLowerCase(),
+      contact: input.payload.contact.trim().toLowerCase(),
+    },
+  });
+  return createHash("sha256").update(normalized).digest("hex");
 }
 
 async function writeAudit(input: {
@@ -184,13 +205,16 @@ export async function runTool(input: {
   });
   input.log({ tool: toolName, status: "start", traceId: input.traceId }, "tool execution start");
   try {
+    const idempotencyKey = buildIdempotencyKey({
+      tenantId: input.tenantId,
+      userId: input.userId,
+      sessionId: input.sessionId,
+      toolName,
+      payload: parsed,
+    });
     const result = await executeWithTimeout(async () => {
       const existing = state.leads.find(
-        (lead) =>
-          lead.tenantId === input.tenantId &&
-          lead.sessionId === input.sessionId &&
-          lead.name.toLowerCase() === parsed.name.toLowerCase() &&
-          lead.contact.toLowerCase() === parsed.contact.toLowerCase(),
+        (lead) => lead.idempotencyKey === idempotencyKey,
       );
       if (existing) {
         return {
@@ -205,6 +229,7 @@ export async function runTool(input: {
         sessionId: input.sessionId,
         name: parsed.name,
         contact: parsed.contact,
+        idempotencyKey,
         createdAt: new Date().toISOString(),
       });
       return {

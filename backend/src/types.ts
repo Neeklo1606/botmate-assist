@@ -32,6 +32,7 @@ export interface Lead {
   sessionId: string;
   name: string;
   contact: string;
+  idempotencyKey?: string;
   createdAt: string;
 }
 

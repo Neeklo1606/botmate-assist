@@ -13,16 +13,37 @@ import {
 } from "./integrations";
 import { createApiKey, listApiKeys, revokeApiKey } from "./api-keys";
 import { ensureDefaultSeedUser, loginUser, registerUser } from "./users";
+import { checkIpRateLimit, checkTenantRateLimit } from "./rate-limit";
+
+const MAX_BODY_BYTES = 1024 * 1024;
+const MAX_MESSAGE_LENGTH = 4000;
+const IP_LIMIT_PER_MIN = Number(process.env.IP_RATE_LIMIT_PER_MIN ?? "240");
+const TENANT_REQUESTS_PER_MIN = Number(process.env.TENANT_REQUESTS_PER_MIN ?? "60");
 
 function nowIso() {
   return new Date().toISOString();
 }
 
 export function buildServer() {
-  const app = Fastify({ logger: true });
+  const app = Fastify({ logger: true, bodyLimit: MAX_BODY_BYTES });
 
   app.register(cors);
   app.register(sensible);
+  app.addHook("onRequest", async (request, reply) => {
+    const checked = checkIpRateLimit({
+      ip: request.ip || "unknown",
+      limitPerMin: IP_LIMIT_PER_MIN,
+    });
+    if (!checked.allowed) {
+      return reply.code(429).send({
+        error: {
+          code: "RATE_001",
+          message: "Rate limit exceeded",
+          trace_id: request.id,
+        },
+      });
+    }
+  });
   app.addHook("onReady", async () => {
     await ensureDefaultSeedUser();
   });
@@ -340,6 +361,29 @@ export function buildServer() {
           },
         });
       }
+      if (body.content.trim().length > MAX_MESSAGE_LENGTH) {
+        return reply.code(400).send({
+          error: {
+            code: "VALIDATION_008",
+            message: `content exceeds max length ${MAX_MESSAGE_LENGTH}`,
+            trace_id: request.id,
+          },
+        });
+      }
+      const tenantCheck = checkTenantRateLimit({
+        tenantId: auth.tenantId,
+        limitPerMin: TENANT_REQUESTS_PER_MIN,
+        scope: "runtime",
+      });
+      if (!tenantCheck.allowed) {
+        return reply.code(429).send({
+          error: {
+            code: "RATE_001",
+            message: "Rate limit exceeded",
+            trace_id: request.id,
+          },
+        });
+      }
 
       const session = state.sessions.find(
         (item) => item.id === sessionId && item.tenantId === auth.tenantId,
@@ -423,6 +467,26 @@ export function buildServer() {
       });
       } catch (error) {
         request.log.error(error);
+        const isCostLimit = error instanceof Error && error.message === "COST_001";
+        if (isCostLimit) {
+          return reply.code(400).send({
+            error: {
+              code: "COST_001",
+              message: "Request token budget exceeded",
+              trace_id: request.id,
+            },
+          });
+        }
+        const isBreakerOpen = error instanceof Error && error.message === "PROVIDER_003";
+        if (isBreakerOpen) {
+          return reply.code(503).send({
+            error: {
+              code: "PROVIDER_003",
+              message: "Provider circuit breaker is open",
+              trace_id: request.id,
+            },
+          });
+        }
         return reply.code(502).send({
           error: {
             code: "PROVIDER_001",
@@ -446,6 +510,29 @@ export function buildServer() {
           error: {
             code: "VALIDATION_003",
             message: "sessionId and message are required",
+            trace_id: request.id,
+          },
+        });
+      }
+      if (query.message.trim().length > MAX_MESSAGE_LENGTH) {
+        return reply.code(400).send({
+          error: {
+            code: "VALIDATION_008",
+            message: `message exceeds max length ${MAX_MESSAGE_LENGTH}`,
+            trace_id: request.id,
+          },
+        });
+      }
+      const tenantCheck = checkTenantRateLimit({
+        tenantId: auth.tenantId,
+        limitPerMin: TENANT_REQUESTS_PER_MIN,
+        scope: "runtime",
+      });
+      if (!tenantCheck.allowed) {
+        return reply.code(429).send({
+          error: {
+            code: "RATE_001",
+            message: "Rate limit exceeded",
             trace_id: request.id,
           },
         });
@@ -527,6 +614,43 @@ export function buildServer() {
             error: {
               code: "INTEGRATION_001",
               message: "Active OpenAI integration not found for user",
+              trace_id: request.id,
+            },
+          });
+        }
+        const isCostLimit = error instanceof Error && error.message === "COST_001";
+        const isBreakerOpen = error instanceof Error && error.message === "PROVIDER_003";
+        if (reply.raw.headersSent) {
+          const code = isCostLimit ? "COST_001" : isBreakerOpen ? "PROVIDER_003" : "PROVIDER_001";
+          const message = isCostLimit
+            ? "Request token budget exceeded"
+            : isBreakerOpen
+              ? "Provider circuit breaker is open"
+              : "Model provider stream failed";
+          reply.raw.write(
+            `event: error\ndata: ${JSON.stringify({
+              code,
+              message,
+              trace_id: request.id,
+            })}\n\n`,
+          );
+          reply.raw.end();
+          return reply;
+        }
+        if (isCostLimit) {
+          return reply.code(400).send({
+            error: {
+              code: "COST_001",
+              message: "Request token budget exceeded",
+              trace_id: request.id,
+            },
+          });
+        }
+        if (isBreakerOpen) {
+          return reply.code(503).send({
+            error: {
+              code: "PROVIDER_003",
+              message: "Provider circuit breaker is open",
               trace_id: request.id,
             },
           });

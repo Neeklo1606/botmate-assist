@@ -1,6 +1,8 @@
 import { GenerateResponseInput, LlmProviderAdapter } from "./types";
 
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+const DEFAULT_TIMEOUT_MS = 12000;
+const DEFAULT_MAX_TOKENS = 700;
 
 export class OpenAIAdapter implements LlmProviderAdapter {
   private readonly apiKey: string;
@@ -13,6 +15,8 @@ export class OpenAIAdapter implements LlmProviderAdapter {
   }
 
   async generateResponse(input: GenerateResponseInput): Promise<string> {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), input.timeoutMs ?? DEFAULT_TIMEOUT_MS);
     const response = await fetch(OPENAI_API_URL, {
       method: "POST",
       headers: {
@@ -21,11 +25,15 @@ export class OpenAIAdapter implements LlmProviderAdapter {
       },
       body: JSON.stringify({
         model: input.model,
+        max_tokens: input.maxTokens ?? DEFAULT_MAX_TOKENS,
         messages: [
           ...(input.systemPrompt ? [{ role: "system", content: input.systemPrompt }] : []),
           { role: "user", content: input.userMessage },
         ],
       }),
+      signal: controller.signal,
+    }).finally(() => {
+      clearTimeout(timer);
     });
 
     if (!response.ok) {
@@ -40,6 +48,8 @@ export class OpenAIAdapter implements LlmProviderAdapter {
   }
 
   async *streamResponse(input: GenerateResponseInput): AsyncGenerator<string, void, void> {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), input.timeoutMs ?? DEFAULT_TIMEOUT_MS);
     const response = await fetch(OPENAI_API_URL, {
       method: "POST",
       headers: {
@@ -49,11 +59,15 @@ export class OpenAIAdapter implements LlmProviderAdapter {
       body: JSON.stringify({
         model: input.model,
         stream: true,
+        max_tokens: input.maxTokens ?? DEFAULT_MAX_TOKENS,
         messages: [
           ...(input.systemPrompt ? [{ role: "system", content: input.systemPrompt }] : []),
           { role: "user", content: input.userMessage },
         ],
       }),
+      signal: controller.signal,
+    }).finally(() => {
+      clearTimeout(timer);
     });
 
     if (!response.ok || !response.body) {
