@@ -418,6 +418,7 @@ export function buildServer() {
         sessionId,
         model: generated.selected,
         toolUsed: toolResult.used,
+        idempotentHit: toolResult.idempotentHit ?? false,
         messages: [userMessage, assistantMessage],
       });
       } catch (error) {
@@ -463,6 +464,33 @@ export function buildServer() {
         });
       }
 
+      const toolResult = await runTool({
+        tenantId: auth.tenantId,
+        userId: auth.userId,
+        assistantId: auth.assistantId,
+        sessionTenantId: session.tenantId,
+        sessionUserId: session.userId,
+        sessionId: query.sessionId,
+        message: query.message.trim(),
+        traceId: request.id,
+        log: (payload, message) => request.log.info(payload, message),
+      });
+      if (toolResult.error) {
+        reply.raw.setHeader("Content-Type", "text/event-stream");
+        reply.raw.setHeader("Cache-Control", "no-cache");
+        reply.raw.setHeader("Connection", "keep-alive");
+        reply.raw.flushHeaders?.();
+        reply.raw.write(
+          `event: error\ndata: ${JSON.stringify({
+            code: toolResult.error.code,
+            message: toolResult.error.message,
+            trace_id: request.id,
+          })}\n\n`,
+        );
+        reply.raw.end();
+        return reply;
+      }
+
       // Early integration check before switching reply to SSE mode.
       if (!(await getActiveOpenAiIntegration(auth.userId))) {
         return reply.code(404).send({
@@ -481,8 +509,10 @@ export function buildServer() {
 
       for await (const event of streamWithUserIntegration({
         userId: auth.userId,
-        message: query.message.trim(),
-        toolRequired: false,
+        message: toolResult.responseText
+          ? `${query.message.trim()}\n\nTool output:\n${toolResult.responseText}`
+          : query.message.trim(),
+        toolRequired: toolResult.used,
       })) {
         reply.raw.write(`event: chunk\ndata: ${JSON.stringify(event)}\n\n`);
       }

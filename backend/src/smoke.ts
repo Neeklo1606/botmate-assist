@@ -34,7 +34,7 @@ async function run() {
     method: "POST",
     url: `/api/v1/chat/sessions/${session.id}/messages`,
     headers: { authorization: `Bearer ${token}` },
-    payload: { content: "lead: John Doe, +1-555-1010" },
+    payload: { content: "tool:create_lead John Doe, +1-555-1010" },
   });
 
   const stream = await app.inject({

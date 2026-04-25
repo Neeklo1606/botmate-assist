@@ -11,6 +11,7 @@ export interface VerifiedApiKey {
   tenantId: string;
   userId: string;
   assistantId?: string;
+  rateLimitPerMin: number;
 }
 
 function toPublic(row: {
@@ -119,6 +120,7 @@ export async function verifyApiKeyRaw(raw: string): Promise<{
       tenantId: true,
       userId: true,
       assistantId: true,
+      rateLimitPerMin: true,
       isActive: true,
       revokedAt: true,
     },
@@ -136,6 +138,7 @@ export async function verifyApiKeyRaw(raw: string): Promise<{
       tenantId: row.tenantId,
       userId: row.userId,
       assistantId: row.assistantId ?? undefined,
+      rateLimitPerMin: row.rateLimitPerMin,
     },
   };
 }

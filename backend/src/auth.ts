@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { JwtClaims, Role } from "./types";
 import { verifyApiKeyRaw } from "./api-keys";
+import { checkApiKeyRateLimit } from "./rate-limit";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-me";
 
@@ -75,6 +76,20 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
       apiKeyId: checked.value!.apiKeyId,
       assistantId: checked.value!.assistantId,
     };
+    const rateCheck = checkApiKeyRateLimit({
+      apiKeyId: checked.value!.apiKeyId,
+      limitPerMin: checked.value!.rateLimitPerMin,
+    });
+    if (!rateCheck.allowed) {
+      reply.code(429).send({
+        error: {
+          code: "RATE_001",
+          message: "Rate limit exceeded",
+          trace_id: request.id,
+        },
+      });
+      return;
+    }
     return;
   }
 

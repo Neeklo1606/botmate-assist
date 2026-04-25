@@ -29,6 +29,12 @@ enum Provider {
   OPENAI
 }
 
+enum ToolInvocationStatus {
+  START
+  SUCCESS
+  FAIL
+}
+
 model Tenant {
   id          String         @id @default(cuid())
   name        String
@@ -87,16 +93,19 @@ model Message {
 model ToolInvocation {
   id            String   @id @default(cuid())
   tenantId       String
+  userId         String
   sessionId      String?
   toolName       String
   input          Json
   output         Json?
+  status         ToolInvocationStatus @default(START)
   success        Boolean  @default(false)
   error          String?
   createdAt      DateTime @default(now())
   tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId, createdAt])
+  @@index([tenantId, userId, createdAt])
   @@index([toolName, createdAt])
 }
 
