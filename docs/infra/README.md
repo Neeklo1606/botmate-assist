@@ -21,3 +21,5 @@ infra-team
 - deployment flow
 - secrets policy
 - monitoring and runbooks
+- backup strategy: `docs/architecture/ADR-005-backup-strategy-basic.md`
+- base recovery targets: `RPO <= 1h`, `RTO <= 4h`

@@ -26,6 +26,7 @@ backend-data-team
 - Media: MediaFolder, MediaFile, MediaUsage.
 - Billing/Usage: UsageLedger, Product, SubscriptionPlan, FeatureLimit, UserSubscription.
 - Platform: ApiKey, FeatureFlag, Experiment, AuditLog, JobRun, DeadLetterItem, EventLog.
+- Control: IdempotencyKey, ApiErrorLog (with trace correlation).
 
 ## Relations
 
@@ -41,5 +42,5 @@ backend-data-team
 
 - Обязательные составные индексы: `(tenant_id, id)` или `(tenant_id, foreign_id)`.
 - Частые фильтры: status, created_at, updated_at, assistant_id, session_id.
-- Full-text/keyword index для knowledge search + векторный index для embeddings.
+- Full-text/keyword index для knowledge search + `pgvector` index для embeddings.
 - Уникальные индексы для API keys, external ids, idempotency keys.

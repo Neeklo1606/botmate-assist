@@ -24,11 +24,19 @@ platform-team
 ## Components
 
 - Client: Admin Web, Widget SDK, Telegram Adapter, Public API clients.
-- API: Fastify API + UI-BFF + auth/tenant middleware.
+- API: Fastify API + UI-BFF + auth/tenant middleware + `/api/v1/*` policy.
 - Runtime: ChatRuntime, ContextBuilder, PromptBuilder, ModelRouter, ToolRuntime.
 - Intelligence: hybrid RAG, reranking, relevance filtering, guardrails.
 - Platform: usage, billing enforcement, feature flags, experiments, observability, event bus.
-- Data/Infra: PostgreSQL RLS, Redis cache, queues/workers/DLQ, media storage.
+- Data/Infra: PostgreSQL RLS + `pgvector`, Redis cache + `BullMQ`, workers/DLQ, media storage, backup runbook.
+
+## P0 locked decisions
+
+- Vector store: PostgreSQL with `pgvector` (ADR-001).
+- Queue: Redis with `BullMQ` (ADR-002).
+- API versioning: `/api/v1/*` (ADR-003).
+- Error format: minimal unified envelope with `code`, `message`, `trace_id` (ADR-004).
+- Backup strategy: base policy with `RPO <= 1h`, `RTO <= 4h` (ADR-005).
 
 ## Flows
 

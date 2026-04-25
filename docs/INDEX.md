@@ -18,6 +18,12 @@ platform-team
 ## Sections
 
 - architecture: `docs/architecture/MASTER_PLAN.md`, `docs/architecture/SYSTEM_OVERVIEW.md`
+- ADR:
+  - `docs/architecture/ADR-001-vectorstore-pgvector.md`
+  - `docs/architecture/ADR-002-queue-bullmq.md`
+  - `docs/architecture/ADR-003-api-versioning-v1.md`
+  - `docs/architecture/ADR-004-error-format-minimal.md`
+  - `docs/architecture/ADR-005-backup-strategy-basic.md`
 - runtime: `docs/runtime/CHAT_RUNTIME.md`
 - api: `docs/api/API.md`
 - database: `docs/database/SCHEMA.md`
