@@ -14,6 +14,7 @@ import {
 import { createApiKey, listApiKeys, revokeApiKey } from "./api-keys";
 import { ensureDefaultSeedUser, loginUser, registerUser } from "./users";
 import { checkIpRateLimit, checkTenantRateLimit } from "./rate-limit";
+import { prisma } from "./prisma";
 
 const MAX_BODY_BYTES = 1024 * 1024;
 const MAX_MESSAGE_LENGTH = 4000;
@@ -343,6 +344,71 @@ export function buildServer() {
       }
     },
   );
+
+  app.get("/api/v1/audit/tools", { preHandler: authenticate }, async (request, reply) => {
+    try {
+      const auth = request.auth!;
+      if (auth.authType !== "jwt") {
+        return reply.code(403).send({
+          error: {
+            code: "AUTH_005",
+            message: "JWT authentication required",
+            trace_id: request.id,
+          },
+        });
+      }
+
+      const query = (request.query ?? {}) as {
+        userId?: string;
+        status?: "SUCCESS" | "FAIL";
+        limit?: string | number;
+      };
+      const status =
+        query.status === "SUCCESS" || query.status === "FAIL" ? query.status : undefined;
+      const parsedLimit =
+        typeof query.limit === "string" ? Number(query.limit) : query.limit ?? 50;
+      const limit =
+        typeof parsedLimit === "number" && Number.isFinite(parsedLimit)
+          ? Math.min(Math.max(Math.floor(parsedLimit), 1), 200)
+          : 50;
+
+      const rows = await prisma.toolInvocation.findMany({
+        where: {
+          tenantId: auth.tenantId,
+          ...(query.userId?.trim() ? { userId: query.userId.trim() } : {}),
+          ...(status ? { status } : {}),
+        },
+        orderBy: { createdAt: "desc" },
+        take: limit,
+        select: {
+          toolName: true,
+          status: true,
+          success: true,
+          error: true,
+          createdAt: true,
+        },
+      });
+
+      return reply.code(200).send({
+        items: rows.map((row) => ({
+          toolName: row.toolName,
+          status: row.status,
+          success: row.success,
+          error: row.error ?? null,
+          createdAt: row.createdAt.toISOString(),
+        })),
+      });
+    } catch (error) {
+      request.log.error(error);
+      return reply.code(500).send({
+        error: {
+          code: "AUDIT_001",
+          message: "Failed to fetch audit trail",
+          trace_id: request.id,
+        },
+      });
+    }
+  });
 
   app.post(
     "/api/v1/chat/sessions/:sessionId/messages",
