@@ -98,7 +98,8 @@ function AppLayout() {
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar />
         <main className="flex-1 overflow-x-hidden pb-[72px] md:pb-0">
-          <div className="container-px mx-auto w-full max-w-[1280px] py-6 md:py-8 text-foreground">
+          <div className="container-px mx-auto w-full max-w-[1280px] py-4 md:py-6 text-foreground">
+            <Breadcrumbs />
             <Outlet />
           </div>
         </main>
