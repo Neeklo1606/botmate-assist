@@ -73,7 +73,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: "/visitors", label: "Visitors", icon: Users },
   { to: "/calls", label: "Calls", icon: Phone },
   { to: "/leads", label: "Leads", icon: Inbox },
-  { to: "/integrations", label: "Integrations", icon: Plug },
+  { to: "/app-integrations", label: "Integrations", icon: Plug },
   { to: "/api-keys", label: "API Keys", icon: KeyRound },
   { to: "/audit", label: "Audit", icon: ShieldCheck },
 ];
