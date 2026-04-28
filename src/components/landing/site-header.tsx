@@ -1,36 +1,38 @@
 /**
  * SiteHeader — sticky-хедер маркетинга.
- * Desktop: лого + nav + 2 CTA. Mobile: лого + burger.
+ * Desktop: лого + nav + 2 CTA + язык. Mobile: лого + burger + язык в drawer.
  */
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { BotmeLogo } from "@/components/brand/botme-logo";
 import { track } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { to: "/features", label: "Возможности" },
-  { to: "/cases", label: "Кейсы" },
-  { to: "/scenarios", label: "Сценарии" },
-  { to: "/pricing", label: "Тарифы" },
-  { to: "/faq", label: "FAQ" },
-] as const;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { t, locale, setLocale } = useLocale();
+
+  const navItems = [
+    { to: "/features" as const, label: t("nav.features") },
+    { to: "/cases" as const, label: t("nav.cases") },
+    { to: "/scenarios" as const, label: t("nav.scenarios") },
+    { to: "/pricing" as const, label: t("nav.pricing") },
+    { to: "/faq" as const, label: t("nav.faq") },
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
       <Container>
         <div className="flex h-14 items-center justify-between gap-4">
-          <Link to="/" className="flex items-center" aria-label="botme — на главную">
+          <Link to="/" className="flex items-center" aria-label={t("nav.toLanding")}>
             <BotmeLogo />
           </Link>
 
-          <nav aria-label="Главное меню" className="hidden items-center gap-1 md:flex">
+          <nav aria-label="Main menu" className="hidden items-center gap-1 md:flex">
             {navItems.map((item) => (
               <Link
                 key={item.to}
@@ -45,8 +47,9 @@ export function SiteHeader() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
+            <LangToggle locale={locale} onChange={setLocale} t={t} />
             <Button asChild variant="ghostInk" size="sm">
-              <Link to="/login">Войти</Link>
+              <Link to="/login">{t("nav.login")}</Link>
             </Button>
             <Button asChild variant="brand" size="sm">
               <Link
@@ -54,7 +57,7 @@ export function SiteHeader() {
                 hash="demo"
                 onClick={() => track("cta-click", { location: "header", intent: "demo" })}
               >
-                Запустить за 3 дня
+                {t("cta.launch3")}
               </Link>
             </Button>
           </div>
@@ -63,7 +66,7 @@ export function SiteHeader() {
             type="button"
             onClick={() => setOpen((v) => !v)}
             className="inline-flex h-9 w-9 items-center justify-center rounded-md text-foreground hover:bg-surface-muted md:hidden"
-            aria-label={open ? "Закрыть меню" : "Открыть меню"}
+            aria-label={open ? t("nav.menuClose") : t("nav.menuOpen")}
             aria-expanded={open}
           >
             {open ? (
@@ -80,7 +83,7 @@ export function SiteHeader() {
         className={cn("border-t border-border bg-background md:hidden", open ? "block" : "hidden")}
       >
         <Container>
-          <nav aria-label="Мобильное меню" className="flex flex-col gap-1 py-3">
+          <nav aria-label="Mobile menu" className="flex flex-col gap-1 py-3">
             {navItems.map((item) => (
               <Link
                 key={item.to}
@@ -92,21 +95,60 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-            <div className="mt-2 flex gap-2 pt-2">
-              <Button asChild variant="outline" size="md" className="flex-1">
-                <Link to="/login" onClick={() => setOpen(false)}>
-                  Войти
-                </Link>
-              </Button>
-              <Button asChild variant="brand" size="md" className="flex-1">
-                <Link to="/" hash="demo" onClick={() => setOpen(false)}>
-                  Демо
-                </Link>
-              </Button>
+            <div className="mt-2 flex items-center justify-between gap-2 pt-2">
+              <LangToggle locale={locale} onChange={setLocale} t={t} />
+              <div className="flex flex-1 gap-2">
+                <Button asChild variant="outline" size="md" className="flex-1">
+                  <Link to="/login" onClick={() => setOpen(false)}>
+                    {t("nav.login")}
+                  </Link>
+                </Button>
+                <Button asChild variant="brand" size="md" className="flex-1">
+                  <Link to="/" hash="demo" onClick={() => setOpen(false)}>
+                    {t("nav.demo")}
+                  </Link>
+                </Button>
+              </div>
             </div>
           </nav>
         </Container>
       </div>
     </header>
+  );
+}
+
+function LangToggle({
+  locale,
+  onChange,
+  t,
+}: {
+  locale: "ru" | "en";
+  onChange: (l: "ru" | "en") => void;
+  t: (k: "nav.langSwitch" | "nav.langRu" | "nav.langEn") => string;
+}) {
+  return (
+    <div
+      role="group"
+      aria-label={t("nav.langSwitch")}
+      className="inline-flex items-center rounded-md border border-border bg-surface p-0.5 text-[11px] font-semibold uppercase tracking-wide"
+    >
+      <Globe className="ml-1.5 mr-1 h-3.5 w-3.5 text-ink-subtle" strokeWidth={1.75} aria-hidden />
+      {(["ru", "en"] as const).map((code) => (
+        <button
+          key={code}
+          type="button"
+          onClick={() => onChange(code)}
+          aria-pressed={locale === code}
+          className={cn(
+            "rounded-sm px-2 py-1 transition-colors",
+            locale === code
+              ? "bg-foreground text-background"
+              : "text-ink-muted hover:text-foreground",
+          )}
+        >
+          {code === "ru" ? t("nav.langRu") : t("nav.langEn")}
+        </button>
+      ))}
+    </div>
   );
 }

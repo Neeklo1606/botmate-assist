@@ -1,41 +1,41 @@
 /**
  * SiteFooter — финальный футер маркетинга. 4 колонки на desktop.
- * Все ссылки через TanStack Link, contact-инфо — текстом.
  */
 import { Link } from "@tanstack/react-router";
 import { Container } from "@/components/layout/container";
 import { BotmeLogo } from "@/components/brand/botme-logo";
-
-const productLinks = [
-  { to: "/features", label: "Возможности" },
-  { to: "/integrations", label: "Каналы и интеграции" },
-  { to: "/scenarios", label: "Сценарии под нишу" },
-  { to: "/pricing", label: "Тарифы" },
-  { to: "/first-100", label: "Первые 100" },
-] as const;
-
-const companyLinks = [
-  { to: "/about", label: "О команде" },
-  { to: "/cases", label: "Кейсы" },
-  { to: "/faq", label: "FAQ" },
-  { to: "/contacts", label: "Контакты" },
-] as const;
-
-const legalLinks = [
-  { to: "/legal/privacy", label: "Политика конфиденциальности" },
-  { to: "/legal/offer", label: "Договор-оферта" },
-] as const;
+import { useLocale } from "@/lib/i18n/locale";
 
 export function SiteFooter() {
+  const { t } = useLocale();
+
+  const productLinks = [
+    { to: "/features" as const, label: t("footer.linkFeatures") },
+    { to: "/integrations" as const, label: t("footer.linkIntegrations") },
+    { to: "/scenarios" as const, label: t("footer.linkScenarios") },
+    { to: "/pricing" as const, label: t("footer.linkPricing") },
+    { to: "/first-100" as const, label: t("footer.linkFirst100") },
+  ];
+
+  const companyLinks = [
+    { to: "/about" as const, label: t("footer.linkAbout") },
+    { to: "/cases" as const, label: t("footer.linkCases") },
+    { to: "/faq" as const, label: t("footer.linkFaq") },
+    { to: "/contacts" as const, label: t("footer.linkContacts") },
+  ];
+
+  const legalLinks = [
+    { to: "/legal/privacy" as const, label: t("footer.linkPrivacy") },
+    { to: "/legal/offer" as const, label: t("footer.linkOffer") },
+  ];
+
   return (
     <footer className="border-t border-border bg-background">
       <Container>
         <div className="grid gap-10 py-12 md:grid-cols-12 md:py-16">
           <div className="md:col-span-4">
             <BotmeLogo />
-            <p className="mt-3 max-w-[280px] text-sm text-ink-muted">
-              AI-ассистенты, которые отвечают клиентам, квалифицируют лидов и доводят до сделки.
-            </p>
+            <p className="mt-3 max-w-[280px] text-sm text-ink-muted">{t("footer.tagline")}</p>
             <div className="mt-6 space-y-1.5 text-sm">
               <div className="text-ink-muted">
                 Telegram:{" "}
@@ -58,14 +58,16 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <FooterCol title="Продукт" items={productLinks} />
-          <FooterCol title="Компания" items={companyLinks} />
-          <FooterCol title="Документы" items={legalLinks} />
+          <FooterCol title={t("footer.product")} items={productLinks} />
+          <FooterCol title={t("footer.company")} items={companyLinks} />
+          <FooterCol title={t("footer.legal")} items={legalLinks} />
         </div>
 
         <div className="flex flex-col items-start justify-between gap-3 border-t border-border py-6 text-xs text-ink-subtle md:flex-row md:items-center">
-          <div>© {new Date().getFullYear()} botme · продукт neeklo.studio</div>
-          <div>ИП Клочко Никита Николаевич · ИНН 7806123456</div>
+          <div>
+            © {new Date().getFullYear()} botme · {t("footer.copyright")}
+          </div>
+          <div>{t("footer.legalEntity")}</div>
         </div>
       </Container>
     </footer>
