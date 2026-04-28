@@ -294,7 +294,14 @@ function SidebarProfile() {
 function Topbar() {
   const { data: user } = useCurrentUser();
   const { data: notifications } = useNotifications();
+  const markOneMut = useMarkNotificationRead();
+  const markAllMut = useMarkAllNotificationsRead();
+  const logoutMut = useLogout();
+  const navigate = useNavigate();
+
   const unread = notifications?.filter((n) => !n.read).length ?? 0;
+  // MOCK: live online counter — заменить на realtime подписку
+  const onlineNow = 7;
 
   return (
     <header
@@ -327,20 +334,149 @@ function Topbar() {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Уведомления"
-          className="relative text-white hover:bg-white/5 hover:text-white"
+        {/* Live online pill */}
+        <div
+          className="hidden items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium sm:inline-flex"
+          style={{
+            background: "rgba(168,255,87,0.10)",
+            color: "#a8ff57",
+            border: "1px solid rgba(168,255,87,0.25)",
+          }}
+          title="Посетители на сайте сейчас"
         >
-          <Bell className="h-4 w-4" strokeWidth={1.75} />
-          {unread > 0 && (
+          <span className="relative inline-flex h-2 w-2">
             <span
-              className="absolute right-1.5 top-1.5 inline-flex h-2 w-2 rounded-full"
+              aria-hidden
+              className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60"
               style={{ background: "#a8ff57" }}
             />
-          )}
-        </Button>
+            <span
+              className="relative inline-flex h-2 w-2 rounded-full"
+              style={{ background: "#a8ff57" }}
+            />
+          </span>
+          Онлайн: <span className="tabular-nums">{onlineNow}</span>
+        </div>
+
+        {/* Notifications */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={`Уведомления${unread ? `, непрочитанных: ${unread}` : ""}`}
+              className="relative text-white hover:bg-white/5 hover:text-white"
+            >
+              <Bell className="h-4 w-4" strokeWidth={1.75} />
+              {unread > 0 && (
+                <span
+                  className="absolute right-1 top-1 inline-flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[10px] font-semibold leading-none text-[#0f0f0f] tabular-nums"
+                  style={{ background: "#a8ff57" }}
+                >
+                  {unread > 9 ? "9+" : unread}
+                </span>
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-80 p-0">
+            <div className="flex items-center justify-between px-3 py-2.5 border-b border-border">
+              <div className="text-sm font-semibold">Уведомления</div>
+              {unread > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    markAllMut.mutate(undefined, {
+                      onSuccess: () => toast.success("Все уведомления прочитаны"),
+                    });
+                  }}
+                  className="inline-flex items-center gap-1 text-xs text-ink-muted hover:text-foreground"
+                >
+                  <Check className="h-3 w-3" strokeWidth={2} /> Прочитать все
+                </button>
+              )}
+            </div>
+            <div className="max-h-96 overflow-y-auto">
+              {!notifications || notifications.length === 0 ? (
+                <div className="px-3 py-8 text-center text-xs text-ink-muted">
+                  Нет уведомлений
+                </div>
+              ) : (
+                notifications.slice(0, 8).map((n) => (
+                  <button
+                    key={n.id}
+                    type="button"
+                    onClick={() => !n.read && markOneMut.mutate(n.id)}
+                    className={cn(
+                      "flex w-full items-start gap-2 border-b border-border/50 px-3 py-2.5 text-left transition-colors hover:bg-surface-muted",
+                    )}
+                  >
+                    {!n.read && (
+                      <span
+                        aria-hidden
+                        className="mt-1.5 inline-flex h-2 w-2 flex-none rounded-full"
+                        style={{ background: "#a8ff57" }}
+                      />
+                    )}
+                    <div className={cn("min-w-0 flex-1", n.read && "pl-4")}>
+                      <div className="text-sm font-medium text-foreground">
+                        {n.title}
+                      </div>
+                      {n.body && (
+                        <div className="mt-0.5 line-clamp-2 text-xs text-ink-muted">
+                          {n.body}
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                ))
+              )}
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Avatar (desktop) */}
+        {user && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label="Профиль"
+                className="hidden h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-opacity hover:opacity-90 md:inline-flex"
+                style={{ background: "#a8ff57", color: "#0f0f0f" }}
+              >
+                {user.avatarInitials}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                <div className="text-sm font-semibold text-foreground">{user.name}</div>
+                <div className="text-xs font-normal text-ink-muted">{user.email}</div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link to="/settings">Настройки</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/">← На главную</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  logoutMut.mutate(undefined, {
+                    onSuccess: () => {
+                      toast.success("Вы вышли из аккаунта");
+                      navigate({ to: "/" });
+                    },
+                  });
+                }}
+                className="text-destructive focus:text-destructive"
+              >
+                <LogOut className="mr-2 h-4 w-4" strokeWidth={1.75} />
+                Выйти
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </header>
   );
