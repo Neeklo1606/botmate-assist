@@ -1,7 +1,5 @@
 /**
  * Hero — главный экран лендинга.
- * H1 с lime-акцентом на ключевое слово. Mock-чат справа.
- * 2 CTA: brand + outline. Мобильный stack.
  */
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -11,9 +9,11 @@ import { MockChat } from "@/components/landing/mock-chat";
 import { Reveal } from "@/components/motion/reveal";
 import { useHeroChat } from "@/lib/hooks/use-landing";
 import { track } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function Hero() {
   const { data: messages = [] } = useHeroChat();
+  const { t } = useLocale();
 
   return (
     <section className="relative overflow-hidden bg-background pb-12 pt-10 md:pb-20 md:pt-16">
@@ -22,19 +22,20 @@ export function Hero() {
           <Reveal onMount delay={0.1} className="md:col-span-6 lg:col-span-7">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-ink-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-              Запуск за 3 дня. Все каналы.
+              {t("hero.badge")}
             </div>
 
             <h1 className="font-display text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] text-foreground md:text-[56px]">
-              AI-ассистент,
-              <br className="hidden sm:inline" /> который{" "}
-              <span className="rounded-md bg-accent px-2 text-accent-ink">не теряет</span> ваших
-              клиентов
+              {t("hero.titleA")}
+              <br className="hidden sm:inline" /> {t("hero.titleB")}{" "}
+              <span className="rounded-md bg-accent px-2 text-accent-ink">
+                {t("hero.titleHighlight")}
+              </span>{" "}
+              {t("hero.titleC")}
             </h1>
 
             <p className="mt-5 max-w-[560px] text-[15px] text-ink-muted md:text-[17px]">
-              Отвечает за 7 секунд в Telegram, на сайте, в Avito. Квалифицирует лида, записывает в
-              CRM, доводит до сделки. Без выгорания, ночью и в выходные.
+              {t("hero.subtitle")}
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -44,7 +45,7 @@ export function Hero() {
                   hash="demo"
                   onClick={() => track("cta-click", { location: "hero", intent: "demo" })}
                 >
-                  Запустить за 3 дня
+                  {t("cta.launch3")}
                   <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
                 </Link>
               </Button>
@@ -54,15 +55,15 @@ export function Hero() {
                   hash="how"
                   onClick={() => track("cta-click", { location: "hero", intent: "how" })}
                 >
-                  Как это работает
+                  {t("cta.howItWorks")}
                 </Link>
               </Button>
             </div>
 
             <dl className="mt-10 grid max-w-[520px] grid-cols-3 gap-4 border-t border-border pt-6 sm:gap-6">
-              <Stat label="Среднее время ответа" value="7 сек" />
-              <Stat label="Конверсия в лид" value="+38%" />
-              <Stat label="Запуск" value="3 дня" />
+              <Stat label={t("hero.statResponse")} value={t("hero.statResponseValue")} />
+              <Stat label={t("hero.statConv")} value={t("hero.statConvValue")} />
+              <Stat label={t("hero.statLaunch")} value={t("hero.statLaunchValue")} />
             </dl>
           </Reveal>
 
