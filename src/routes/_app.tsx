@@ -67,9 +67,9 @@ const NAV_ITEMS: NavItem[] = [
 
 const MOBILE_NAV: NavItem[] = [
   { to: "/app", label: "Дашборд", icon: LayoutDashboard, exact: true },
-  { to: "/app/assistants", label: "Ассистенты", icon: Bot },
-  { to: "/app/leads", label: "Лиды", icon: Inbox },
-  { to: "/app/settings", label: "Ещё", icon: Settings },
+  { to: "/assistants", label: "Ассистенты", icon: Bot },
+  { to: "/leads", label: "Лиды", icon: Inbox },
+  { to: "/settings", label: "Ещё", icon: Settings },
 ];
 
 function AppLayout() {
