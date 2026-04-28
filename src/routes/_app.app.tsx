@@ -112,7 +112,7 @@ function DashboardPage() {
             <p className="text-sm text-ink-muted">Что упало в воронку за последние часы</p>
           </div>
           <Button variant="ghostInk" size="sm" asChild>
-            <Link to="/app/leads">Все лиды →</Link>
+            <Link to="/leads">Все лиды →</Link>
           </Button>
         </div>
         {leadsLoading ? (
