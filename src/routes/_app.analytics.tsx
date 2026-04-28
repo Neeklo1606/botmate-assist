@@ -19,6 +19,9 @@ import { cn } from "@/lib/utils";
 import type { DashboardKpi } from "@/types/entities";
 
 export const Route = createFileRoute("/_app/analytics")({
+  head: () => ({
+    meta: [{ title: "Аналитика — botme" }],
+  }),
   component: AnalyticsPage,
 });
 

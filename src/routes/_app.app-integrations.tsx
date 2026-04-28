@@ -15,6 +15,9 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/app-integrations")({
+  head: () => ({
+    meta: [{ title: "Интеграции — botme" }],
+  }),
   component: IntegrationsPage,
 });
 

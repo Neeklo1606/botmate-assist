@@ -33,6 +33,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 export const Route = createFileRoute("/_app/onboarding")({
+  head: () => ({
+    meta: [{ title: "Онбординг — botme" }],
+  }),
   component: OnboardingWizard,
 });
 

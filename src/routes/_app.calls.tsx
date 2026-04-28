@@ -23,6 +23,9 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app/calls")({
+  head: () => ({
+    meta: [{ title: "Звонки — botme" }],
+  }),
   component: CallsPage,
 });
 

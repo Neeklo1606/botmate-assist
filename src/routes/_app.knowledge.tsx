@@ -59,6 +59,9 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/knowledge")({
+  head: () => ({
+    meta: [{ title: "База знаний — botme" }],
+  }),
   component: KnowledgePage,
 });
 

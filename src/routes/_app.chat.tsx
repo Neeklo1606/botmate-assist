@@ -30,6 +30,9 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/chat")({
+  head: () => ({
+    meta: [{ title: "Чат — botme" }],
+  }),
   component: ChatPage,
 });
 

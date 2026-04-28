@@ -27,6 +27,9 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/visitors")({
+  head: () => ({
+    meta: [{ title: "Посетители — botme" }],
+  }),
   component: VisitorsPage,
 });
 

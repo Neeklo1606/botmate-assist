@@ -30,6 +30,9 @@ import {
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 
 export const Route = createFileRoute("/_app/app")({
+  head: () => ({
+    meta: [{ title: "Дашборд — botme" }],
+  }),
   component: DashboardPage,
 });
 

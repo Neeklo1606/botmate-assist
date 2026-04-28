@@ -12,6 +12,9 @@ import { cn } from "@/lib/utils";
 import type { Assistant } from "@/types/entities";
 
 export const Route = createFileRoute("/_app/assistants")({
+  head: () => ({
+    meta: [{ title: "Ассистенты — botme" }],
+  }),
   component: AssistantsPage,
 });
 
