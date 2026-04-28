@@ -136,9 +136,9 @@ export function DemoForm({
           </div>
         </div>
         <div>
-          <div className="font-display text-lg font-semibold">Готово, мы получили заявку</div>
+          <div className="font-display text-lg font-semibold">{t("form.successTitle")}</div>
           <p className={cn("mt-1.5 text-sm", isDark ? "text-background/70" : "text-ink-muted")}>
-            Менеджер напишет в течение 30 минут в рабочее время. По срочным вопросам — Telegram{" "}
+            {t("form.successDescA")}{" "}
             <a
               className="font-medium underline-offset-2 hover:underline"
               href="https://t.me/botme_support"
@@ -154,7 +154,7 @@ export function DemoForm({
           size="sm"
           onClick={() => setDone(false)}
         >
-          Отправить ещё одну
+          {t("form.successAgain")}
         </Button>
       </motion.div>
     );
@@ -173,14 +173,14 @@ export function DemoForm({
       <div className="grid gap-4">
         <Field
           id="demo-name"
-          label="Как вас зовут"
+          label={t("form.name")}
           isDark={isDark}
           error={errors.name?.message}
         >
           <Input
             id="demo-name"
             autoComplete="name"
-            placeholder="Иван"
+            placeholder={t("form.namePlaceholder")}
             aria-invalid={Boolean(errors.name)}
             className={cn(
               isDark &&
@@ -192,12 +192,12 @@ export function DemoForm({
 
         <Field
           id="demo-contact"
-          label="Телефон, email или @username"
+          label={t("form.contact")}
           isDark={isDark}
           error={errors.contact?.message}
           hint={
             !errors.contact && contactKind !== "unknown" ? (
-              <ContactHint kind={contactKind} isDark={isDark} />
+              <ContactHint kind={contactKind} isDark={isDark} t={t} />
             ) : null
           }
         >
@@ -206,7 +206,7 @@ export function DemoForm({
               id="demo-contact"
               inputMode="text"
               autoComplete="tel"
-              placeholder="+7 999 123-45-67 или @ivan"
+              placeholder={t("form.contactPlaceholder")}
               aria-invalid={Boolean(errors.contact)}
               className={cn(
                 "pr-24",
@@ -226,13 +226,13 @@ export function DemoForm({
                 )}
               >
                 <ContactIcon kind={contactKind} />
-                {CONTACT_LABEL[contactKind]}
+                {contactLabels[contactKind]}
               </span>
             ) : null}
           </div>
         </Field>
 
-        <Field id="demo-niche" label="Ниша" isDark={isDark} error={errors.niche?.message}>
+        <Field id="demo-niche" label={t("form.niche")} isDark={isDark} error={errors.niche?.message}>
           <Select
             value={niche}
             onValueChange={(v) => setValue("niche", v as DemoRequestInput["niche"])}
@@ -243,10 +243,10 @@ export function DemoForm({
                 isDark && "border-border-strong/30 bg-background/5 text-background",
               )}
             >
-              <SelectValue placeholder="Выберите нишу" />
+              <SelectValue placeholder={t("form.nichePlaceholder")} />
             </SelectTrigger>
             <SelectContent>
-              {nicheOptions.map((opt) => (
+              {nicheOpts.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value}>
                   {opt.label}
                 </SelectItem>
@@ -264,10 +264,10 @@ export function DemoForm({
         >
           {isSubmitting || mutation.isPending ? (
             <>
-              <Loader2 className="h-4 w-4 animate-spin" /> Отправляем…
+              <Loader2 className="h-4 w-4 animate-spin" /> {t("form.submitting")}
             </>
           ) : (
-            ctaLabel
+            submitLabel
           )}
         </Button>
 
@@ -279,12 +279,12 @@ export function DemoForm({
               isDark ? "text-accent" : "text-destructive",
             )}
           >
-            Проверьте подсвеченные поля и отправьте ещё раз.
+            {t("form.errorRecheck")}
           </p>
         ) : null}
 
         <p className={cn("text-xs", isDark ? "text-background/60" : "text-ink-subtle")}>
-          Отправляя заявку, вы соглашаетесь с{" "}
+          {t("form.consentA")}{" "}
           <Link
             to="/legal/privacy"
             className={cn(
@@ -292,9 +292,9 @@ export function DemoForm({
               isDark ? "text-background/80" : "text-foreground",
             )}
           >
-            обработкой персональных данных
+            {t("form.consentPrivacy")}
           </Link>{" "}
-          и условиями{" "}
+          {t("form.consentB")}{" "}
           <Link
             to="/legal/offer"
             className={cn(
@@ -302,7 +302,7 @@ export function DemoForm({
               isDark ? "text-background/80" : "text-foreground",
             )}
           >
-            оферты
+            {t("form.consentOffer")}
           </Link>
           .
         </p>
@@ -320,16 +320,18 @@ function ContactIcon({ kind }: { kind: Exclude<ContactKind, "unknown"> }) {
 function ContactHint({
   kind,
   isDark,
+  t,
 }: {
   kind: Exclude<ContactKind, "unknown">;
   isDark: boolean;
+  t: (k: "form.hintPhone" | "form.hintEmail" | "form.hintTelegram") => string;
 }) {
   const text =
     kind === "phone"
-      ? "Распознали телефон — позвоним или напишем в WhatsApp."
+      ? t("form.hintPhone")
       : kind === "email"
-        ? "Распознали email — отправим демо-доступ туда."
-        : "Распознали Telegram — напишем в личку.";
+        ? t("form.hintEmail")
+        : t("form.hintTelegram");
   return (
     <span className={cn(isDark ? "text-background/60" : "text-ink-subtle")}>{text}</span>
   );
