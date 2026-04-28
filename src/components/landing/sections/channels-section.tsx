@@ -6,17 +6,19 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { ChannelIcon } from "@/components/brand/channel-icon";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useChannels } from "@/lib/hooks/use-landing";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function ChannelsSection() {
   const { data: channels = [] } = useChannels();
+  const { t } = useLocale();
 
   return (
     <Section tone="default" size="md">
       <Container>
         <SectionHeading
-          eyebrow="Каналы"
-          title="Все, где пишут ваши клиенты"
-          description="Один ассистент работает сразу везде. История диалогов и CRM-связки общие."
+          eyebrow={t("channels.eyebrow")}
+          title={t("channels.title")}
+          description={t("channels.desc")}
         />
 
         <RevealGroup className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -35,7 +37,7 @@ export function ChannelsSection() {
                   </div>
                   {c.status !== "live" ? (
                     <span className="inline-flex items-center rounded-sm bg-surface-muted px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-ink-muted">
-                      {c.status === "beta" ? "Beta" : "Soon"}
+                      {c.status === "beta" ? t("channels.beta") : t("channels.soon")}
                     </span>
                   ) : null}
                 </div>

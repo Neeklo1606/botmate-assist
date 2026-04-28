@@ -5,17 +5,19 @@ import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useScenarios } from "@/lib/hooks/use-landing";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function ScenariosSection() {
   const { data: scenarios = [] } = useScenarios();
+  const { t } = useLocale();
 
   return (
     <Section tone="muted" size="md">
       <Container>
         <SectionHeading
-          eyebrow="Сценарии"
-          title="Понимаем специфику вашей ниши"
-          description="Каждая ниша: свой набор сценариев, тональностей и интеграций. Ниже то, что мы уже сделали."
+          eyebrow={t("scenarios.eyebrow")}
+          title={t("scenarios.title")}
+          description={t("scenarios.desc")}
         />
 
         <RevealGroup className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

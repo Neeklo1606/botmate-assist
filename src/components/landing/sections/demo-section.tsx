@@ -1,15 +1,16 @@
 /**
  * DemoSection — тёмная секция с формой заявки и mock-чатом.
- * Один из двух dark-блоков на странице.
  */
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { DemoForm } from "@/components/landing/demo-form";
 import { MockChat } from "@/components/landing/mock-chat";
 import { useHeroChat } from "@/lib/hooks/use-landing";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function DemoSection() {
   const { data: messages = [] } = useHeroChat();
+  const { t } = useLocale();
 
   return (
     <Section id="demo" tone="ink" size="md">
@@ -18,27 +19,24 @@ export function DemoSection() {
           <div className="text-background">
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-background/15 bg-background/5 px-3 py-1 text-xs font-medium text-background/70">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-              Демо за 30 минут
+              {t("demo.badge")}
             </div>
             <h2 className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-4xl">
-              Покажем ассистента на ваших данных
+              {t("demo.title")}
             </h2>
-            <p className="mt-3 text-[15px] text-background/70 md:text-base">
-              Оставьте контакт, соберём прототип под вашу нишу за 30 минут и созвонимся в Zoom. Без
-              презентаций и обещаний «революции».
-            </p>
+            <p className="mt-3 text-[15px] text-background/70 md:text-base">{t("demo.desc")}</p>
 
             <div className="mt-6 hidden md:block">
               <MockChat
-                title="Демо для вашей ниши"
-                subtitle="Парус · Недвижимость"
+                title={t("demo.chatTitle")}
+                subtitle={t("demo.chatSubtitle")}
                 messages={messages.slice(0, 4)}
                 variant="dark"
               />
             </div>
           </div>
 
-          <DemoForm source="landing" variant="dark" ctaLabel="Получить демо" />
+          <DemoForm source="landing" variant="dark" ctaLabel={t("cta.getDemo")} />
         </div>
       </Container>
     </Section>

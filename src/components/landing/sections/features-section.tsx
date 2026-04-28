@@ -6,6 +6,7 @@ import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useFeatures } from "@/lib/hooks/use-landing";
+import { useLocale } from "@/lib/i18n/locale";
 
 const iconMap: Record<string, LucideIcon> = {
   MessageSquare,
@@ -16,14 +17,15 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function FeaturesSection() {
   const { data: features = [] } = useFeatures();
+  const { t } = useLocale();
 
   return (
     <Section tone="muted" size="md">
       <Container>
         <SectionHeading
-          eyebrow="Что делает ассистент"
-          title="Не справочник. Полноценный менеджер первой линии"
-          description="Знает продукт, ведёт диалог, квалифицирует лида и пишет результат в CRM. Вы получаете готовый контакт, а не «надо перезвонить»."
+          eyebrow={t("features.eyebrow")}
+          title={t("features.title")}
+          description={t("features.desc")}
         />
 
         <RevealGroup className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">

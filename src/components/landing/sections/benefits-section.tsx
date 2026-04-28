@@ -5,19 +5,21 @@ import { Moon, BookOpen, Battery, Shield, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { useBenefits } from "@/lib/hooks/use-landing";
+import { useLocale } from "@/lib/i18n/locale";
 
 const iconMap: Record<string, LucideIcon> = { Moon, BookOpen, Battery, Shield };
 
 export function BenefitsSection() {
   const { data: benefits = [] } = useBenefits();
+  const { t } = useLocale();
 
   return (
     <Section tone="default" size="md">
       <Container>
         <SectionHeading
-          eyebrow="Зачем"
-          title="Что ассистент делает лучше живого менеджера"
-          description="Не вместо команды, а вместо того, чтобы нанимать ещё одного человека на первую линию."
+          eyebrow={t("benefits.eyebrow")}
+          title={t("benefits.title")}
+          description={t("benefits.desc")}
         />
 
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">

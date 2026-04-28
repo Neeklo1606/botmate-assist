@@ -3,33 +3,24 @@
  */
 import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
-
-const days = [
-  {
-    day: "День 1",
-    title: "Загружаем базу знаний",
-    description: "Берём ваши тексты, прайс, FAQ. Структурируем под ассистента.",
-  },
-  {
-    day: "День 2",
-    title: "Настраиваем сценарии и тон",
-    description: "Прописываем поведение под нишу. Тестируем на реальных диалогах.",
-  },
-  {
-    day: "День 3",
-    title: "Подключаем каналы и CRM",
-    description: "Telegram, сайт, Avito, на ваш выбор. Связываем с amoCRM или Bitrix24.",
-  },
-];
+import { useLocale } from "@/lib/i18n/locale";
 
 export function LaunchSection() {
+  const { t } = useLocale();
+
+  const days = [
+    { day: t("launch.day1"), title: t("launch.day1Title"), description: t("launch.day1Desc") },
+    { day: t("launch.day2"), title: t("launch.day2Title"), description: t("launch.day2Desc") },
+    { day: t("launch.day3"), title: t("launch.day3Title"), description: t("launch.day3Desc") },
+  ];
+
   return (
     <Section tone="muted" size="md">
       <Container>
         <SectionHeading
-          eyebrow="Запуск"
-          title="3 дня от старта до первого диалога"
-          description="Никаких «согласований 2 недели». Команда neeklo собирает ассистента руками, вы только утверждаете."
+          eyebrow={t("launch.eyebrow")}
+          title={t("launch.title")}
+          description={t("launch.desc")}
         />
 
         <ol className="grid gap-3 md:grid-cols-3">

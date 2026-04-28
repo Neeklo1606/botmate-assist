@@ -9,8 +9,10 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { track } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function StickyMobileCTA() {
+  const { t } = useLocale();
   const [scrolled, setScrolled] = useState(false);
   const [overlapping, setOverlapping] = useState(false);
 
@@ -55,7 +57,7 @@ export function StickyMobileCTA() {
           hash="demo"
           onClick={() => track("cta-click", { location: "sticky", intent: "demo" })}
         >
-          Запустить за 3 дня
+          {t("cta.launch3")}
         </Link>
       </Button>
     </div>

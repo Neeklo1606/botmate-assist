@@ -5,17 +5,19 @@ import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useHowItWorks } from "@/lib/hooks/use-landing";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function HowItWorks() {
   const { data: steps = [] } = useHowItWorks();
+  const { t } = useLocale();
 
   return (
     <Section id="how" tone="default" size="md">
       <Container>
         <SectionHeading
-          eyebrow="Как это работает"
-          title="От «хочу попробовать» до первого ответа клиента за 3 дня"
-          description="Без долгих внедрений и кода. Мы делаем ассистента руками, вы согласовываете тексты и сценарии."
+          eyebrow={t("how.eyebrow")}
+          title={t("how.title")}
+          description={t("how.desc")}
         />
 
         <RevealGroup as="ol" className="grid gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
