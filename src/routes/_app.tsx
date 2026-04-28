@@ -421,9 +421,9 @@ function Topbar() {
                       <div className="text-sm font-medium text-foreground">
                         {n.title}
                       </div>
-                      {n.body && (
+                      {n.description && (
                         <div className="mt-0.5 line-clamp-2 text-xs text-ink-muted">
-                          {n.body}
+                          {n.description}
                         </div>
                       )}
                     </div>
