@@ -1,99 +1,166 @@
 /**
- * /signup — регистрация (mock = тот же login через Telegram).
- * Семантически — отдельная страница для аналитики и копирайтинга.
+ * /signup — регистрация по email/password (mock).
+ * После успеха → /onboarding.
  */
+import { useState, type FormEvent } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Send, Loader2, Check } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { useLoginWithTelegram } from "@/lib/hooks/use-auth";
+import { Input } from "@/components/ui/input";
+import { useSignupWithEmail } from "@/lib/hooks/use-auth";
 
 export const Route = createFileRoute("/_auth/signup")({
   component: SignupPage,
 });
 
-const PERKS = [
-  "Запуск ассистента за 3 дня",
-  "Все каналы: Telegram, сайт, Avito, ВК",
-  "Без карты на старте",
-];
-
 function SignupPage() {
   const navigate = useNavigate();
-  const login = useLoginWithTelegram();
+  const signup = useSignupWithEmail();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSignup = () => {
-    login.mutate(undefined, {
-      onSuccess: () => {
-        toast.success("Аккаунт создан. Поехали!");
-        navigate({ to: "/app" });
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !password) {
+      toast.error("Заполните все поля");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("Пароль должен быть не короче 6 символов");
+      return;
+    }
+    // TODO: replace with real API — POST /api/auth/signup
+    signup.mutate(
+      { name, email, password },
+      {
+        onSuccess: () => {
+          toast.success("Аккаунт создан. Поехали!");
+          navigate({ to: "/onboarding" });
+        },
+        onError: () => toast.error("Не удалось создать аккаунт"),
       },
-      onError: () => {
-        toast.error("Не удалось создать аккаунт. Попробуйте ещё раз.");
-      },
-    });
+    );
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+    <div
+      className="flex min-h-screen items-center justify-center px-4"
+      style={{ background: "#0a0a0a" }}
+    >
+      <div
+        className="w-full max-w-[400px] rounded-xl p-8"
+        style={{
+          background: "#141414",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <div className="mb-6 flex items-center justify-center">
+          <span className="inline-flex items-baseline font-display text-[22px] font-semibold tracking-tight text-white">
+            <span className="relative">
+              botme
+              <span
+                aria-hidden
+                className="absolute -top-[3px] right-[14px] h-[5px] w-[5px] rounded-full"
+                style={{ background: "#a8ff57" }}
+              />
+            </span>
+          </span>
+        </div>
+
+        <h1 className="text-center font-display text-xl font-semibold text-white">
           Создать аккаунт
         </h1>
-        <p className="mt-2 text-sm text-ink-muted">
+        <p className="mt-1.5 text-center text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
           Бесплатно. Без карты. Полный доступ 14 дней.
         </p>
-      </div>
 
-      <div className="rounded-xl border border-border bg-surface p-6">
-        <ul className="mb-5 space-y-2.5">
-          {PERKS.map((perk) => (
-            <li key={perk} className="flex items-center gap-2 text-sm text-foreground">
-              <span className="flex h-5 w-5 flex-none items-center justify-center rounded-full bg-accent">
-                <Check className="h-3 w-3 text-accent-ink" strokeWidth={3} />
-              </span>
-              {perk}
-            </li>
-          ))}
-        </ul>
+        <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+          <div>
+            <label
+              htmlFor="name"
+              className="mb-1.5 block text-xs font-medium"
+              style={{ color: "rgba(255,255,255,0.7)" }}
+            >
+              Имя
+            </label>
+            <Input
+              id="name"
+              type="text"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Иван Иванов"
+              className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-white/20"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="mb-1.5 block text-xs font-medium"
+              style={{ color: "rgba(255,255,255,0.7)" }}
+            >
+              Email
+            </label>
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@company.com"
+              className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-white/20"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="mb-1.5 block text-xs font-medium"
+              style={{ color: "rgba(255,255,255,0.7)" }}
+            >
+              Пароль
+            </label>
+            <Input
+              id="password"
+              type="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Минимум 6 символов"
+              className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-white/20"
+            />
+          </div>
 
-        <Button
-          variant="brand"
-          size="lg"
-          className="w-full"
-          onClick={handleSignup}
-          disabled={login.isPending}
+          <button
+            type="submit"
+            disabled={signup.isPending}
+            className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md text-sm font-semibold transition-opacity disabled:opacity-60"
+            style={{ background: "#a8ff57", color: "#000000" }}
+          >
+            {signup.isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Создаём аккаунт…
+              </>
+            ) : (
+              "Создать аккаунт"
+            )}
+          </button>
+        </form>
+
+        <p
+          className="mt-6 text-center text-sm"
+          style={{ color: "rgba(255,255,255,0.55)" }}
         >
-          {login.isPending ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Создаём аккаунт…
-            </>
-          ) : (
-            <>
-              <Send className="h-4 w-4" />
-              Создать через Telegram
-            </>
-          )}
-        </Button>
-
-        <p className="mt-4 text-center text-xs text-ink-subtle">
-          Регистрируясь, вы принимаете{" "}
-          <Link to="/" className="underline decoration-accent decoration-2 underline-offset-2">
-            оферту
+          Уже есть аккаунт?{" "}
+          <Link
+            to="/login"
+            className="font-medium underline-offset-4 hover:underline"
+            style={{ color: "#a8ff57" }}
+          >
+            Войти
           </Link>
-          .
         </p>
-      </div>
-
-      <div className="text-center text-sm text-ink-muted">
-        Уже есть аккаунт?{" "}
-        <Link
-          to="/login"
-          className="font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4"
-        >
-          Войти
-        </Link>
       </div>
     </div>
   );

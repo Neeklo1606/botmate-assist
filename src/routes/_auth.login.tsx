@@ -1,12 +1,13 @@
 /**
- * /login — вход через Telegram (mock).
+ * /login — вход по email/password (mock).
  * После успеха — редирект по ?redirect= или на /app.
  */
+import { useState, type FormEvent } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { Send, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { useLoginWithTelegram } from "@/lib/hooks/use-auth";
+import { Input } from "@/components/ui/input";
+import { useLoginWithEmail } from "@/lib/hooks/use-auth";
 
 interface LoginSearch {
   redirect?: string;
@@ -22,77 +23,140 @@ export const Route = createFileRoute("/_auth/login")({
 function LoginPage() {
   const { redirect } = useSearch({ from: "/_auth/login" });
   const navigate = useNavigate();
-  const login = useLoginWithTelegram();
+  const login = useLoginWithEmail();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    login.mutate(undefined, {
-      onSuccess: (user) => {
-        toast.success(`С возвращением, ${user.name.split(" ")[0]}`);
-        if (redirect) {
-          navigate({ href: redirect });
-        } else {
-          navigate({ to: "/app" });
-        }
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error("Введите email и пароль");
+      return;
+    }
+    // TODO: replace with real API — POST /api/auth/login
+    login.mutate(
+      { email, password },
+      {
+        onSuccess: (user) => {
+          toast.success(`С возвращением, ${user.name.split(" ")[0]}`);
+          if (redirect) navigate({ href: redirect });
+          else navigate({ to: "/app" });
+        },
+        onError: () => toast.error("Неверный email или пароль"),
       },
-      onError: () => {
-        toast.error("Не удалось войти. Попробуйте ещё раз.");
-      },
-    });
+    );
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-          Войти в botme
+    <div
+      className="flex min-h-screen items-center justify-center px-4"
+      style={{ background: "#0a0a0a" }}
+    >
+      <div
+        className="w-full max-w-[400px] rounded-xl p-8"
+        style={{
+          background: "#141414",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <div className="mb-6 flex items-center justify-center">
+          <span className="inline-flex items-baseline font-display text-[22px] font-semibold tracking-tight text-white">
+            <span className="relative">
+              botme
+              <span
+                aria-hidden
+                className="absolute -top-[3px] right-[14px] h-[5px] w-[5px] rounded-full"
+                style={{ background: "#a8ff57" }}
+              />
+            </span>
+          </span>
+        </div>
+
+        <h1 className="text-center font-display text-xl font-semibold text-white">
+          Войти в Botme
         </h1>
-        <p className="mt-2 text-sm text-ink-muted">
-          Используем Telegram, чтобы не плодить пароли.
+        <p className="mt-1.5 text-center text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
+          Используйте email и пароль аккаунта
         </p>
-      </div>
 
-      <div className="rounded-xl border border-border bg-surface p-6">
-        <Button
-          variant="brand"
-          size="lg"
-          className="w-full"
-          onClick={handleLogin}
-          disabled={login.isPending}
+        <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+          <div>
+            <label
+              htmlFor="email"
+              className="mb-1.5 block text-xs font-medium"
+              style={{ color: "rgba(255,255,255,0.7)" }}
+            >
+              Email
+            </label>
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@company.com"
+              className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-white/20"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="mb-1.5 block text-xs font-medium"
+              style={{ color: "rgba(255,255,255,0.7)" }}
+            >
+              Пароль
+            </label>
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-white/20"
+            />
+          </div>
+
+          <div className="pt-1 text-right">
+            <Link
+              to="/login"
+              className="text-xs font-medium transition-colors hover:text-white"
+              style={{ color: "rgba(255,255,255,0.55)" }}
+            >
+              Забыли пароль?
+            </Link>
+          </div>
+
+          <button
+            type="submit"
+            disabled={login.isPending}
+            className="mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md text-sm font-semibold transition-opacity disabled:opacity-60"
+            style={{ background: "#a8ff57", color: "#000000" }}
+          >
+            {login.isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Входим…
+              </>
+            ) : (
+              "Войти"
+            )}
+          </button>
+        </form>
+
+        <p
+          className="mt-6 text-center text-sm"
+          style={{ color: "rgba(255,255,255,0.55)" }}
         >
-          {login.isPending ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Открываем Telegram…
-            </>
-          ) : (
-            <>
-              <Send className="h-4 w-4" />
-              Войти через Telegram
-            </>
-          )}
-        </Button>
-
-        <p className="mt-4 text-center text-xs text-ink-subtle">
-          Нажимая «Войти», вы соглашаетесь с{" "}
-          <Link to="/" className="underline decoration-accent decoration-2 underline-offset-2">
-            офертой
-          </Link>{" "}
-          и{" "}
-          <Link to="/" className="underline decoration-accent decoration-2 underline-offset-2">
-            политикой
+          Нет аккаунта?{" "}
+          <Link
+            to="/signup"
+            className="font-medium underline-offset-4 hover:underline"
+            style={{ color: "#a8ff57" }}
+          >
+            Создать
           </Link>
-          .
         </p>
-      </div>
-
-      <div className="text-center text-sm text-ink-muted">
-        Ещё нет аккаунта?{" "}
-        <Link
-          to="/signup"
-          className="font-medium text-foreground underline decoration-accent decoration-2 underline-offset-4"
-        >
-          Создать
-        </Link>
       </div>
     </div>
   );
