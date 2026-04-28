@@ -9,6 +9,7 @@ import {
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
+import { LocaleProvider } from "@/lib/i18n/locale";
 import { repository } from "@/lib/mock/repository";
 import { qk } from "@/lib/query-keys";
 import { PLAUSIBLE_DOMAIN, PLAUSIBLE_SRC } from "@/lib/analytics";
@@ -90,9 +91,11 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthSync />
-      <Outlet />
-      <Toaster richColors position="top-center" />
+      <LocaleProvider>
+        <AuthSync />
+        <Outlet />
+        <Toaster richColors position="top-center" />
+      </LocaleProvider>
     </QueryClientProvider>
   );
 }
