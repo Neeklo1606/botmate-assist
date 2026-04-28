@@ -31,10 +31,15 @@ import {
   Settings,
   Bell,
   LogOut,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser, useLogout } from "@/lib/hooks/use-auth";
-import { useNotifications } from "@/lib/hooks/use-app";
+import {
+  useNotifications,
+  useMarkAllNotificationsRead,
+  useMarkNotificationRead,
+} from "@/lib/hooks/use-app";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -45,6 +50,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { Breadcrumbs } from "@/components/app/breadcrumbs";
 
 export const Route = createFileRoute("/_app")({
   beforeLoad: ({ context, location }) => {
