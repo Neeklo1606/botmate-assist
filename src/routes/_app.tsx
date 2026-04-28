@@ -194,7 +194,7 @@ function UserMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link to="/app/settings">Настройки</Link>
+          <Link to="/settings">Настройки</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link to="/faq">Помощь</Link>
