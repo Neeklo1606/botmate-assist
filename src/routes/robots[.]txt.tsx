@@ -3,8 +3,6 @@
  * Открываем индексацию для всех маркетинговых страниц, закрываем кабинет и auth.
  */
 import { createFileRoute } from "@tanstack/react-router";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type * as _StartTypes from "@tanstack/start-client-core";
 import { getSiteOrigin } from "@/lib/seo";
 
 export const Route = createFileRoute("/robots.txt")({
