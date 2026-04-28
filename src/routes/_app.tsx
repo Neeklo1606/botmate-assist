@@ -58,11 +58,11 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { to: "/app", label: "Дашборд", icon: LayoutDashboard, exact: true },
-  { to: "/app/assistants", label: "Ассистенты", icon: Bot },
-  { to: "/app/leads", label: "Лиды", icon: Inbox },
-  { to: "/app/analytics", label: "Аналитика", icon: BarChart3 },
-  { to: "/app/team", label: "Команда", icon: Users2 },
-  { to: "/app/settings", label: "Настройки", icon: Settings },
+  { to: "/assistants", label: "Ассистенты", icon: Bot },
+  { to: "/leads", label: "Лиды", icon: Inbox },
+  { to: "/analytics", label: "Аналитика", icon: BarChart3 },
+  { to: "/team", label: "Команда", icon: Users2 },
+  { to: "/settings", label: "Настройки", icon: Settings },
 ];
 
 const MOBILE_NAV: NavItem[] = [
