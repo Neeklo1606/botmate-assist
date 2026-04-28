@@ -6,17 +6,19 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { useCases } from "@/lib/hooks/use-landing";
 import { nicheLabel } from "@/lib/format";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function CasesSection() {
   const { data: cases = [] } = useCases();
+  const { t, locale } = useLocale();
 
   return (
     <Section tone="muted" size="md">
       <Container>
         <SectionHeading
-          eyebrow="Кейсы"
-          title="Как это работает у реальных клиентов"
-          description="Цифры из живых проектов. Не «увеличили продажи в 10 раз», а конкретные заявки и часы."
+          eyebrow={t("cases.eyebrow")}
+          title={t("cases.title")}
+          description={t("cases.desc")}
         />
 
         <RevealGroup className="grid gap-4 md:grid-cols-3">
@@ -27,7 +29,7 @@ export function CasesSection() {
               className="flex flex-col rounded-xl border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
             >
               <div className="inline-flex w-fit items-center rounded-full border border-border px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-ink-muted">
-                {nicheLabel[c.niche]}
+                {nicheLabel(c.niche, locale)}
               </div>
               <div className="mt-4 font-display text-[28px] font-semibold tabular leading-none text-foreground">
                 {c.metric}

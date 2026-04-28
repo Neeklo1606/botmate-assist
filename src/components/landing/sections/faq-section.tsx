@@ -13,15 +13,17 @@ import {
 } from "@/components/ui/accordion";
 import { useFaq } from "@/lib/hooks/use-landing";
 import { track } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale";
 
 export function FaqSection() {
   const { data: faq = [] } = useFaq();
+  const { t } = useLocale();
   const items = faq.slice(0, 6);
 
   return (
     <Section tone="default" size="md">
       <Container>
-        <SectionHeading eyebrow="FAQ" title="Что обычно спрашивают" align="left" />
+        <SectionHeading eyebrow={t("faq.eyebrow")} title={t("faq.title")} align="left" />
 
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-8">
@@ -53,11 +55,9 @@ export function FaqSection() {
           <aside className="md:col-span-4">
             <div className="rounded-xl border border-border bg-surface p-5">
               <div className="font-display text-lg font-semibold text-foreground">
-                Не нашли ответ?
+                {t("faq.notFoundTitle")}
               </div>
-              <p className="mt-2 text-sm text-ink-muted">
-                Напишите в Telegram, отвечаем в течение 30 минут в рабочее время.
-              </p>
+              <p className="mt-2 text-sm text-ink-muted">{t("faq.notFoundDesc")}</p>
               <div className="mt-4 space-y-2 text-sm">
                 <a
                   className="block font-medium text-foreground underline-offset-4 hover:underline"
@@ -69,7 +69,7 @@ export function FaqSection() {
                   to="/"
                   className="block text-ink-muted underline-offset-4 hover:text-foreground hover:underline"
                 >
-                  Все вопросы и категории →
+                  {t("faq.allLink")}
                 </Link>
               </div>
             </div>

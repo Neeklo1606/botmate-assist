@@ -9,20 +9,22 @@ import { Container } from "@/components/layout/container";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { usePricing } from "@/lib/hooks/use-landing";
-import { formatRub } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import { track } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils";
 
 export function PricingSection() {
   const { data: plans = [] } = usePricing();
+  const { t, locale } = useLocale();
 
   return (
     <Section id="pricing" tone="default" size="md" data-hide-sticky-cta>
       <Container>
         <SectionHeading
-          eyebrow="Тарифы"
-          title="Понятные цены. Без сюрпризов"
-          description="Платите за работу ассистента, а не за «лицензии» и «места». Возврат в первые 14 дней."
+          eyebrow={t("pricing.eyebrow")}
+          title={t("pricing.title")}
+          description={t("pricing.desc")}
         />
 
         <RevealGroup className="grid gap-4 md:grid-cols-3">
@@ -37,7 +39,7 @@ export function PricingSection() {
             >
               {plan.highlighted ? (
                 <div className="absolute -top-3 left-6 inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-accent-ink">
-                  Хит
+                  {t("pricing.hit")}
                 </div>
               ) : null}
 
@@ -46,9 +48,9 @@ export function PricingSection() {
 
               <div className="mt-5 flex items-baseline gap-1.5">
                 <div className="font-display text-3xl font-semibold tabular text-foreground">
-                  {formatRub(plan.priceRub)}
+                  {formatPrice(plan.priceRub, locale)}
                 </div>
-                <div className="text-sm text-ink-muted">/ мес</div>
+                <div className="text-sm text-ink-muted">{t("pricing.perMonth")}</div>
               </div>
 
               <ul className="mt-5 space-y-2.5">
@@ -86,13 +88,13 @@ export function PricingSection() {
         </RevealGroup>
 
         <div className="mt-8 text-center text-sm text-ink-muted">
-          Нужно сравнение тарифов и ответы по биллингу?{" "}
+          {t("pricing.compareCopy")}{" "}
           <Link
             to="/pricing"
             onClick={() => track("pricing-view", { from: "pricing-section-link" })}
             className="font-medium text-foreground underline-offset-4 hover:underline"
           >
-            Подробная страница тарифов →
+            {t("pricing.compareLink")}
           </Link>
         </div>
       </Container>
