@@ -1,336 +1,545 @@
 /**
- * /app — Dashboard.
- * KPI-плитки + график активности 30 дней (recharts) + последние лиды.
- * Recharts — только здесь, в кабинете. На лендинге не используем.
+ * /app — Dashboard (Botmate dark theme).
+ *
+ * Палитра по спеке:
+ *   bg #141414 · cards #1a1a1a · borders #2a2a2a · text #ffffff
+ *   accent #a8ff57 (status, CTA)
+ *
+ * Секции:
+ *   1) Readiness checklist
+ *   2) Live visitors (главный wow-блок)
+ *   3) Quick stats row
+ *   4) Quick actions
+ *
+ * Данные — mock, описаны прямо в файле (TODO: заменить на real API).
  */
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { ArrowUpRight, ArrowDownRight, Plus, MessageSquare } from "lucide-react";
-import { PageHeader } from "@/components/app/page-header";
-import { EmptyState } from "@/components/app/empty-state";
-import { Button } from "@/components/ui/button";
-import { RevealGroup, RevealItem } from "@/components/motion/reveal";
-import { useActivity30d, useDashboardKpis, useLeads } from "@/lib/hooks/use-app";
-import { useCurrentUser } from "@/lib/hooks/use-auth";
-import { ChannelIcon } from "@/components/brand/channel-icon";
-import { cn } from "@/lib/utils";
-import type { DashboardKpi, SparkPoint } from "@/types/entities";
+  Check,
+  X,
+  ArrowRight,
+  MessageSquare,
+  Video,
+  Smartphone,
+  Monitor,
+  MapPin,
+  Plus,
+  Inbox,
+  MessageCircle,
+} from "lucide-react";
+import { Line, LineChart, ResponsiveContainer } from "recharts";
 
 export const Route = createFileRoute("/_app/app")({
   component: DashboardPage,
 });
 
+/* ───── Mock data (TODO: replace with real API) ───── */
+
+interface ReadinessItem {
+  id: string;
+  label: string;
+  done: boolean;
+  href: string;
+}
+
+const READINESS: ReadinessItem[] = [
+  { id: "assistant", label: "Ассистент создан", done: true, href: "/assistants" },
+  { id: "integration", label: "Интеграция подключена", done: true, href: "/app-integrations" },
+  { id: "widget", label: "Виджет установлен", done: false, href: "/app-integrations" },
+];
+
+interface Visitor {
+  id: string;
+  number: number;
+  color: string;
+  currentPage: string;
+  timeOnSite: string;
+  pathTrail: string[];
+  device: "mobile" | "desktop";
+  deviceLabel: string;
+  city: string;
+  source: string;
+  utm?: string;
+}
+
+const VISITORS: Visitor[] = [
+  {
+    id: "v1",
+    number: 1,
+    color: "#a8ff57",
+    currentPage: "/pricing",
+    timeOnSite: "2:34",
+    pathTrail: ["Главная", "Услуги", "Цены"],
+    device: "mobile",
+    deviceLabel: "iPhone 15",
+    city: "Москва",
+    source: "Яндекс.Директ",
+    utm: "utm_campaign=brand",
+  },
+  {
+    id: "v2",
+    number: 2,
+    color: "#7dd3fc",
+    currentPage: "/services/repair",
+    timeOnSite: "0:48",
+    pathTrail: ["Главная", "Услуги"],
+    device: "desktop",
+    deviceLabel: "MacBook",
+    city: "Санкт-Петербург",
+    source: "Google Organic",
+  },
+  {
+    id: "v3",
+    number: 3,
+    color: "#fbbf24",
+    currentPage: "/contacts",
+    timeOnSite: "5:12",
+    pathTrail: ["Главная", "О нас", "Кейсы", "Контакты"],
+    device: "desktop",
+    deviceLabel: "Windows",
+    city: "Екатеринбург",
+    source: "VK Ads",
+    utm: "utm_source=vk",
+  },
+  {
+    id: "v4",
+    number: 4,
+    color: "#f472b6",
+    currentPage: "/blog/ai-sales",
+    timeOnSite: "1:07",
+    pathTrail: ["Блог"],
+    device: "mobile",
+    deviceLabel: "Android",
+    city: "Казань",
+    source: "Telegram",
+  },
+];
+
+interface QuickStat {
+  label: string;
+  value: number;
+  spark: number[];
+  highlight?: boolean;
+}
+
+const QUICK_STATS: QuickStat[] = [
+  { label: "Диалогов сегодня", value: 12, spark: [3, 5, 4, 7, 6, 9, 12] },
+  { label: "Лидов сегодня", value: 4, spark: [0, 1, 1, 2, 2, 3, 4], highlight: true },
+  { label: "Активных ассистентов", value: 1, spark: [1, 1, 1, 1, 1, 1, 1] },
+  { label: "Звонков", value: 0, spark: [0, 0, 0, 0, 0, 0, 0] },
+];
+
+/* ───── Page ───── */
+
 function DashboardPage() {
-  const { data: user } = useCurrentUser();
-  const { data: kpis, isLoading: kpisLoading } = useDashboardKpis();
-  const { data: activity, isLoading: actLoading } = useActivity30d();
-  const { data: leads, isLoading: leadsLoading } = useLeads();
-
-  const greeting = user?.name?.split(" ")[0] ?? "Здравствуйте";
+  const allReady = READINESS.every((r) => r.done);
 
   return (
-    <div className="space-y-8">
-      <PageHeader
-        title={`Привет, ${greeting}`}
-        description="Что произошло в ваших ассистентах за последние 7 дней"
-        actions={
-          <Button variant="brand" size="md">
-            <Plus className="h-4 w-4" />
-            Новый ассистент
-          </Button>
-        }
-      />
+    <div className="space-y-6 text-white">
+      {/* Section 1 — Readiness checklist */}
+      <ReadinessSection allReady={allReady} />
 
-      {/* KPI grid */}
-      <section aria-label="Ключевые метрики">
-        {kpisLoading ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <KpiSkeleton key={i} />
-            ))}
-          </div>
-        ) : (
-          <RevealGroup
-            onMount
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
-          >
-            {kpis?.map((kpi) => (
-              <RevealItem key={kpi.label}>
-                <KpiCard kpi={kpi} />
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        )}
-      </section>
+      {/* Section 2 — Live visitors */}
+      <LiveVisitorsSection />
 
-      {/* Activity chart */}
-      <section
-        aria-label="Активность за 30 дней"
-        className="rounded-xl border border-border bg-background p-5 md:p-6"
-      >
-        <div className="mb-4 flex flex-col items-start justify-between gap-2 md:flex-row md:items-end">
-          <div>
-            <h2 className="font-display text-lg font-semibold text-foreground">
-              Активность 30 дней
-            </h2>
-            <p className="text-sm text-ink-muted">
-              Сообщения и квалифицированные лиды по дням
-            </p>
-          </div>
-          <div className="flex items-center gap-4 text-xs text-ink-muted">
-            <LegendDot color="bg-foreground" label="Сообщения" />
-            <LegendDot color="bg-accent" label="Лиды" />
-          </div>
-        </div>
-        {actLoading ? (
-          <div className="h-[260px] animate-pulse rounded-lg bg-surface-muted" />
-        ) : (
-          <ActivityChart data={activity ?? []} />
-        )}
-      </section>
+      {/* Section 3 — Quick stats */}
+      <QuickStatsSection />
 
-      {/* Recent leads */}
-      <section
-        aria-label="Последние лиды"
-        className="rounded-xl border border-border bg-background"
-      >
-        <div className="flex items-center justify-between border-b border-border p-5 md:px-6">
-          <div>
-            <h2 className="font-display text-lg font-semibold text-foreground">
-              Свежие лиды
-            </h2>
-            <p className="text-sm text-ink-muted">Что упало в воронку за последние часы</p>
-          </div>
-          <Button variant="ghostInk" size="sm" asChild>
-            <Link to="/leads">Все лиды →</Link>
-          </Button>
-        </div>
-        {leadsLoading ? (
-          <div className="space-y-px">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-[68px] animate-pulse bg-surface-muted/40" />
-            ))}
-          </div>
-        ) : !leads?.length ? (
-          <div className="p-6">
-            <EmptyState
-              icon={<MessageSquare className="h-5 w-5" strokeWidth={1.75} />}
-              title="Пока нет лидов"
-              description="Как только ассистент квалифицирует первого клиента — он появится здесь."
-              action={
-                <Button variant="brand" size="sm">
-                  Создать ассистента
-                </Button>
-              }
-            />
-          </div>
-        ) : (
-          <ul className="divide-y divide-border">
-            {leads.map((lead) => (
-              <li
-                key={lead.id}
-                className="flex items-start gap-4 px-5 py-4 transition-colors hover:bg-surface-muted/60 md:px-6"
-              >
-                <div className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-md bg-surface-muted">
-                  <ChannelIcon id={lead.channel} className="h-4 w-4" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <span className="font-medium text-foreground">{lead.contact}</span>
-                    <LeadStatusBadge status={lead.status} />
-                  </div>
-                  <p className="mt-0.5 line-clamp-1 text-sm text-ink-muted">
-                    {lead.summary}
-                  </p>
-                </div>
-                <time className="hidden flex-none text-xs text-ink-subtle md:block">
-                  {new Date(lead.createdAt).toLocaleString("ru-RU", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    day: "2-digit",
-                    month: "short",
-                  })}
-                </time>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      {/* Section 4 — Quick actions */}
+      <QuickActionsSection />
     </div>
   );
 }
 
-/* ───── Building blocks ───── */
+/* ═══════════ Section 1 — Readiness ═══════════ */
 
-function KpiSkeleton() {
-  return (
-    <div className="h-[140px] animate-pulse rounded-xl border border-border bg-background" />
-  );
-}
-
-function KpiCard({ kpi }: { kpi: DashboardKpi }) {
-  const TrendIcon = kpi.trend.positive ? ArrowUpRight : ArrowDownRight;
-  return (
-    <div className="rounded-xl border border-border bg-background p-5">
-      <div className="text-xs font-medium uppercase tracking-wide text-ink-subtle">
-        {kpi.label}
-      </div>
-      <div className="mt-2 flex items-baseline justify-between gap-3">
-        <div className="font-display text-3xl font-semibold tracking-tight tabular-nums text-foreground">
-          {kpi.value}
-        </div>
+function ReadinessSection({ allReady }: { allReady: boolean }) {
+  if (allReady) {
+    return (
+      <Card>
         <div
-          className={cn(
-            "inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-xs font-medium tabular-nums",
-            kpi.trend.positive
-              ? "bg-accent text-accent-ink"
-              : "bg-surface-muted text-ink-muted",
-          )}
+          className="flex items-center justify-between rounded-lg px-5 py-4"
+          style={{ background: "rgba(168,255,87,0.08)", border: "1px solid rgba(168,255,87,0.25)" }}
         >
-          <TrendIcon className="h-3 w-3" strokeWidth={2} />
-          {kpi.trend.delta}
+          <div className="flex items-center gap-3">
+            <span
+              className="flex h-8 w-8 items-center justify-center rounded-full"
+              style={{ background: "#a8ff57", color: "#0a0a0a" }}
+            >
+              <Check className="h-4 w-4" strokeWidth={3} />
+            </span>
+            <div>
+              <div className="text-sm font-semibold text-white">
+                Система готова к работе
+              </div>
+              <div className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>
+                Все проверки пройдены — ассистент работает на ваших каналах.
+              </div>
+            </div>
+          </div>
+          <Check className="h-5 w-5" style={{ color: "#a8ff57" }} strokeWidth={2.5} />
+        </div>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <div className="mb-3 flex items-center justify-between">
+        <h2 className="font-display text-base font-semibold text-white">
+          Готовность к запуску
+        </h2>
+        <span className="text-xs tabular-nums" style={{ color: "rgba(255,255,255,0.5)" }}>
+          {READINESS.filter((r) => r.done).length} / {READINESS.length}
+        </span>
+      </div>
+      <ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        {READINESS.map((item) => (
+          <li
+            key={item.id}
+            className="flex items-center justify-between gap-3 rounded-lg px-4 py-3"
+            style={{ background: "#141414", border: "1px solid #2a2a2a" }}
+          >
+            <div className="flex min-w-0 items-center gap-2.5">
+              {item.done ? (
+                <span
+                  className="flex h-5 w-5 flex-none items-center justify-center rounded-full"
+                  style={{ background: "#a8ff57", color: "#0a0a0a" }}
+                >
+                  <Check className="h-3 w-3" strokeWidth={3} />
+                </span>
+              ) : (
+                <span
+                  className="flex h-5 w-5 flex-none items-center justify-center rounded-full"
+                  style={{ background: "rgba(251,191,36,0.15)", color: "#fbbf24" }}
+                >
+                  <X className="h-3 w-3" strokeWidth={3} />
+                </span>
+              )}
+              <span
+                className="truncate text-sm"
+                style={{ color: item.done ? "rgba(255,255,255,0.85)" : "#ffffff" }}
+              >
+                {item.label}
+              </span>
+            </div>
+            {!item.done && (
+              <div className="flex items-center gap-2">
+                <span
+                  aria-hidden
+                  className="h-2 w-2 animate-pulse rounded-full"
+                  style={{ background: "#fbbf24" }}
+                />
+                <Link
+                  to={item.href}
+                  className="text-xs font-medium transition-colors hover:underline"
+                  style={{ color: "#a8ff57" }}
+                >
+                  Настроить →
+                </Link>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+}
+
+/* ═══════════ Section 2 — Live visitors ═══════════ */
+
+function LiveVisitorsSection() {
+  const count = VISITORS.length;
+
+  return (
+    <Card>
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h2 className="flex items-center gap-2 font-display text-base font-semibold text-white">
+            <span
+              className="relative inline-flex h-2.5 w-2.5"
+              aria-hidden
+            >
+              <span
+                className="absolute inset-0 animate-ping rounded-full"
+                style={{ background: "#a8ff57", opacity: 0.6 }}
+              />
+              <span
+                className="relative inline-flex h-2.5 w-2.5 rounded-full"
+                style={{ background: "#a8ff57" }}
+              />
+            </span>
+            Сейчас на сайте
+          </h2>
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums"
+            style={{ background: "rgba(168,255,87,0.12)", color: "#a8ff57" }}
+          >
+            {count} {pluralize(count, ["посетитель", "посетителя", "посетителей"])}
+          </span>
+        </div>
+        <Link
+          to="/visitors"
+          className="text-sm font-medium transition-colors hover:text-white"
+          style={{ color: "rgba(255,255,255,0.65)" }}
+        >
+          Смотреть всех →
+        </Link>
+      </div>
+
+      {count === 0 ? (
+        <EmptyVisitors />
+      ) : (
+        <ul className="space-y-2">
+          {VISITORS.map((v) => (
+            <VisitorRow key={v.id} v={v} />
+          ))}
+        </ul>
+      )}
+    </Card>
+  );
+}
+
+function VisitorRow({ v }: { v: Visitor }) {
+  const DeviceIcon = v.device === "mobile" ? Smartphone : Monitor;
+  return (
+    <li
+      className="group flex flex-col gap-3 rounded-lg p-4 transition-colors md:flex-row md:items-center"
+      style={{ background: "#141414", border: "1px solid #2a2a2a" }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = "rgba(168,255,87,0.35)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = "#2a2a2a";
+      }}
+    >
+      {/* Avatar */}
+      <div
+        className="flex h-10 w-10 flex-none items-center justify-center rounded-full text-sm font-bold tabular-nums"
+        style={{ background: v.color, color: "#0a0a0a" }}
+        aria-label={`Анонимный посетитель #${v.number}`}
+      >
+        #{v.number}
+      </div>
+
+      {/* Main info */}
+      <div className="min-w-0 flex-1 space-y-1">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="font-mono text-sm font-semibold text-white">
+            {v.currentPage}
+          </span>
+          <span
+            className="rounded-md px-1.5 py-0.5 text-[11px] font-medium tabular-nums"
+            style={{ background: "rgba(168,255,87,0.12)", color: "#a8ff57" }}
+          >
+            ⏱ {v.timeOnSite}
+          </span>
+        </div>
+
+        {/* Path trail */}
+        <div
+          className="flex flex-wrap items-center gap-1 text-xs"
+          style={{ color: "rgba(255,255,255,0.45)" }}
+        >
+          {v.pathTrail.map((p, i) => (
+            <span key={i} className="inline-flex items-center gap-1">
+              <span>{p}</span>
+              {i < v.pathTrail.length - 1 && (
+                <ArrowRight className="h-3 w-3" strokeWidth={1.5} />
+              )}
+            </span>
+          ))}
+        </div>
+
+        {/* Meta row */}
+        <div
+          className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs"
+          style={{ color: "rgba(255,255,255,0.6)" }}
+        >
+          <span className="inline-flex items-center gap-1">
+            <DeviceIcon className="h-3.5 w-3.5" strokeWidth={1.75} />
+            {v.deviceLabel}
+          </span>
+          <span style={{ color: "rgba(255,255,255,0.25)" }}>·</span>
+          <span className="inline-flex items-center gap-1">
+            <MapPin className="h-3.5 w-3.5" strokeWidth={1.75} />
+            {v.city}
+          </span>
+          <span style={{ color: "rgba(255,255,255,0.25)" }}>·</span>
+          <span className="inline-flex items-center gap-1.5">
+            <span style={{ color: "rgba(255,255,255,0.85)" }}>{v.source}</span>
+            {v.utm && (
+              <span
+                className="rounded px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wide"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  color: "rgba(255,255,255,0.7)",
+                  border: "1px solid #2a2a2a",
+                }}
+              >
+                UTM
+              </span>
+            )}
+          </span>
         </div>
       </div>
-      <div className="mt-3 h-[36px]">
-        <Sparkline data={kpi.spark} positive={kpi.trend.positive} />
+
+      {/* Hover actions */}
+      <div className="flex items-center gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
+        <button
+          type="button"
+          className="inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-semibold transition-opacity hover:opacity-90"
+          style={{ background: "#a8ff57", color: "#0a0a0a" }}
+        >
+          <MessageSquare className="h-3.5 w-3.5" strokeWidth={2} />
+          Написать
+        </button>
+        <button
+          type="button"
+          className="inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-semibold text-white transition-colors hover:bg-white/10"
+          style={{ background: "rgba(255,255,255,0.06)", border: "1px solid #2a2a2a" }}
+        >
+          <Video className="h-3.5 w-3.5" strokeWidth={2} />
+          Позвонить
+        </button>
       </div>
-      {kpi.hint ? (
-        <div className="mt-2 text-xs text-ink-subtle">{kpi.hint}</div>
-      ) : null}
-    </div>
+    </li>
   );
 }
 
-function Sparkline({ data, positive }: { data: SparkPoint[]; positive: boolean }) {
+function EmptyVisitors() {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data} margin={{ top: 2, right: 0, left: 0, bottom: 2 }}>
-        <Line
-          type="monotone"
-          dataKey="y"
-          stroke={positive ? "var(--accent)" : "var(--ink-subtle)"}
-          strokeWidth={2}
-          dot={false}
-          isAnimationActive={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-
-function ActivityChart({ data }: { data: { date: string; messages: number; leads: number }[] }) {
-  return (
-    <div className="h-[280px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-          <defs>
-            <linearGradient id="msgFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--foreground)" stopOpacity={0.18} />
-              <stop offset="100%" stopColor="var(--foreground)" stopOpacity={0} />
-            </linearGradient>
-            <linearGradient id="leadFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--accent)" stopOpacity={0.5} />
-              <stop offset="100%" stopColor="var(--accent)" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-          <XAxis
-            dataKey="date"
-            stroke="var(--ink-subtle)"
-            fontSize={11}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(v: string) =>
-              new Date(v).toLocaleDateString("ru-RU", { day: "2-digit", month: "short" })
-            }
-            minTickGap={24}
-          />
-          <YAxis
-            stroke="var(--ink-subtle)"
-            fontSize={11}
-            tickLine={false}
-            axisLine={false}
-            width={40}
-          />
-          <Tooltip
-            cursor={{ stroke: "var(--border-strong)", strokeWidth: 1 }}
-            contentStyle={{
-              background: "var(--background)",
-              border: "1px solid var(--border-strong)",
-              borderRadius: 8,
-              fontSize: 12,
-              padding: "8px 10px",
-            }}
-            labelStyle={{ color: "var(--ink-muted)", marginBottom: 4 }}
-            labelFormatter={(v) =>
-              new Date(v).toLocaleDateString("ru-RU", {
-                weekday: "short",
-                day: "2-digit",
-                month: "short",
-              })
-            }
-            formatter={(value, name) => [
-              typeof value === "number" ? value.toLocaleString("ru-RU") : String(value),
-              name === "messages" ? "Сообщения" : "Лиды",
-            ]}
-          />
-          <Area
-            type="monotone"
-            dataKey="messages"
-            stroke="var(--foreground)"
-            strokeWidth={2}
-            fill="url(#msgFill)"
-            isAnimationActive={false}
-          />
-          <Area
-            type="monotone"
-            dataKey="leads"
-            stroke="var(--accent)"
-            strokeWidth={2}
-            fill="url(#leadFill)"
-            isAnimationActive={false}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
-  );
-}
-
-function LegendDot({ color, label }: { color: string; label: string }) {
-  return (
-    <span className="inline-flex items-center gap-1.5">
-      <span className={cn("h-2 w-2 rounded-full", color)} />
-      {label}
-    </span>
-  );
-}
-
-function LeadStatusBadge({ status }: { status: "new" | "qualified" | "won" | "lost" }) {
-  const map = {
-    new: { label: "Новый", cls: "bg-surface-muted text-ink-muted" },
-    qualified: { label: "Квалифицирован", cls: "bg-accent text-accent-ink" },
-    won: { label: "Сделка", cls: "bg-foreground text-background" },
-    lost: { label: "Слив", cls: "bg-surface-muted text-ink-muted line-through" },
-  } as const;
-  const meta = map[status];
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium",
-        meta.cls,
-      )}
+    <div
+      className="flex flex-col items-center justify-center gap-3 rounded-lg px-6 py-10 text-center"
+      style={{ background: "#141414", border: "1px dashed #2a2a2a" }}
     >
-      {meta.label}
-    </span>
+      <div
+        className="flex h-10 w-10 items-center justify-center rounded-full"
+        style={{ background: "rgba(255,255,255,0.05)" }}
+      >
+        <Monitor className="h-5 w-5" style={{ color: "rgba(255,255,255,0.4)" }} strokeWidth={1.5} />
+      </div>
+      <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+        Никого нет на сайте прямо сейчас.
+        <br />
+        Установите виджет, чтобы начать.
+      </p>
+      <Link
+        to="/app-integrations"
+        className="mt-1 inline-flex h-9 items-center rounded-md px-4 text-sm font-semibold transition-opacity hover:opacity-90"
+        style={{ background: "#a8ff57", color: "#0a0a0a" }}
+      >
+        Установить виджет
+      </Link>
+    </div>
   );
+}
+
+/* ═══════════ Section 3 — Quick stats ═══════════ */
+
+function QuickStatsSection() {
+  return (
+    <section
+      aria-label="Статистика за сегодня"
+      className="grid grid-cols-2 gap-3 md:grid-cols-4"
+    >
+      {QUICK_STATS.map((s) => (
+        <StatCard key={s.label} stat={s} />
+      ))}
+    </section>
+  );
+}
+
+function StatCard({ stat }: { stat: QuickStat }) {
+  const color = stat.highlight ? "#a8ff57" : "#ffffff";
+  const data = stat.spark.map((y, i) => ({ x: i, y }));
+  return (
+    <div
+      className="rounded-xl p-4"
+      style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}
+    >
+      <div
+        className="text-[11px] font-medium uppercase tracking-wide"
+        style={{ color: "rgba(255,255,255,0.5)" }}
+      >
+        {stat.label}
+      </div>
+      <div className="mt-1 flex items-end justify-between gap-2">
+        <div
+          className="font-display text-3xl font-semibold tabular-nums leading-none"
+          style={{ color }}
+        >
+          {stat.value}
+        </div>
+        <div className="h-9 w-20">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data} margin={{ top: 2, right: 0, left: 0, bottom: 2 }}>
+              <Line
+                type="monotone"
+                dataKey="y"
+                stroke={color}
+                strokeWidth={1.75}
+                dot={false}
+                isAnimationActive={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════ Section 4 — Quick actions ═══════════ */
+
+function QuickActionsSection() {
+  return (
+    <section aria-label="Быстрые действия" className="flex flex-wrap gap-2">
+      <Link
+        to="/assistants"
+        className="inline-flex h-10 items-center gap-2 rounded-md px-4 text-sm font-semibold transition-opacity hover:opacity-90"
+        style={{ background: "#a8ff57", color: "#0a0a0a" }}
+      >
+        <Plus className="h-4 w-4" strokeWidth={2.25} />
+        Создать ассистента
+      </Link>
+      <Link
+        to="/chat"
+        className="inline-flex h-10 items-center gap-2 rounded-md px-4 text-sm font-medium text-white transition-colors hover:bg-white/10"
+        style={{ background: "rgba(255,255,255,0.05)", border: "1px solid #2a2a2a" }}
+      >
+        <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+        Открыть чат
+      </Link>
+      <Link
+        to="/leads"
+        className="inline-flex h-10 items-center gap-2 rounded-md px-4 text-sm font-medium text-white transition-colors hover:bg-white/10"
+        style={{ background: "rgba(255,255,255,0.05)", border: "1px solid #2a2a2a" }}
+      >
+        <Inbox className="h-4 w-4" strokeWidth={1.75} />
+        Посмотреть лиды
+      </Link>
+    </section>
+  );
+}
+
+/* ═══════════ Helpers ═══════════ */
+
+function Card({ children }: { children: React.ReactNode }) {
+  return (
+    <section
+      className="rounded-xl p-5 md:p-6"
+      style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}
+    >
+      {children}
+    </section>
+  );
+}
+
+function pluralize(n: number, forms: [string, string, string]) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return forms[0];
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return forms[1];
+  return forms[2];
 }
