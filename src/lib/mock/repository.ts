@@ -130,6 +130,8 @@ export interface Repository {
   // Auth (mock)
   getCurrentUser(): Promise<User | null>;
   loginWithTelegram(): Promise<User>;
+  loginWithEmail(payload: { email: string; password: string }): Promise<User>;
+  signupWithEmail(payload: { name: string; email: string; password: string }): Promise<User>;
   logout(): Promise<void>;
 
   // Mutations
@@ -201,6 +203,28 @@ const mockRepository: Repository = {
   getCurrentUser: () => wait(state.currentUser),
   loginWithTelegram: async () => {
     state.currentUser = { ...seedMockUser };
+    return wait(state.currentUser, 600);
+  },
+  // TODO: replace with real API — POST /api/auth/login
+  loginWithEmail: async ({ email }) => {
+    state.currentUser = { ...seedMockUser, email: email || seedMockUser.email };
+    return wait(state.currentUser, 500);
+  },
+  // TODO: replace with real API — POST /api/auth/signup
+  signupWithEmail: async ({ name, email }) => {
+    const initials = name
+      .split(" ")
+      .map((s) => s[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "BM";
+    state.currentUser = {
+      ...seedMockUser,
+      name: name || seedMockUser.name,
+      email: email || seedMockUser.email,
+      avatarInitials: initials,
+    };
     return wait(state.currentUser, 600);
   },
   logout: async () => {

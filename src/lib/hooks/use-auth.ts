@@ -22,6 +22,30 @@ export const useLoginWithTelegram = () => {
   });
 };
 
+export const useLoginWithEmail = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    // TODO: replace with real API — POST /api/auth/login
+    mutationFn: (payload: { email: string; password: string }) =>
+      repository.loginWithEmail(payload),
+    onSuccess: (user) => {
+      qc.setQueryData(qk.auth.currentUser, user);
+    },
+  });
+};
+
+export const useSignupWithEmail = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    // TODO: replace with real API — POST /api/auth/signup
+    mutationFn: (payload: { name: string; email: string; password: string }) =>
+      repository.signupWithEmail(payload),
+    onSuccess: (user) => {
+      qc.setQueryData(qk.auth.currentUser, user);
+    },
+  });
+};
+
 export const useLogout = () => {
   const qc = useQueryClient();
   return useMutation({
