@@ -27,11 +27,19 @@ import { Route as MarketingAboutRouteImport } from './routes/_marketing.about'
 import { Route as AuthSignupRouteImport } from './routes/_auth.signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
 import { Route as AuthCallbackRouteImport } from './routes/_auth.callback'
+import { Route as AppVisitorsRouteImport } from './routes/_app.visitors'
 import { Route as AppTeamRouteImport } from './routes/_app.team'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
 import { Route as AppLeadsRouteImport } from './routes/_app.leads'
+import { Route as AppKnowledgeRouteImport } from './routes/_app.knowledge'
+import { Route as AppChatRouteImport } from './routes/_app.chat'
+import { Route as AppCallsRouteImport } from './routes/_app.calls'
+import { Route as AppAuditRouteImport } from './routes/_app.audit'
 import { Route as AppAssistantsRouteImport } from './routes/_app.assistants'
+import { Route as AppAppIntegrationsRouteImport } from './routes/_app.app-integrations'
 import { Route as AppAppRouteImport } from './routes/_app.app'
+import { Route as AppApiKeysRouteImport } from './routes/_app.api-keys'
 import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
 import { Route as MarketingScenariosNicheRouteImport } from './routes/_marketing.scenarios.$niche'
 import { Route as MarketingLegalPrivacyRouteImport } from './routes/_marketing.legal.privacy'
@@ -125,6 +133,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/callback',
   getParentRoute: () => AuthRoute,
 } as any)
+const AppVisitorsRoute = AppVisitorsRouteImport.update({
+  id: '/visitors',
+  path: '/visitors',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppTeamRoute = AppTeamRouteImport.update({
   id: '/team',
   path: '/team',
@@ -135,9 +148,34 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppOnboardingRoute = AppOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppLeadsRoute = AppLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppKnowledgeRoute = AppKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatRoute = AppChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCallsRoute = AppCallsRouteImport.update({
+  id: '/calls',
+  path: '/calls',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAuditRoute = AppAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAssistantsRoute = AppAssistantsRouteImport.update({
@@ -145,9 +183,19 @@ const AppAssistantsRoute = AppAssistantsRouteImport.update({
   path: '/assistants',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAppIntegrationsRoute = AppAppIntegrationsRouteImport.update({
+  id: '/app-integrations',
+  path: '/app-integrations',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAppRoute = AppAppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppApiKeysRoute = AppApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
@@ -181,11 +229,19 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/analytics': typeof AppAnalyticsRoute
+  '/api-keys': typeof AppApiKeysRoute
   '/app': typeof AppAppRoute
+  '/app-integrations': typeof AppAppIntegrationsRoute
   '/assistants': typeof AppAssistantsRoute
+  '/audit': typeof AppAuditRoute
+  '/calls': typeof AppCallsRoute
+  '/chat': typeof AppChatRoute
+  '/knowledge': typeof AppKnowledgeRoute
   '/leads': typeof AppLeadsRoute
+  '/onboarding': typeof AppOnboardingRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
+  '/visitors': typeof AppVisitorsRoute
   '/callback': typeof AuthCallbackRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
@@ -208,11 +264,19 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/analytics': typeof AppAnalyticsRoute
+  '/api-keys': typeof AppApiKeysRoute
   '/app': typeof AppAppRoute
+  '/app-integrations': typeof AppAppIntegrationsRoute
   '/assistants': typeof AppAssistantsRoute
+  '/audit': typeof AppAuditRoute
+  '/calls': typeof AppCallsRoute
+  '/chat': typeof AppChatRoute
+  '/knowledge': typeof AppKnowledgeRoute
   '/leads': typeof AppLeadsRoute
+  '/onboarding': typeof AppOnboardingRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
+  '/visitors': typeof AppVisitorsRoute
   '/callback': typeof AuthCallbackRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
@@ -238,11 +302,19 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_app/analytics': typeof AppAnalyticsRoute
+  '/_app/api-keys': typeof AppApiKeysRoute
   '/_app/app': typeof AppAppRoute
+  '/_app/app-integrations': typeof AppAppIntegrationsRoute
   '/_app/assistants': typeof AppAssistantsRoute
+  '/_app/audit': typeof AppAuditRoute
+  '/_app/calls': typeof AppCallsRoute
+  '/_app/chat': typeof AppChatRoute
+  '/_app/knowledge': typeof AppKnowledgeRoute
   '/_app/leads': typeof AppLeadsRoute
+  '/_app/onboarding': typeof AppOnboardingRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/team': typeof AppTeamRoute
+  '/_app/visitors': typeof AppVisitorsRoute
   '/_auth/callback': typeof AuthCallbackRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
@@ -268,11 +340,19 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/analytics'
+    | '/api-keys'
     | '/app'
+    | '/app-integrations'
     | '/assistants'
+    | '/audit'
+    | '/calls'
+    | '/chat'
+    | '/knowledge'
     | '/leads'
+    | '/onboarding'
     | '/settings'
     | '/team'
+    | '/visitors'
     | '/callback'
     | '/login'
     | '/signup'
@@ -295,11 +375,19 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/analytics'
+    | '/api-keys'
     | '/app'
+    | '/app-integrations'
     | '/assistants'
+    | '/audit'
+    | '/calls'
+    | '/chat'
+    | '/knowledge'
     | '/leads'
+    | '/onboarding'
     | '/settings'
     | '/team'
+    | '/visitors'
     | '/callback'
     | '/login'
     | '/signup'
@@ -324,11 +412,19 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/_app/analytics'
+    | '/_app/api-keys'
     | '/_app/app'
+    | '/_app/app-integrations'
     | '/_app/assistants'
+    | '/_app/audit'
+    | '/_app/calls'
+    | '/_app/chat'
+    | '/_app/knowledge'
     | '/_app/leads'
+    | '/_app/onboarding'
     | '/_app/settings'
     | '/_app/team'
+    | '/_app/visitors'
     | '/_auth/callback'
     | '/_auth/login'
     | '/_auth/signup'
@@ -484,6 +580,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_app/visitors': {
+      id: '/_app/visitors'
+      path: '/visitors'
+      fullPath: '/visitors'
+      preLoaderRoute: typeof AppVisitorsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/team': {
       id: '/_app/team'
       path: '/team'
@@ -498,11 +601,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/onboarding': {
+      id: '/_app/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AppOnboardingRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/leads': {
       id: '/_app/leads'
       path: '/leads'
       fullPath: '/leads'
       preLoaderRoute: typeof AppLeadsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/knowledge': {
+      id: '/_app/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof AppKnowledgeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/chat': {
+      id: '/_app/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AppChatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/calls': {
+      id: '/_app/calls'
+      path: '/calls'
+      fullPath: '/calls'
+      preLoaderRoute: typeof AppCallsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/audit': {
+      id: '/_app/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AppAuditRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/assistants': {
@@ -512,11 +650,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAssistantsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/app-integrations': {
+      id: '/_app/app-integrations'
+      path: '/app-integrations'
+      fullPath: '/app-integrations'
+      preLoaderRoute: typeof AppAppIntegrationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/app': {
       id: '/_app/app'
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppAppRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/api-keys': {
+      id: '/_app/api-keys'
+      path: '/api-keys'
+      fullPath: '/api-keys'
+      preLoaderRoute: typeof AppApiKeysRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/analytics': {
@@ -559,20 +711,36 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppApiKeysRoute: typeof AppApiKeysRoute
   AppAppRoute: typeof AppAppRoute
+  AppAppIntegrationsRoute: typeof AppAppIntegrationsRoute
   AppAssistantsRoute: typeof AppAssistantsRoute
+  AppAuditRoute: typeof AppAuditRoute
+  AppCallsRoute: typeof AppCallsRoute
+  AppChatRoute: typeof AppChatRoute
+  AppKnowledgeRoute: typeof AppKnowledgeRoute
   AppLeadsRoute: typeof AppLeadsRoute
+  AppOnboardingRoute: typeof AppOnboardingRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppTeamRoute: typeof AppTeamRoute
+  AppVisitorsRoute: typeof AppVisitorsRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
+  AppApiKeysRoute: AppApiKeysRoute,
   AppAppRoute: AppAppRoute,
+  AppAppIntegrationsRoute: AppAppIntegrationsRoute,
   AppAssistantsRoute: AppAssistantsRoute,
+  AppAuditRoute: AppAuditRoute,
+  AppCallsRoute: AppCallsRoute,
+  AppChatRoute: AppChatRoute,
+  AppKnowledgeRoute: AppKnowledgeRoute,
   AppLeadsRoute: AppLeadsRoute,
+  AppOnboardingRoute: AppOnboardingRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppTeamRoute: AppTeamRoute,
+  AppVisitorsRoute: AppVisitorsRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
