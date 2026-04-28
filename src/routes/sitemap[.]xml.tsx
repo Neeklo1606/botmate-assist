@@ -7,8 +7,6 @@
  * Кабинет, auth и legacy-страницы исключены (см. robots.txt).
  */
 import { createFileRoute } from "@tanstack/react-router";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type * as _StartTypes from "@tanstack/start-client-core";
 import { getSiteOrigin } from "@/lib/seo";
 import { repository } from "@/lib/mock/repository";
 import type { Niche } from "@/types/entities";
