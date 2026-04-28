@@ -36,8 +36,9 @@ import {
   type DemoRequestInput,
 } from "@/lib/schemas";
 import { useCreateDemoRequest } from "@/lib/hooks/use-landing";
-import { nicheOptions } from "@/lib/format";
+import { getNicheOptions } from "@/lib/format";
 import { track } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale";
 import { cn } from "@/lib/utils";
 
 interface DemoFormProps {
@@ -47,21 +48,25 @@ interface DemoFormProps {
   className?: string;
 }
 
-const CONTACT_LABEL: Record<Exclude<ContactKind, "unknown">, string> = {
-  phone: "Телефон",
-  email: "Email",
-  telegram: "Telegram",
-};
-
 export function DemoForm({
   source = "landing",
   variant = "light",
-  ctaLabel = "Запустить за 3 дня",
+  ctaLabel,
   className,
 }: DemoFormProps) {
   const [done, setDone] = useState(false);
   const isDark = variant === "dark";
   const mutation = useCreateDemoRequest();
+  const { t, locale } = useLocale();
+
+  const contactLabels: Record<Exclude<ContactKind, "unknown">, string> = {
+    phone: t("form.contactPhone"),
+    email: t("form.contactEmail"),
+    telegram: t("form.contactTelegram"),
+  };
+
+  const nicheOpts = getNicheOptions(locale);
+  const submitLabel = ctaLabel ?? t("cta.launch3");
 
   const {
     register,
@@ -91,15 +96,15 @@ export function DemoForm({
             niche: data.niche,
             contact_kind: detectContactKind(data.contact),
           });
-          toast.success("Заявка отправлена", {
-            description: "Свяжемся в течение 30 минут в рабочее время.",
+          toast.success(t("form.toastSuccessTitle"), {
+            description: t("form.toastSuccessDesc"),
           });
           setDone(true);
           reset({ name: "", contact: "", niche: "real_estate", source });
         },
         onError: () => {
-          toast.error("Не удалось отправить", {
-            description: "Попробуйте ещё раз или напишите в Telegram @botme_support.",
+          toast.error(t("form.toastErrorTitle"), {
+            description: t("form.toastErrorDesc"),
           });
         },
       },
