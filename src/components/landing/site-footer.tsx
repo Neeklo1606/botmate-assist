@@ -79,7 +79,7 @@ function FooterCol({
   items,
 }: {
   title: string;
-  items: ReadonlyArray<{ to: string; label: string }>;
+  items: ReadonlyArray<{ to: string; hash?: string; label: string }>;
 }) {
   return (
     <div className="md:col-span-2">
@@ -91,6 +91,7 @@ function FooterCol({
           <li key={item.label}>
             <Link
               to={item.to}
+              hash={item.hash}
               className="text-sm text-foreground/80 transition-colors hover:text-foreground"
             >
               {item.label}
