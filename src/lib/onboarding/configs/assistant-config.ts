@@ -127,6 +127,6 @@ export const assistantConfig: OnboardingConfig = {
       ],
       validate: (d) => requireFields(d, [{ name: "tone", message: "Выберите тон" }]),
     },
-    contactStep(),
+    contactStep("ассистента"),
   ],
 };

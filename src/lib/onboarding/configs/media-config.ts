@@ -156,6 +156,6 @@ export const mediaConfig: OnboardingConfig = {
           { name: "platforms", message: "Выберите минимум 1 платформу" },
         ]),
     },
-    contactStep(),
+    contactStep("студии"),
   ],
 };

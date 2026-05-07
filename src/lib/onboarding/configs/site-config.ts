@@ -151,6 +151,6 @@ export const siteConfig: OnboardingConfig = {
           { name: "leadContact", message: "Укажите контакт" },
         ]),
     },
-    contactStep(),
+    contactStep("лендинга"),
   ],
 };
