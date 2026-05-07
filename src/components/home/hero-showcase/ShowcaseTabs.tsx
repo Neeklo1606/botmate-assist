@@ -17,7 +17,7 @@ interface TabDef {
 
 const TABS: TabDef[] = [
   { id: "assistant", label: "Ассистент", icon: MessagesSquare },
-  { id: "media", label: "Медиа", icon: Sparkles, soon: true },
+  { id: "media", label: "Медиа", icon: Sparkles },
   { id: "site", label: "Сайт", icon: LayoutTemplate, soon: true },
 ];
 
