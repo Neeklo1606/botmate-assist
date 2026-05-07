@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { WizardLayout } from "@/components/onboarding/WizardLayout";
 import { getOnboardingConfig } from "@/lib/onboarding/configs";
 
-export const Route = createFileRoute("/_onboarding/site")({
+export const Route = createFileRoute("/onboarding/site")({
   head: () => ({
     meta: [
       { title: "Бриф · Сайт botme" },

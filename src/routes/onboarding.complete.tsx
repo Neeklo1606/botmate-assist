@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2 } from "lucide-react";
 
-export const Route = createFileRoute("/_onboarding/complete")({
+export const Route = createFileRoute("/onboarding/complete")({
   head: () => ({
     meta: [
       { title: "Бриф сохранён · botme" },
