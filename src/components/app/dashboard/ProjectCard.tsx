@@ -110,7 +110,8 @@ export function ProjectCard({ project }: Props) {
           Создан {formatDate(project.createdAt)}
         </span>
         <Link
-          to="/app"
+          to="/projects/$projectId"
+          params={{ projectId: project.id }}
           className="inline-flex items-center gap-1 text-xs font-semibold transition-transform group-hover:translate-x-0.5"
           style={{ color: project.status === "ready" ? "#a8ff57" : "rgba(255,255,255,0.65)" }}
           aria-label={`Открыть проект ${project.name}`}
