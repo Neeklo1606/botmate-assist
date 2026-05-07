@@ -13,7 +13,7 @@ import {
   Outlet,
   Link,
   createFileRoute,
-  redirect,
+  
   useLocation,
   useNavigate,
 } from "@tanstack/react-router";
