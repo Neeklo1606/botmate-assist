@@ -32,6 +32,7 @@ import {
   Bell,
   LogOut,
   Check,
+  FolderKanban,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser, useLogout } from "@/lib/hooks/use-auth";
@@ -73,6 +74,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/projects", label: "Projects", icon: FolderKanban },
   { to: "/assistants", label: "Assistants", icon: Bot },
   { to: "/knowledge", label: "Knowledge", icon: BookOpen },
   { to: "/chat", label: "Chat", icon: MessageCircle },
