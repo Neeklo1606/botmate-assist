@@ -67,7 +67,13 @@ function AuthSync() {
   const router = useRouter();
   const { data: user } = useQuery({
     queryKey: qk.auth.currentUser,
-    queryFn: () => repository.getCurrentUser(),
+    queryFn: async () => {
+      // Hydrate from sessionStorage (brief-registered users) first.
+      const { hydrateSessionUser } = await import("@/lib/auth/hooks");
+      const sessionUser = hydrateSessionUser();
+      if (sessionUser) return sessionUser;
+      return repository.getCurrentUser();
+    },
     staleTime: Infinity,
   });
 
