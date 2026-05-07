@@ -6,6 +6,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { getSiteOrigin } from "@/lib/seo";
 
 export const Route = createFileRoute("/robots.txt")({
+  // @ts-expect-error — `server` handlers поддерживаются плагином, но не типизированы для не-/api роутов
   server: {
     handlers: {
       GET: () => {
