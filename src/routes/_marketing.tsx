@@ -89,7 +89,7 @@ function MarketingLayout() {
       <main id="main" tabIndex={-1} className="flex-1 pb-[76px] focus:outline-none md:pb-0">
         <Outlet />
       </main>
-      <SiteFooter />
+      <SiteFooter variant={useLocation().pathname === "/" ? "dark" : "light"} />
       <StickyMobileCTA />
     </div>
   );
