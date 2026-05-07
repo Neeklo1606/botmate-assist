@@ -1,33 +1,60 @@
 /**
- * /site — заглушка под будущий продукт «Сайт» (промпт 5).
+ * /site — лендинг продукта «Конструктор сайтов» botme. Тёмная палитра v2.
  */
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+import { createFileRoute } from "@tanstack/react-router";
+import { SiteHero } from "@/components/site/SiteHero";
+import { SiteHowItWorks } from "@/components/site/SiteHowItWorks";
+import { SiteTemplates } from "@/components/site/SiteTemplates";
+import { SiteFeatures } from "@/components/site/SiteFeatures";
+import { SiteSpeedComparison } from "@/components/site/SiteSpeedComparison";
+import { SitePricing } from "@/components/site/SitePricing";
+import { SiteFaq } from "@/components/site/SiteFaq";
+import { SiteFinalCta } from "@/components/site/SiteFinalCta";
 import { buildPageMeta, canonicalLink } from "@/lib/seo";
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Конструктор сайтов botme",
+  description: "AI-генератор лендингов по брифу",
+  brand: "botme",
+  offers: [
+    { "@type": "Offer", name: "Лайт", price: "4900", priceCurrency: "RUB" },
+    { "@type": "Offer", name: "Бизнес", price: "9900", priceCurrency: "RUB" },
+    { "@type": "Offer", name: "Студия", price: "24900", priceCurrency: "RUB" },
+  ],
+};
 
 export const Route = createFileRoute("/_marketing/site")({
   head: () => ({
     meta: buildPageMeta({
-      title: "Сайт botme — скоро",
-      description: "AI-генератор лендингов. Скоро.",
+      title: "Конструктор сайтов botme — лендинг за 10 минут",
+      description:
+        "AI собирает лендинг по короткому брифу. Свой домен, SSL, аналитика, форма в CRM. От 4 900 ₽/мес.",
       path: "/site",
     }),
     links: [canonicalLink("/site")],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(JSON_LD),
+      },
+    ],
   }),
-  component: SiteSoon,
+  component: SitePage,
 });
 
-function SiteSoon() {
+function SitePage() {
   return (
-    <section className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-24 text-center">
-      <div className="text-xs uppercase tracking-wide text-ink-subtle">botme · site</div>
-      <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight">Скоро</h1>
-      <p className="mt-3 max-w-md text-ink-muted">
-        Этот продукт появится в следующих обновлениях.
-      </p>
-      <Button asChild variant="outline" size="md" className="mt-6">
-        <Link to="/assistant">Открыть Assistant</Link>
-      </Button>
-    </section>
+    <main style={{ background: "var(--bg-base)" }}>
+      <SiteHero />
+      <SiteHowItWorks />
+      <SiteTemplates />
+      <SiteFeatures />
+      <SiteSpeedComparison />
+      <SitePricing />
+      <SiteFaq />
+      <SiteFinalCta />
+    </main>
   );
 }
