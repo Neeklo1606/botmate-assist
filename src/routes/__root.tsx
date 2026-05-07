@@ -142,3 +142,4 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
 });
+
