@@ -54,14 +54,7 @@ import { toast } from "sonner";
 import { Breadcrumbs } from "@/components/app/breadcrumbs";
 
 export const Route = createFileRoute("/_app")({
-  beforeLoad: ({ context, location }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({
-        to: "/login",
-        search: { redirect: location.href },
-      });
-    }
-  },
+  // Auth guard temporarily disabled — open access to /app for preview/testing.
   component: AppLayout,
 });
 
