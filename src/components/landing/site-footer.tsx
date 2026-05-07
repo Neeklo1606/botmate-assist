@@ -101,13 +101,18 @@ export function SiteFooter({ variant = "light" }: SiteFooterProps = {}) {
 function FooterCol({
   title,
   items,
+  dark = false,
 }: {
   title: string;
   items: ReadonlyArray<{ to: string; hash?: string; label: string }>;
+  dark?: boolean;
 }) {
   return (
     <div className="md:col-span-2">
-      <div className="mb-3 text-xs font-medium uppercase tracking-wide text-ink-subtle">
+      <div
+        className="mb-3 text-xs font-medium uppercase tracking-wide"
+        style={{ color: dark ? "var(--ink-dark-subtle)" : undefined }}
+      >
         {title}
       </div>
       <ul className="space-y-2">
@@ -116,7 +121,16 @@ function FooterCol({
             <Link
               to={item.to}
               hash={item.hash}
-              className="text-sm text-foreground/80 transition-colors hover:text-foreground"
+              className="text-sm transition-colors"
+              style={{
+                color: dark ? "var(--ink-dark-muted)" : undefined,
+              }}
+              onMouseEnter={(e) => {
+                if (dark) e.currentTarget.style.color = "var(--ink-dark)";
+              }}
+              onMouseLeave={(e) => {
+                if (dark) e.currentTarget.style.color = "var(--ink-dark-muted)";
+              }}
             >
               {item.label}
             </Link>
