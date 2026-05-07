@@ -53,6 +53,7 @@ import { Route as MarketingScenariosNicheRouteImport } from './routes/_marketing
 import { Route as MarketingLegalPrivacyRouteImport } from './routes/_marketing.legal.privacy'
 import { Route as MarketingLegalOfferRouteImport } from './routes/_marketing.legal.offer'
 import { Route as MarketingCasesSlugRouteImport } from './routes/_marketing.cases.$slug'
+import { Route as AppProjectsProjectIdRouteImport } from './routes/_app.projects.$projectId'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -271,6 +272,11 @@ const MarketingCasesSlugRoute = MarketingCasesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MarketingCasesRoute,
 } as any)
+const AppProjectsProjectIdRoute = AppProjectsProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => AppProjectsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MarketingIndexRoute
@@ -287,7 +293,7 @@ export interface FileRoutesByFullPath {
   '/knowledge': typeof AppKnowledgeRoute
   '/leads': typeof AppLeadsRoute
   '/onboarding': typeof AppOnboardingRoute
-  '/projects': typeof AppProjectsRoute
+  '/projects': typeof AppProjectsRouteWithChildren
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/visitors': typeof AppVisitorsRoute
@@ -310,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/complete': typeof OnboardingCompleteRoute
   '/onboarding/media': typeof OnboardingMediaRoute
   '/onboarding/site': typeof OnboardingSiteRoute
+  '/projects/$projectId': typeof AppProjectsProjectIdRoute
   '/cases/$slug': typeof MarketingCasesSlugRoute
   '/legal/offer': typeof MarketingLegalOfferRoute
   '/legal/privacy': typeof MarketingLegalPrivacyRoute
@@ -330,7 +337,7 @@ export interface FileRoutesByTo {
   '/knowledge': typeof AppKnowledgeRoute
   '/leads': typeof AppLeadsRoute
   '/onboarding': typeof AppOnboardingRoute
-  '/projects': typeof AppProjectsRoute
+  '/projects': typeof AppProjectsRouteWithChildren
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/visitors': typeof AppVisitorsRoute
@@ -353,6 +360,7 @@ export interface FileRoutesByTo {
   '/onboarding/complete': typeof OnboardingCompleteRoute
   '/onboarding/media': typeof OnboardingMediaRoute
   '/onboarding/site': typeof OnboardingSiteRoute
+  '/projects/$projectId': typeof AppProjectsProjectIdRoute
   '/cases/$slug': typeof MarketingCasesSlugRoute
   '/legal/offer': typeof MarketingLegalOfferRoute
   '/legal/privacy': typeof MarketingLegalPrivacyRoute
@@ -376,7 +384,7 @@ export interface FileRoutesById {
   '/_app/knowledge': typeof AppKnowledgeRoute
   '/_app/leads': typeof AppLeadsRoute
   '/_app/onboarding': typeof AppOnboardingRoute
-  '/_app/projects': typeof AppProjectsRoute
+  '/_app/projects': typeof AppProjectsRouteWithChildren
   '/_app/settings': typeof AppSettingsRoute
   '/_app/team': typeof AppTeamRoute
   '/_app/visitors': typeof AppVisitorsRoute
@@ -400,6 +408,7 @@ export interface FileRoutesById {
   '/onboarding/media': typeof OnboardingMediaRoute
   '/onboarding/site': typeof OnboardingSiteRoute
   '/_marketing/': typeof MarketingIndexRoute
+  '/_app/projects/$projectId': typeof AppProjectsProjectIdRoute
   '/_marketing/cases/$slug': typeof MarketingCasesSlugRoute
   '/_marketing/legal/offer': typeof MarketingLegalOfferRoute
   '/_marketing/legal/privacy': typeof MarketingLegalPrivacyRoute
@@ -445,6 +454,7 @@ export interface FileRouteTypes {
     | '/onboarding/complete'
     | '/onboarding/media'
     | '/onboarding/site'
+    | '/projects/$projectId'
     | '/cases/$slug'
     | '/legal/offer'
     | '/legal/privacy'
@@ -488,6 +498,7 @@ export interface FileRouteTypes {
     | '/onboarding/complete'
     | '/onboarding/media'
     | '/onboarding/site'
+    | '/projects/$projectId'
     | '/cases/$slug'
     | '/legal/offer'
     | '/legal/privacy'
@@ -534,6 +545,7 @@ export interface FileRouteTypes {
     | '/onboarding/media'
     | '/onboarding/site'
     | '/_marketing/'
+    | '/_app/projects/$projectId'
     | '/_marketing/cases/$slug'
     | '/_marketing/legal/offer'
     | '/_marketing/legal/privacy'
@@ -862,8 +874,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingCasesSlugRouteImport
       parentRoute: typeof MarketingCasesRoute
     }
+    '/_app/projects/$projectId': {
+      id: '/_app/projects/$projectId'
+      path: '/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof AppProjectsProjectIdRouteImport
+      parentRoute: typeof AppProjectsRoute
+    }
   }
 }
+
+interface AppProjectsRouteChildren {
+  AppProjectsProjectIdRoute: typeof AppProjectsProjectIdRoute
+}
+
+const AppProjectsRouteChildren: AppProjectsRouteChildren = {
+  AppProjectsProjectIdRoute: AppProjectsProjectIdRoute,
+}
+
+const AppProjectsRouteWithChildren = AppProjectsRoute._addFileChildren(
+  AppProjectsRouteChildren,
+)
 
 interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
@@ -877,7 +908,7 @@ interface AppRouteChildren {
   AppKnowledgeRoute: typeof AppKnowledgeRoute
   AppLeadsRoute: typeof AppLeadsRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
-  AppProjectsRoute: typeof AppProjectsRoute
+  AppProjectsRoute: typeof AppProjectsRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRoute
   AppTeamRoute: typeof AppTeamRoute
   AppVisitorsRoute: typeof AppVisitorsRoute
@@ -895,7 +926,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppKnowledgeRoute: AppKnowledgeRoute,
   AppLeadsRoute: AppLeadsRoute,
   AppOnboardingRoute: AppOnboardingRoute,
-  AppProjectsRoute: AppProjectsRoute,
+  AppProjectsRoute: AppProjectsRouteWithChildren,
   AppSettingsRoute: AppSettingsRoute,
   AppTeamRoute: AppTeamRoute,
   AppVisitorsRoute: AppVisitorsRoute,
