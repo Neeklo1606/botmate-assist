@@ -156,11 +156,12 @@ export function WizardLayout({ config }: Props) {
               canGoBack={canGoBack}
               isLastStep={isLastStep}
               isOptionalStep={isOptionalStep}
+              isAuthStep={isAuthStep}
               onBack={prevStep}
               onNext={handleNext}
               onSkip={isOptionalStep ? handleSkip : undefined}
               finishCtaLabel={config.finishCta}
-              isLoading={isLoading}
+              isLoading={isLoading || creating}
             />
           </div>
 
@@ -173,6 +174,7 @@ export function WizardLayout({ config }: Props) {
           )}
         </div>
       </main>
+      {creating && <CreatingAccountScreen />}
     </div>
   );
 }
