@@ -1,99 +1,50 @@
 /**
- * Главный лендинг botme.
- * Структура: Hero → Trust → How → Features → Channels → Scenarios →
- *            Demo (dark) → Benefits → Launch → Pricing → Cases → FAQ → FinalCTA (dark).
- *
- * Каждая секция — атомарный компонент в /components/landing/sections/.
- * Данные тянутся через хуки → repository.
- *
- * Performance: ниже фолда (Pricing, Cases, FAQ) — React.lazy + Suspense
- * с фиксированными скелетами одинаковой высоты, чтобы избежать CLS.
+ * / — временная заглушка новой главной (заменим в промпте 2).
+ * Тёмный фон bg-base, центрированный лого + CTA на /assistant.
  */
-import { lazy, Suspense } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-
-import { Hero } from "@/components/landing/sections/hero";
-import { TrustStrip } from "@/components/landing/sections/trust-strip";
-import { HowItWorks } from "@/components/landing/sections/how-it-works";
-import { FeaturesSection } from "@/components/landing/sections/features-section";
-import { ChannelsSection } from "@/components/landing/sections/channels-section";
-import { ScenariosSection } from "@/components/landing/sections/scenarios-section";
-import { DemoSection } from "@/components/landing/sections/demo-section";
-import { BenefitsSection } from "@/components/landing/sections/benefits-section";
-import { LaunchSection } from "@/components/landing/sections/launch-section";
-import { FinalCTA } from "@/components/landing/sections/final-cta";
-
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { BotmeLogo } from "@/components/brand/botme-logo";
 import { buildPageMeta, canonicalLink } from "@/lib/seo";
-
-// Below-the-fold — грузим чанками только когда нужно.
-const PricingSection = lazy(() =>
-  import("@/components/landing/sections/pricing-section").then((m) => ({
-    default: m.PricingSection,
-  })),
-);
-const CasesSection = lazy(() =>
-  import("@/components/landing/sections/cases-section").then((m) => ({
-    default: m.CasesSection,
-  })),
-);
-const FaqSection = lazy(() =>
-  import("@/components/landing/sections/faq-section").then((m) => ({
-    default: m.FaqSection,
-  })),
-);
-
-/**
- * SectionSkeleton — нейтральный плейсхолдер фиксированной высоты,
- * чтобы при подгрузке lazy-секции не было layout-shift.
- * tone="default" для Pricing/FAQ, "muted" для Cases — совпадает с реальными секциями.
- */
-function SectionSkeleton({ tone = "default", minH = 560 }: { tone?: "default" | "muted"; minH?: number }) {
-  return (
-    <div
-      aria-hidden
-      className={tone === "muted" ? "bg-surface-muted" : "bg-background"}
-      style={{ minHeight: minH }}
-    />
-  );
-}
 
 export const Route = createFileRoute("/_marketing/")({
   head: () => ({
     meta: buildPageMeta({
-      title: "botme — AI-ассистент, который не теряет ваших клиентов",
-      description:
-        "Подключаем AI-ассистента к Telegram, сайту, Avito и CRM за 3 дня. Отвечает за 7 секунд, квалифицирует лида, доводит до сделки.",
+      title: "botme — скоро здесь будет новая главная",
+      description: "Ассистент botme уже работает. Перейдите на /assistant.",
       path: "/",
     }),
     links: [canonicalLink("/")],
   }),
-  component: LandingPage,
+  component: ComingSoonHome,
 });
 
-function LandingPage() {
+function ComingSoonHome() {
   return (
-    <>
-      <Hero />
-      <TrustStrip />
-      <HowItWorks />
-      <FeaturesSection />
-      <ChannelsSection />
-      <ScenariosSection />
-      <DemoSection />
-      <BenefitsSection />
-      <LaunchSection />
-
-      <Suspense fallback={<SectionSkeleton tone="default" minH={720} />}>
-        <PricingSection />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton tone="muted" minH={560} />}>
-        <CasesSection />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton tone="default" minH={560} />}>
-        <FaqSection />
-      </Suspense>
-
-      <FinalCTA />
-    </>
+    <section
+      className="relative flex min-h-[calc(100vh-56px)] items-center justify-center bg-bg-base px-6 py-24 text-ink-dark"
+      style={{ background: "var(--bg-base)" }}
+    >
+      <div className="absolute inset-0 -z-0 opacity-100" style={{ background: "var(--gradient-hero)" }} aria-hidden />
+      <div className="relative z-10 flex max-w-xl flex-col items-center text-center">
+        <BotmeLogo variant="dark" className="text-[48px]" />
+        <h1
+          className="mt-10 font-display text-[36px] font-semibold leading-[1.1] tracking-[-0.03em]"
+          style={{ color: "var(--ink-dark)" }}
+        >
+          Скоро здесь будет новая главная
+        </h1>
+        <p className="mt-4 text-[15px]" style={{ color: "var(--ink-dark-muted)" }}>
+          Ассистент уже работает. Перейти на /assistant
+        </p>
+        <Button asChild variant="signal" size="lg" className="mt-8">
+          <Link to="/assistant">
+            Открыть Assistant
+            <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
+          </Link>
+        </Button>
+      </div>
+    </section>
   );
 }

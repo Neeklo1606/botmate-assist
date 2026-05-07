@@ -1,22 +1,26 @@
 /**
- * BotmeLogo — шрифтовой логотип с lime-точкой над "i".
- * Используется в хедере и футере. Поддерживает inverse для тёмных секций.
+ * BotmeLogo — шрифтовой логотип с lime-точкой.
+ * variant: "light" (default) — графит на светлом, "dark" — off-white на тёмном.
+ * `inverse` — legacy alias (=> variant="dark").
  */
 import { cn } from "@/lib/utils";
 
 interface BotmeLogoProps {
+  variant?: "light" | "dark";
+  /** @deprecated используй variant="dark" */
   inverse?: boolean;
   className?: string;
 }
 
-export function BotmeLogo({ inverse = false, className }: BotmeLogoProps) {
+export function BotmeLogo({ variant, inverse = false, className }: BotmeLogoProps) {
+  const v = variant ?? (inverse ? "dark" : "light");
   return (
     <span
       className={cn(
         "inline-flex items-baseline font-display text-[20px] font-semibold tracking-tight leading-none select-none",
-        inverse ? "text-background" : "text-foreground",
         className,
       )}
+      style={{ color: v === "dark" ? "var(--ink-dark)" : "var(--foreground)" }}
       aria-label="botme"
     >
       <span className="relative">
