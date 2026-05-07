@@ -118,7 +118,7 @@ function AboutPage() {
               Расскажите о бизнесе. За 30 минут покажем, как ассистент будет работать именно у вас.
             </p>
             <Button asChild variant="brand" size="lg" className="mt-2">
-              <Link to="/" hash="demo">
+              <Link to="/assistant" hash="demo">
                 Запланировать демо
                 <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
               </Link>

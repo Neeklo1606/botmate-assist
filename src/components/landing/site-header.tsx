@@ -102,7 +102,7 @@ export function SiteHeader() {
                   </Link>
                 </Button>
                 <Button asChild variant="brand" size="md" className="flex-1">
-                  <Link to="/" hash="demo" onClick={() => setOpen(false)}>
+                  <Link to="/assistant" hash="demo" onClick={() => setOpen(false)}>
                     {t("nav.demo")}
                   </Link>
                 </Button>

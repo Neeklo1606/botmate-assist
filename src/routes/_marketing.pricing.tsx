@@ -222,7 +222,7 @@ function PlanCard({ plan, period }: { plan: PricingPlan; period: PricingPeriod }
           size="md"
           className="w-full"
         >
-          <Link to="/" hash="demo">
+          <Link to="/assistant" hash="demo">
             {plan.cta.label}
           </Link>
         </Button>
@@ -332,7 +332,7 @@ function EnterpriseBlock() {
                 <EnterpriseLi>White-label и кастомный домен</EnterpriseLi>
               </ul>
               <Button asChild variant="outline" size="md" className="mt-5">
-                <Link to="/" hash="demo">
+                <Link to="/assistant" hash="demo">
                   Обсудить Enterprise
                   <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
                 </Link>
@@ -394,7 +394,7 @@ function PricingFinal() {
           </p>
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild variant="signal" size="lg">
-              <Link to="/" hash="demo">
+              <Link to="/assistant" hash="demo">
                 Получить демо
                 <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
               </Link>

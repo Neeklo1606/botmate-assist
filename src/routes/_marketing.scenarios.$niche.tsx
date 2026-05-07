@@ -121,7 +121,7 @@ function ScenarioPage() {
               <p className="mt-5 text-base text-ink-muted md:text-lg">{scenario.pain}</p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="brand" size="lg">
-                  <Link to="/" hash="demo">
+                  <Link to="/assistant" hash="demo">
                     Демо под мою нишу
                     <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
                   </Link>

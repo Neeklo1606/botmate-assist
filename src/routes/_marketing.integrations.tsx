@@ -73,7 +73,7 @@ function IntegrationsPage() {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button asChild variant="brand" size="lg">
-                <Link to="/" hash="demo">
+                <Link to="/assistant" hash="demo">
                   Получить демо
                   <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
                 </Link>
