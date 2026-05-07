@@ -14,6 +14,8 @@ import { UrlField } from "./fields/UrlField";
 import { FileUploadField } from "./fields/FileUploadField";
 import { ColorField } from "./fields/ColorField";
 import { ToneField } from "./fields/ToneField";
+import { CheckboxField } from "./fields/CheckboxField";
+import { CheckCircle2 } from "lucide-react";
 
 interface Props {
   step: WizardStepDef;
@@ -178,13 +180,47 @@ function renderField(
           onChange={(val) => setField(field.name, val)}
         />
       );
+    case "checkbox":
+      return (
+        <CheckboxField
+          key={field.name}
+          name={field.name}
+          label={field.label}
+          helperText={field.helperText}
+          required={field.required}
+          error={err}
+          value={v === true}
+          onChange={(val) => setField(field.name, val)}
+          withLegalLinks={field.name === "consent"}
+        />
+      );
   }
 }
 
 export function WizardStep({ step, data, errors, setField }: Props) {
+  const isAuth = step.kind === "auth";
+  const visibleFields = step.fields.filter((f) =>
+    f.showIf ? f.showIf(data) : true,
+  );
+  const consentField = isAuth
+    ? visibleFields.find((f) => f.type === "checkbox")
+    : undefined;
+  const inputFields = isAuth
+    ? visibleFields.filter((f) => f.type !== "checkbox")
+    : visibleFields;
+
   return (
     <div className="flex flex-col gap-6 md:gap-8">
       <header className="flex flex-col">
+        {isAuth && (
+          <div className="mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-accent/15 [animation:pulse_2.4s_ease-in-out_infinite]">
+            <CheckCircle2
+              className="h-9 w-9 text-accent"
+              strokeWidth={1.75}
+              aria-hidden
+            />
+          </div>
+        )}
         {step.optional && (
           <span className="mb-3 inline-flex w-fit items-center rounded-[4px] border border-border-dark bg-bg-soft px-2.5 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-dark-subtle">
             Опционально
@@ -199,11 +235,22 @@ export function WizardStep({ step, data, errors, setField }: Props) {
           </p>
         )}
       </header>
-      <div className="flex flex-col gap-6">
-        {step.fields
-          .filter((f) => (f.showIf ? f.showIf(data) : true))
-          .map((f) => renderField(f, data, errors, setField))}
-      </div>
+      {isAuth ? (
+        <div className="rounded-2xl border border-border-dark bg-bg-elevated p-6 md:p-7">
+          <div className="flex flex-col gap-6">
+            {inputFields.map((f) => renderField(f, data, errors, setField))}
+          </div>
+          {consentField && (
+            <div className="mt-6 border-t border-border-dark pt-5">
+              {renderField(consentField, data, errors, setField)}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-6">
+          {visibleFields.map((f) => renderField(f, data, errors, setField))}
+        </div>
+      )}
     </div>
   );
 }
