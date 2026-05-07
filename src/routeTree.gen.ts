@@ -37,6 +37,7 @@ import { Route as AuthCallbackRouteImport } from './routes/_auth.callback'
 import { Route as AppVisitorsRouteImport } from './routes/_app.visitors'
 import { Route as AppTeamRouteImport } from './routes/_app.team'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppProjectsRouteImport } from './routes/_app.projects'
 import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
 import { Route as AppLeadsRouteImport } from './routes/_app.leads'
 import { Route as AppKnowledgeRouteImport } from './routes/_app.knowledge'
@@ -190,6 +191,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProjectsRoute = AppProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppOnboardingRoute = AppOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -281,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/knowledge': typeof AppKnowledgeRoute
   '/leads': typeof AppLeadsRoute
   '/onboarding': typeof AppOnboardingRoute
+  '/projects': typeof AppProjectsRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/visitors': typeof AppVisitorsRoute
@@ -323,6 +330,7 @@ export interface FileRoutesByTo {
   '/knowledge': typeof AppKnowledgeRoute
   '/leads': typeof AppLeadsRoute
   '/onboarding': typeof AppOnboardingRoute
+  '/projects': typeof AppProjectsRoute
   '/settings': typeof AppSettingsRoute
   '/team': typeof AppTeamRoute
   '/visitors': typeof AppVisitorsRoute
@@ -368,6 +376,7 @@ export interface FileRoutesById {
   '/_app/knowledge': typeof AppKnowledgeRoute
   '/_app/leads': typeof AppLeadsRoute
   '/_app/onboarding': typeof AppOnboardingRoute
+  '/_app/projects': typeof AppProjectsRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/team': typeof AppTeamRoute
   '/_app/visitors': typeof AppVisitorsRoute
@@ -413,6 +422,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/leads'
     | '/onboarding'
+    | '/projects'
     | '/settings'
     | '/team'
     | '/visitors'
@@ -455,6 +465,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/leads'
     | '/onboarding'
+    | '/projects'
     | '/settings'
     | '/team'
     | '/visitors'
@@ -499,6 +510,7 @@ export interface FileRouteTypes {
     | '/_app/knowledge'
     | '/_app/leads'
     | '/_app/onboarding'
+    | '/_app/projects'
     | '/_app/settings'
     | '/_app/team'
     | '/_app/visitors'
@@ -738,6 +750,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/projects': {
+      id: '/_app/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof AppProjectsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/onboarding': {
       id: '/_app/onboarding'
       path: '/onboarding'
@@ -858,6 +877,7 @@ interface AppRouteChildren {
   AppKnowledgeRoute: typeof AppKnowledgeRoute
   AppLeadsRoute: typeof AppLeadsRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
+  AppProjectsRoute: typeof AppProjectsRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppTeamRoute: typeof AppTeamRoute
   AppVisitorsRoute: typeof AppVisitorsRoute
@@ -875,6 +895,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppKnowledgeRoute: AppKnowledgeRoute,
   AppLeadsRoute: AppLeadsRoute,
   AppOnboardingRoute: AppOnboardingRoute,
+  AppProjectsRoute: AppProjectsRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppTeamRoute: AppTeamRoute,
   AppVisitorsRoute: AppVisitorsRoute,
@@ -973,3 +994,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
