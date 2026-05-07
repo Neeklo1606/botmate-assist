@@ -27,12 +27,12 @@ export function isContact(v: unknown): boolean {
   return /.+@.+\..+/.test(s);
 }
 
-export function contactStep(): WizardStepDef {
+export function contactStep(productNoun: string = "продукт"): WizardStepDef {
   return {
     id: "contact",
-    title: "Куда отправлять подготовленный аккаунт?",
-    description:
-      "Через 5 минут пришлём доступ и черновик на основе ваших ответов.",
+    kind: "auth",
+    title: "Готово. Создаём аккаунт.",
+    description: `Через 5 минут пришлём доступ и черновик ${productNoun} на основе ваших ответов.`,
     fields: [
       {
         type: "text",
@@ -49,6 +49,13 @@ export function contactStep(): WizardStepDef {
         helperText: "Куда отправить ссылку на личный кабинет",
         required: true,
       },
+      {
+        type: "checkbox",
+        name: "consent",
+        label:
+          "Я соглашаюсь с условиями использования и политикой конфиденциальности",
+        required: true,
+      },
     ],
     validate: (data) =>
       requireFields(data, [
@@ -57,6 +64,11 @@ export function contactStep(): WizardStepDef {
           name: "contact",
           message: "Введите Telegram (@user) или email",
           predicate: isContact,
+        },
+        {
+          name: "consent",
+          message: "Нужно согласиться с условиями",
+          predicate: (v) => v === true,
         },
       ]),
   };
