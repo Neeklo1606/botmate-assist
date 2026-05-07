@@ -267,7 +267,7 @@ function SidebarProfile() {
           <Link to="/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link to="/">← На главную</Link>
+          <Link to="/assistant">← На главную</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -457,7 +457,7 @@ function Topbar() {
                 <Link to="/settings">Настройки</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/">← На главную</Link>
+                <Link to="/assistant">← На главную</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
