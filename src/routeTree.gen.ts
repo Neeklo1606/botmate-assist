@@ -15,8 +15,10 @@ import { Route as MarketingRouteImport } from './routes/_marketing'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as MarketingIndexRouteImport } from './routes/_marketing.index'
+import { Route as MarketingSiteRouteImport } from './routes/_marketing.site'
 import { Route as MarketingScenariosRouteImport } from './routes/_marketing.scenarios'
 import { Route as MarketingPricingRouteImport } from './routes/_marketing.pricing'
+import { Route as MarketingMediaRouteImport } from './routes/_marketing.media'
 import { Route as MarketingIntegrationsRouteImport } from './routes/_marketing.integrations'
 import { Route as MarketingFirst100RouteImport } from './routes/_marketing.first-100'
 import { Route as MarketingFeaturesRouteImport } from './routes/_marketing.features'
@@ -74,6 +76,11 @@ const MarketingIndexRoute = MarketingIndexRouteImport.update({
   path: '/',
   getParentRoute: () => MarketingRoute,
 } as any)
+const MarketingSiteRoute = MarketingSiteRouteImport.update({
+  id: '/site',
+  path: '/site',
+  getParentRoute: () => MarketingRoute,
+} as any)
 const MarketingScenariosRoute = MarketingScenariosRouteImport.update({
   id: '/scenarios',
   path: '/scenarios',
@@ -82,6 +89,11 @@ const MarketingScenariosRoute = MarketingScenariosRouteImport.update({
 const MarketingPricingRoute = MarketingPricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => MarketingRoute,
+} as any)
+const MarketingMediaRoute = MarketingMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
   getParentRoute: () => MarketingRoute,
 } as any)
 const MarketingIntegrationsRoute = MarketingIntegrationsRouteImport.update({
@@ -259,8 +271,10 @@ export interface FileRoutesByFullPath {
   '/features': typeof MarketingFeaturesRoute
   '/first-100': typeof MarketingFirst100Route
   '/integrations': typeof MarketingIntegrationsRoute
+  '/media': typeof MarketingMediaRoute
   '/pricing': typeof MarketingPricingRoute
   '/scenarios': typeof MarketingScenariosRouteWithChildren
+  '/site': typeof MarketingSiteRoute
   '/cases/$slug': typeof MarketingCasesSlugRoute
   '/legal/offer': typeof MarketingLegalOfferRoute
   '/legal/privacy': typeof MarketingLegalPrivacyRoute
@@ -295,8 +309,10 @@ export interface FileRoutesByTo {
   '/features': typeof MarketingFeaturesRoute
   '/first-100': typeof MarketingFirst100Route
   '/integrations': typeof MarketingIntegrationsRoute
+  '/media': typeof MarketingMediaRoute
   '/pricing': typeof MarketingPricingRoute
   '/scenarios': typeof MarketingScenariosRouteWithChildren
+  '/site': typeof MarketingSiteRoute
   '/cases/$slug': typeof MarketingCasesSlugRoute
   '/legal/offer': typeof MarketingLegalOfferRoute
   '/legal/privacy': typeof MarketingLegalPrivacyRoute
@@ -334,8 +350,10 @@ export interface FileRoutesById {
   '/_marketing/features': typeof MarketingFeaturesRoute
   '/_marketing/first-100': typeof MarketingFirst100Route
   '/_marketing/integrations': typeof MarketingIntegrationsRoute
+  '/_marketing/media': typeof MarketingMediaRoute
   '/_marketing/pricing': typeof MarketingPricingRoute
   '/_marketing/scenarios': typeof MarketingScenariosRouteWithChildren
+  '/_marketing/site': typeof MarketingSiteRoute
   '/_marketing/': typeof MarketingIndexRoute
   '/_marketing/cases/$slug': typeof MarketingCasesSlugRoute
   '/_marketing/legal/offer': typeof MarketingLegalOfferRoute
@@ -373,8 +391,10 @@ export interface FileRouteTypes {
     | '/features'
     | '/first-100'
     | '/integrations'
+    | '/media'
     | '/pricing'
     | '/scenarios'
+    | '/site'
     | '/cases/$slug'
     | '/legal/offer'
     | '/legal/privacy'
@@ -409,8 +429,10 @@ export interface FileRouteTypes {
     | '/features'
     | '/first-100'
     | '/integrations'
+    | '/media'
     | '/pricing'
     | '/scenarios'
+    | '/site'
     | '/cases/$slug'
     | '/legal/offer'
     | '/legal/privacy'
@@ -447,8 +469,10 @@ export interface FileRouteTypes {
     | '/_marketing/features'
     | '/_marketing/first-100'
     | '/_marketing/integrations'
+    | '/_marketing/media'
     | '/_marketing/pricing'
     | '/_marketing/scenarios'
+    | '/_marketing/site'
     | '/_marketing/'
     | '/_marketing/cases/$slug'
     | '/_marketing/legal/offer'
@@ -508,6 +532,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingIndexRouteImport
       parentRoute: typeof MarketingRoute
     }
+    '/_marketing/site': {
+      id: '/_marketing/site'
+      path: '/site'
+      fullPath: '/site'
+      preLoaderRoute: typeof MarketingSiteRouteImport
+      parentRoute: typeof MarketingRoute
+    }
     '/_marketing/scenarios': {
       id: '/_marketing/scenarios'
       path: '/scenarios'
@@ -520,6 +551,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof MarketingPricingRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_marketing/media': {
+      id: '/_marketing/media'
+      path: '/media'
+      fullPath: '/media'
+      preLoaderRoute: typeof MarketingMediaRouteImport
       parentRoute: typeof MarketingRoute
     }
     '/_marketing/integrations': {
@@ -810,8 +848,10 @@ interface MarketingRouteChildren {
   MarketingFeaturesRoute: typeof MarketingFeaturesRoute
   MarketingFirst100Route: typeof MarketingFirst100Route
   MarketingIntegrationsRoute: typeof MarketingIntegrationsRoute
+  MarketingMediaRoute: typeof MarketingMediaRoute
   MarketingPricingRoute: typeof MarketingPricingRoute
   MarketingScenariosRoute: typeof MarketingScenariosRouteWithChildren
+  MarketingSiteRoute: typeof MarketingSiteRoute
   MarketingIndexRoute: typeof MarketingIndexRoute
   MarketingLegalOfferRoute: typeof MarketingLegalOfferRoute
   MarketingLegalPrivacyRoute: typeof MarketingLegalPrivacyRoute
@@ -826,8 +866,10 @@ const MarketingRouteChildren: MarketingRouteChildren = {
   MarketingFeaturesRoute: MarketingFeaturesRoute,
   MarketingFirst100Route: MarketingFirst100Route,
   MarketingIntegrationsRoute: MarketingIntegrationsRoute,
+  MarketingMediaRoute: MarketingMediaRoute,
   MarketingPricingRoute: MarketingPricingRoute,
   MarketingScenariosRoute: MarketingScenariosRouteWithChildren,
+  MarketingSiteRoute: MarketingSiteRoute,
   MarketingIndexRoute: MarketingIndexRoute,
   MarketingLegalOfferRoute: MarketingLegalOfferRoute,
   MarketingLegalPrivacyRoute: MarketingLegalPrivacyRoute,
@@ -847,3 +889,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
