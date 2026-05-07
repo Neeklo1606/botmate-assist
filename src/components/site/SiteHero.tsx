@@ -148,7 +148,7 @@ export function SiteHero() {
               className="mt-9 flex w-full flex-col items-stretch gap-2.5 sm:w-auto sm:flex-row sm:gap-3"
             >
               <Link
-                to="/assistant"
+                to="/onboarding/site"
                 className="cta-primary inline-flex h-[52px] items-center justify-center rounded-[12px] px-7 text-[15px] font-medium transition-transform"
                 style={{
                   background: "var(--accent)",

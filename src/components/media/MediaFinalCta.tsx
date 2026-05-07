@@ -59,7 +59,7 @@ export function MediaFinalCta() {
 
           <div className="relative mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row">
             <Link
-              to="/assistant"
+              to="/onboarding/media"
               className="cta-primary inline-flex h-[52px] items-center justify-center rounded-[12px] px-7 text-[15px] font-medium transition-transform"
               style={{
                 background: "var(--accent)",
@@ -71,7 +71,7 @@ export function MediaFinalCta() {
               Создать первый пост
             </Link>
             <Link
-              to="/assistant"
+              to="/onboarding/media"
               className="cta-secondary inline-flex h-[52px] items-center justify-center rounded-[12px] border px-6 text-[15px] font-medium"
               style={{
                 background: "transparent",

@@ -179,7 +179,7 @@ export function SitePricing() {
 
               <div className="mt-auto pt-8">
                 <Link
-                  to="/assistant"
+                  to="/onboarding/site"
                   className="inline-flex h-11 w-full items-center justify-center rounded-[10px] text-[14px] font-medium transition-transform"
                   style={{
                     background: p.highlighted ? "var(--accent)" : "transparent",
