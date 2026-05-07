@@ -6,6 +6,9 @@
 export const dict = {
   ru: {
     // Header
+    "nav.assistant": "Ассистент",
+    "nav.media": "Медиа",
+    "nav.site": "Сайт",
     "nav.features": "Возможности",
     "nav.cases": "Кейсы",
     "nav.scenarios": "Сценарии",
@@ -188,6 +191,9 @@ export const dict = {
 
   en: {
     // Header
+    "nav.assistant": "Assistant",
+    "nav.media": "Media",
+    "nav.site": "Site",
     "nav.features": "Features",
     "nav.cases": "Case studies",
     "nav.scenarios": "Scenarios",

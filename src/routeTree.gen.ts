@@ -23,6 +23,7 @@ import { Route as MarketingFeaturesRouteImport } from './routes/_marketing.featu
 import { Route as MarketingFaqRouteImport } from './routes/_marketing.faq'
 import { Route as MarketingContactsRouteImport } from './routes/_marketing.contacts'
 import { Route as MarketingCasesRouteImport } from './routes/_marketing.cases'
+import { Route as MarketingAssistantRouteImport } from './routes/_marketing.assistant'
 import { Route as MarketingAboutRouteImport } from './routes/_marketing.about'
 import { Route as AuthSignupRouteImport } from './routes/_auth.signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
@@ -111,6 +112,11 @@ const MarketingContactsRoute = MarketingContactsRouteImport.update({
 const MarketingCasesRoute = MarketingCasesRouteImport.update({
   id: '/cases',
   path: '/cases',
+  getParentRoute: () => MarketingRoute,
+} as any)
+const MarketingAssistantRoute = MarketingAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => MarketingRoute,
 } as any)
 const MarketingAboutRoute = MarketingAboutRouteImport.update({
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/about': typeof MarketingAboutRoute
+  '/assistant': typeof MarketingAssistantRoute
   '/cases': typeof MarketingCasesRouteWithChildren
   '/contacts': typeof MarketingContactsRoute
   '/faq': typeof MarketingFaqRoute
@@ -281,6 +288,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
   '/about': typeof MarketingAboutRoute
+  '/assistant': typeof MarketingAssistantRoute
   '/cases': typeof MarketingCasesRouteWithChildren
   '/contacts': typeof MarketingContactsRoute
   '/faq': typeof MarketingFaqRoute
@@ -319,6 +327,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_marketing/about': typeof MarketingAboutRoute
+  '/_marketing/assistant': typeof MarketingAssistantRoute
   '/_marketing/cases': typeof MarketingCasesRouteWithChildren
   '/_marketing/contacts': typeof MarketingContactsRoute
   '/_marketing/faq': typeof MarketingFaqRoute
@@ -357,6 +366,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/about'
+    | '/assistant'
     | '/cases'
     | '/contacts'
     | '/faq'
@@ -392,6 +402,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/about'
+    | '/assistant'
     | '/cases'
     | '/contacts'
     | '/faq'
@@ -429,6 +440,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/signup'
     | '/_marketing/about'
+    | '/_marketing/assistant'
     | '/_marketing/cases'
     | '/_marketing/contacts'
     | '/_marketing/faq'
@@ -550,6 +562,13 @@ declare module '@tanstack/react-router' {
       path: '/cases'
       fullPath: '/cases'
       preLoaderRoute: typeof MarketingCasesRouteImport
+      parentRoute: typeof MarketingRoute
+    }
+    '/_marketing/assistant': {
+      id: '/_marketing/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof MarketingAssistantRouteImport
       parentRoute: typeof MarketingRoute
     }
     '/_marketing/about': {
@@ -784,6 +803,7 @@ const MarketingScenariosRouteWithChildren =
 
 interface MarketingRouteChildren {
   MarketingAboutRoute: typeof MarketingAboutRoute
+  MarketingAssistantRoute: typeof MarketingAssistantRoute
   MarketingCasesRoute: typeof MarketingCasesRouteWithChildren
   MarketingContactsRoute: typeof MarketingContactsRoute
   MarketingFaqRoute: typeof MarketingFaqRoute
@@ -799,6 +819,7 @@ interface MarketingRouteChildren {
 
 const MarketingRouteChildren: MarketingRouteChildren = {
   MarketingAboutRoute: MarketingAboutRoute,
+  MarketingAssistantRoute: MarketingAssistantRoute,
   MarketingCasesRoute: MarketingCasesRouteWithChildren,
   MarketingContactsRoute: MarketingContactsRoute,
   MarketingFaqRoute: MarketingFaqRoute,
