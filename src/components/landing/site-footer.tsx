@@ -10,23 +10,23 @@ export function SiteFooter() {
   const { t } = useLocale();
 
   const productLinks = [
-    { to: "/features" as const, label: t("footer.linkFeatures") },
-    { to: "/integrations" as const, label: t("footer.linkIntegrations") },
-    { to: "/scenarios" as const, label: t("footer.linkScenarios") },
-    { to: "/pricing" as const, label: t("footer.linkPricing") },
-    { to: "/first-100" as const, label: t("footer.linkFirst100") },
+    { to: "/assistant" as const, hash: "features", label: t("footer.linkFeatures") },
+    { to: "/integrations" as const, hash: undefined, label: t("footer.linkIntegrations") },
+    { to: "/assistant" as const, hash: "scenarios", label: t("footer.linkScenarios") },
+    { to: "/assistant" as const, hash: "pricing-plans", label: t("footer.linkPricing") },
+    { to: "/first-100" as const, hash: undefined, label: t("footer.linkFirst100") },
   ];
 
   const companyLinks = [
-    { to: "/about" as const, label: t("footer.linkAbout") },
-    { to: "/cases" as const, label: t("footer.linkCases") },
-    { to: "/faq" as const, label: t("footer.linkFaq") },
-    { to: "/contacts" as const, label: t("footer.linkContacts") },
+    { to: "/about" as const, hash: undefined, label: t("footer.linkAbout") },
+    { to: "/assistant" as const, hash: "cases", label: t("footer.linkCases") },
+    { to: "/assistant" as const, hash: "faq", label: t("footer.linkFaq") },
+    { to: "/contacts" as const, hash: undefined, label: t("footer.linkContacts") },
   ];
 
   const legalLinks = [
-    { to: "/legal/privacy" as const, label: t("footer.linkPrivacy") },
-    { to: "/legal/offer" as const, label: t("footer.linkOffer") },
+    { to: "/legal/privacy" as const, hash: undefined, label: t("footer.linkPrivacy") },
+    { to: "/legal/offer" as const, hash: undefined, label: t("footer.linkOffer") },
   ];
 
   return (
