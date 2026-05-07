@@ -51,7 +51,7 @@ export function SiteHeader() {
             </Button>
             <Button asChild variant="brand" size="sm">
               <Link
-                to="/"
+                to="/assistant"
                 hash="demo"
                 onClick={() => track("cta-click", { location: "header", intent: "demo" })}
               >

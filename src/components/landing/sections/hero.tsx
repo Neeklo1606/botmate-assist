@@ -41,7 +41,7 @@ export function Hero() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button asChild variant="brand" size="lg">
                 <Link
-                  to="/"
+                  to="/assistant"
                   hash="demo"
                   onClick={() => track("cta-click", { location: "hero", intent: "demo" })}
                 >

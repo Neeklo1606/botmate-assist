@@ -53,7 +53,7 @@ export function StickyMobileCTA() {
     >
       <Button asChild variant="brand" size="lg" className="w-full" tabIndex={visible ? 0 : -1}>
         <Link
-          to="/"
+          to="/assistant"
           hash="demo"
           onClick={() => track("cta-click", { location: "sticky", intent: "demo" })}
         >

@@ -70,7 +70,7 @@ export function PricingSection() {
                   className="w-full"
                 >
                   <Link
-                    to="/"
+                    to="/assistant"
                     hash="demo"
                     onClick={() =>
                       track("cta-click", {

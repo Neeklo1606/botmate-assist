@@ -23,7 +23,7 @@ export function FinalCTA() {
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild variant="signal" size="lg">
               <Link
-                to="/"
+                to="/assistant"
                 hash="demo"
                 onClick={() => track("cta-click", { location: "final-cta", intent: "demo" })}
               >
