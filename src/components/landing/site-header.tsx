@@ -4,17 +4,20 @@
  */
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X, Globe, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { BotmeLogo } from "@/components/brand/botme-logo";
 import { track } from "@/lib/analytics";
 import { useLocale } from "@/lib/i18n/locale";
+import { useCurrentUser } from "@/lib/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { t, locale, setLocale } = useLocale();
+  const { data: user } = useCurrentUser();
+  const isAuthed = !!user;
 
   const navItems = [
     { to: "/assistant" as const, label: t("nav.assistant") },
@@ -46,18 +49,28 @@ export function SiteHeader() {
 
           <div className="hidden items-center gap-2 md:flex">
             <LangToggle locale={locale} onChange={setLocale} t={t} />
-            <Button asChild variant="ghostInk" size="sm">
-              <Link to="/login">{t("nav.login")}</Link>
-            </Button>
-            <Button asChild variant="brand" size="sm">
-              <Link
-                to="/assistant"
-                hash="demo"
-                onClick={() => track("cta-click", { location: "header", intent: "demo" })}
-              >
-                {t("cta.launch3")}
-              </Link>
-            </Button>
+            {isAuthed ? (
+              <Button asChild variant="brand" size="sm">
+                <Link to="/app" onClick={() => track("nav-click", { to: "/app", location: "header" })}>
+                  <LayoutDashboard className="h-3.5 w-3.5" strokeWidth={2} />
+                  В кабинет
+                </Link>
+              </Button>
+            ) : (
+              <>
+                <Button asChild variant="ghostInk" size="sm">
+                  <Link to="/login">{t("nav.login")}</Link>
+                </Button>
+                <Button asChild variant="brand" size="sm">
+                  <Link
+                    to="/onboarding/assistant"
+                    onClick={() => track("cta-click", { location: "header", intent: "demo" })}
+                  >
+                    {t("cta.launch3")}
+                  </Link>
+                </Button>
+              </>
+            )}
           </div>
 
           <button
@@ -96,16 +109,27 @@ export function SiteHeader() {
             <div className="mt-2 flex items-center justify-between gap-2 pt-2">
               <LangToggle locale={locale} onChange={setLocale} t={t} />
               <div className="flex flex-1 gap-2">
-                <Button asChild variant="outline" size="md" className="flex-1">
-                  <Link to="/login" onClick={() => setOpen(false)}>
-                    {t("nav.login")}
-                  </Link>
-                </Button>
-                <Button asChild variant="brand" size="md" className="flex-1">
-                  <Link to="/assistant" hash="demo" onClick={() => setOpen(false)}>
-                    {t("nav.demo")}
-                  </Link>
-                </Button>
+                {isAuthed ? (
+                  <Button asChild variant="brand" size="md" className="flex-1">
+                    <Link to="/app" onClick={() => setOpen(false)}>
+                      <LayoutDashboard className="h-4 w-4" strokeWidth={2} />
+                      В кабинет
+                    </Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Button asChild variant="outline" size="md" className="flex-1">
+                      <Link to="/login" onClick={() => setOpen(false)}>
+                        {t("nav.login")}
+                      </Link>
+                    </Button>
+                    <Button asChild variant="brand" size="md" className="flex-1">
+                      <Link to="/onboarding/assistant" onClick={() => setOpen(false)}>
+                        {t("nav.demo")}
+                      </Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </nav>
