@@ -37,6 +37,7 @@ const NICHES: Niche[] = [
 ];
 
 export const Route = createFileRoute("/sitemap.xml")({
+  // @ts-expect-error — `server` handlers поддерживаются плагином, но не типизированы для не-/api роутов
   server: {
     handlers: {
       GET: async () => {
