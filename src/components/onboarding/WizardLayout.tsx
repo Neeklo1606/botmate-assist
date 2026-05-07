@@ -1,17 +1,25 @@
 /**
  * WizardLayout — обёртка для брифа: mini-header + progress + step + footer-nav.
  * Управляет потоком (next/prev/submit) через useOnboardingDraft.
+ *
+ * На финальном шаге (kind="auth"): регистрируем пользователя, создаём project
+ * из draft, чистим draft и редиректим в /app с CreatingAccountScreen overlay.
  */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import { toast } from "sonner";
 import { BotmeLogo } from "@/components/brand/botme-logo";
 import { WizardProgress } from "./WizardProgress";
 import { WizardFooter } from "./WizardFooter";
 import { WizardStep } from "./WizardStep";
 import { useOnboardingDraft } from "./hooks/useOnboardingDraft";
 import type { OnboardingConfig } from "@/lib/onboarding/types";
+import { useBriefLogin } from "@/lib/auth/hooks";
+import { useCreateProject } from "@/lib/projects/hooks";
+import { clearDraft } from "@/lib/onboarding/draft-store";
+import { CreatingAccountScreen } from "@/components/auth/CreatingAccountScreen";
 
 interface Props {
   config: OnboardingConfig;
@@ -19,6 +27,9 @@ interface Props {
 
 export function WizardLayout({ config }: Props) {
   const navigate = useNavigate();
+  const briefLogin = useBriefLogin();
+  const createProject = useCreateProject();
+  const [creating, setCreating] = useState(false);
   const {
     currentStep,
     currentStepIndex,
@@ -29,33 +40,40 @@ export function WizardLayout({ config }: Props) {
     setField,
     nextStep,
     prevStep,
-    submitDraft,
   } = useOnboardingDraft(config);
 
   const isLastStep = currentStepIndex >= totalSteps - 1;
-  const canGoBack = currentStepIndex > 0;
+  const canGoBack = currentStepIndex > 0 && !creating;
   const isOptionalStep = !!currentStep?.optional;
+  const isAuthStep = currentStep?.kind === "auth";
 
   const handleNext = async () => {
     const ok = nextStep();
     if (!ok) return;
     if (isLastStep) {
-      const result = await submitDraft();
-      if (result.success) {
-        await navigate({ to: "/onboarding/complete" });
+      const name = (data.name as string) ?? "";
+      const contact = (data.contact as string) ?? "";
+      try {
+        const { user } = await briefLogin({ name, contact });
+        const projectId = await createProject(config.product, data, user);
+        clearDraft(config.product);
+        setCreating(true);
+        setTimeout(() => {
+          void navigate({
+            to: "/app",
+            search: { welcome: "1", projectId } as never,
+          });
+        }, 1500);
+      } catch {
+        toast.error("Не удалось создать аккаунт. Попробуйте ещё раз.");
       }
     }
   };
 
   const handleSkip = () => {
-    if (isLastStep) {
-      void submitDraft().then(() => navigate({ to: "/onboarding/complete" }));
-    } else {
-      // Bypass validation on optional skip.
-      // Manually advance.
-      handleNext();
-    }
+    if (!isLastStep) handleNext();
   };
+
 
   // Keyboard shortcuts.
   useEffect(() => {
