@@ -17,11 +17,9 @@ export function SiteHeader() {
   const { t, locale, setLocale } = useLocale();
 
   const navItems = [
-    { to: "/features" as const, label: t("nav.features") },
-    { to: "/cases" as const, label: t("nav.cases") },
-    { to: "/scenarios" as const, label: t("nav.scenarios") },
-    { to: "/pricing" as const, label: t("nav.pricing") },
-    { to: "/faq" as const, label: t("nav.faq") },
+    { to: "/assistant" as const, label: t("nav.assistant") },
+    { to: "/media" as const, label: t("nav.media") },
+    { to: "/site" as const, label: t("nav.site") },
   ];
 
   return (
