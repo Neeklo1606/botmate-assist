@@ -28,6 +28,10 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
+import { WelcomeBanner } from "@/components/app/dashboard/WelcomeBanner";
+import { ProjectCard } from "@/components/app/dashboard/ProjectCard";
+import { useProjects, usePreparingPromoter } from "@/lib/projects/hooks";
+import { useCurrentUser } from "@/lib/hooks/use-auth";
 
 export const Route = createFileRoute("/_app/app")({
   head: () => ({
@@ -136,9 +140,21 @@ const QUICK_STATS: QuickStat[] = [
 
 function DashboardPage() {
   const allReady = READINESS.every((r) => r.done);
+  const { data: user } = useCurrentUser();
+  const { data: projects } = useProjects();
+  usePreparingPromoter();
+
+  const hasProjects = !!projects && projects.length > 0;
+  const firstName = user?.name?.split(" ")[0];
 
   return (
     <div className="space-y-6 text-white">
+      {hasProjects ? (
+        <ProjectsSection projects={projects!} firstName={firstName} />
+      ) : (
+        <WelcomeBanner userName={firstName} />
+      )}
+
       {/* Section 1 — Readiness checklist */}
       <ReadinessSection allReady={allReady} />
 
@@ -151,6 +167,47 @@ function DashboardPage() {
       {/* Section 4 — Quick actions */}
       <QuickActionsSection />
     </div>
+  );
+}
+
+/* ═══════════ Section 0 — Projects (when present) ═══════════ */
+
+function ProjectsSection({
+  projects,
+  firstName,
+}: {
+  projects: import("@/lib/projects/types").Project[];
+  firstName?: string;
+}) {
+  return (
+    <section aria-label="Ваши проекты" className="space-y-3">
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <h1 className="font-display text-xl font-semibold tracking-tight text-white md:text-2xl">
+            {firstName ? `${firstName}, ваши проекты` : "Ваши проекты"}
+          </h1>
+          <p
+            className="mt-0.5 text-sm"
+            style={{ color: "rgba(255,255,255,0.6)" }}
+          >
+            Каждый проект — это отдельный продукт botme: ассистент, медиа или сайт.
+          </p>
+        </div>
+        <Link
+          to="/onboarding/assistant"
+          className="hidden h-9 items-center gap-1.5 rounded-md px-3 text-xs font-semibold transition-opacity hover:opacity-90 sm:inline-flex"
+          style={{ background: "#a8ff57", color: "#0a0a0a" }}
+        >
+          <Plus className="h-3.5 w-3.5" strokeWidth={2.25} />
+          Новый проект
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+        {projects.map((p) => (
+          <ProjectCard key={p.id} project={p} />
+        ))}
+      </div>
+    </section>
   );
 }
 
