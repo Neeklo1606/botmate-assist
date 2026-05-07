@@ -14,6 +14,8 @@ import type { Niche } from "@/types/entities";
 const STATIC_PATHS: Array<{ path: string; changefreq: string; priority: string }> = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
   { path: "/assistant", changefreq: "weekly", priority: "0.9" },
+  { path: "/media", changefreq: "weekly", priority: "0.9" },
+  { path: "/site", changefreq: "weekly", priority: "0.9" },
   { path: "/features", changefreq: "monthly", priority: "0.9" },
   { path: "/integrations", changefreq: "monthly", priority: "0.8" },
   { path: "/scenarios", changefreq: "monthly", priority: "0.8" },
