@@ -15,6 +15,10 @@ import { Route as MarketingRouteImport } from './routes/_marketing'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as MarketingIndexRouteImport } from './routes/_marketing.index'
+import { Route as OnboardingSiteRouteImport } from './routes/onboarding.site'
+import { Route as OnboardingMediaRouteImport } from './routes/onboarding.media'
+import { Route as OnboardingCompleteRouteImport } from './routes/onboarding.complete'
+import { Route as OnboardingAssistantRouteImport } from './routes/onboarding.assistant'
 import { Route as MarketingSiteRouteImport } from './routes/_marketing.site'
 import { Route as MarketingScenariosRouteImport } from './routes/_marketing.scenarios'
 import { Route as MarketingPricingRouteImport } from './routes/_marketing.pricing'
@@ -75,6 +79,26 @@ const MarketingIndexRoute = MarketingIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => MarketingRoute,
+} as any)
+const OnboardingSiteRoute = OnboardingSiteRouteImport.update({
+  id: '/onboarding/site',
+  path: '/onboarding/site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingMediaRoute = OnboardingMediaRouteImport.update({
+  id: '/onboarding/media',
+  path: '/onboarding/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingCompleteRoute = OnboardingCompleteRouteImport.update({
+  id: '/onboarding/complete',
+  path: '/onboarding/complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingAssistantRoute = OnboardingAssistantRouteImport.update({
+  id: '/onboarding/assistant',
+  path: '/onboarding/assistant',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const MarketingSiteRoute = MarketingSiteRouteImport.update({
   id: '/site',
@@ -275,6 +299,10 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof MarketingPricingRoute
   '/scenarios': typeof MarketingScenariosRouteWithChildren
   '/site': typeof MarketingSiteRoute
+  '/onboarding/assistant': typeof OnboardingAssistantRoute
+  '/onboarding/complete': typeof OnboardingCompleteRoute
+  '/onboarding/media': typeof OnboardingMediaRoute
+  '/onboarding/site': typeof OnboardingSiteRoute
   '/cases/$slug': typeof MarketingCasesSlugRoute
   '/legal/offer': typeof MarketingLegalOfferRoute
   '/legal/privacy': typeof MarketingLegalPrivacyRoute
@@ -313,6 +341,10 @@ export interface FileRoutesByTo {
   '/pricing': typeof MarketingPricingRoute
   '/scenarios': typeof MarketingScenariosRouteWithChildren
   '/site': typeof MarketingSiteRoute
+  '/onboarding/assistant': typeof OnboardingAssistantRoute
+  '/onboarding/complete': typeof OnboardingCompleteRoute
+  '/onboarding/media': typeof OnboardingMediaRoute
+  '/onboarding/site': typeof OnboardingSiteRoute
   '/cases/$slug': typeof MarketingCasesSlugRoute
   '/legal/offer': typeof MarketingLegalOfferRoute
   '/legal/privacy': typeof MarketingLegalPrivacyRoute
@@ -354,6 +386,10 @@ export interface FileRoutesById {
   '/_marketing/pricing': typeof MarketingPricingRoute
   '/_marketing/scenarios': typeof MarketingScenariosRouteWithChildren
   '/_marketing/site': typeof MarketingSiteRoute
+  '/onboarding/assistant': typeof OnboardingAssistantRoute
+  '/onboarding/complete': typeof OnboardingCompleteRoute
+  '/onboarding/media': typeof OnboardingMediaRoute
+  '/onboarding/site': typeof OnboardingSiteRoute
   '/_marketing/': typeof MarketingIndexRoute
   '/_marketing/cases/$slug': typeof MarketingCasesSlugRoute
   '/_marketing/legal/offer': typeof MarketingLegalOfferRoute
@@ -395,6 +431,10 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/scenarios'
     | '/site'
+    | '/onboarding/assistant'
+    | '/onboarding/complete'
+    | '/onboarding/media'
+    | '/onboarding/site'
     | '/cases/$slug'
     | '/legal/offer'
     | '/legal/privacy'
@@ -433,6 +473,10 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/scenarios'
     | '/site'
+    | '/onboarding/assistant'
+    | '/onboarding/complete'
+    | '/onboarding/media'
+    | '/onboarding/site'
     | '/cases/$slug'
     | '/legal/offer'
     | '/legal/privacy'
@@ -473,6 +517,10 @@ export interface FileRouteTypes {
     | '/_marketing/pricing'
     | '/_marketing/scenarios'
     | '/_marketing/site'
+    | '/onboarding/assistant'
+    | '/onboarding/complete'
+    | '/onboarding/media'
+    | '/onboarding/site'
     | '/_marketing/'
     | '/_marketing/cases/$slug'
     | '/_marketing/legal/offer'
@@ -486,6 +534,10 @@ export interface RootRouteChildren {
   MarketingRoute: typeof MarketingRouteWithChildren
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  OnboardingAssistantRoute: typeof OnboardingAssistantRoute
+  OnboardingCompleteRoute: typeof OnboardingCompleteRoute
+  OnboardingMediaRoute: typeof OnboardingMediaRoute
+  OnboardingSiteRoute: typeof OnboardingSiteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -531,6 +583,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof MarketingIndexRouteImport
       parentRoute: typeof MarketingRoute
+    }
+    '/onboarding/site': {
+      id: '/onboarding/site'
+      path: '/onboarding/site'
+      fullPath: '/onboarding/site'
+      preLoaderRoute: typeof OnboardingSiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/media': {
+      id: '/onboarding/media'
+      path: '/onboarding/media'
+      fullPath: '/onboarding/media'
+      preLoaderRoute: typeof OnboardingMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/complete': {
+      id: '/onboarding/complete'
+      path: '/onboarding/complete'
+      fullPath: '/onboarding/complete'
+      preLoaderRoute: typeof OnboardingCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/assistant': {
+      id: '/onboarding/assistant'
+      path: '/onboarding/assistant'
+      fullPath: '/onboarding/assistant'
+      preLoaderRoute: typeof OnboardingAssistantRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_marketing/site': {
       id: '/_marketing/site'
@@ -885,6 +965,10 @@ const rootRouteChildren: RootRouteChildren = {
   MarketingRoute: MarketingRouteWithChildren,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  OnboardingAssistantRoute: OnboardingAssistantRoute,
+  OnboardingCompleteRoute: OnboardingCompleteRoute,
+  OnboardingMediaRoute: OnboardingMediaRoute,
+  OnboardingSiteRoute: OnboardingSiteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
