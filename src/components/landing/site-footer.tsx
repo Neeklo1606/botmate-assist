@@ -6,8 +6,13 @@ import { Container } from "@/components/layout/container";
 import { BotmeLogo } from "@/components/brand/botme-logo";
 import { useLocale } from "@/lib/i18n/locale";
 
-export function SiteFooter() {
+interface SiteFooterProps {
+  variant?: "light" | "dark";
+}
+
+export function SiteFooter({ variant = "light" }: SiteFooterProps = {}) {
   const { t } = useLocale();
+  const isDark = variant === "dark";
 
   const productLinks = [
     { to: "/assistant" as const, hash: "features", label: t("footer.linkFeatures") },
