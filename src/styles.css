@@ -34,6 +34,19 @@
   --font-display: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
+  /* v2 dark palette tokens — для главной и новых продуктов (Media, Site).
+     Используются как bg-bg-base, text-ink-dark, border-border-dark и т.п. */
+  --color-bg-base: var(--bg-base);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-soft: var(--bg-soft);
+  --color-bg-soft-hover: var(--bg-soft-hover);
+  --color-border-dark: var(--border-dark);
+  --color-border-dark-strong: var(--border-dark-strong);
+  --color-ink-dark: var(--ink-dark);
+  --color-ink-dark-muted: var(--ink-dark-muted);
+  --color-ink-dark-subtle: var(--ink-dark-subtle);
+  --color-accent-glow: var(--accent-glow);
+
   /* Colors → Tailwind utilities */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
