@@ -60,8 +60,8 @@ export function WizardLayout({ config }: Props) {
         setCreating(true);
         setTimeout(() => {
           void navigate({
-            to: "/app",
-            search: { welcome: "1", projectId } as never,
+            to: "/projects/$projectId",
+            params: { projectId },
           });
         }, 1500);
       } catch {
