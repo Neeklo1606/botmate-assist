@@ -1,6 +1,7 @@
 /**
  * Onboarding types — общий контракт wizard'а для всех продуктов.
  */
+import type { ReactElement } from "react";
 
 export type OnboardingProduct = "assistant" | "media" | "site";
 
@@ -37,6 +38,8 @@ export interface FieldDef {
   min?: number;
   max?: number;
   rows?: number;
+  /** Показать поле только если условие выполнено. */
+  showIf?: (data: Record<string, unknown>) => boolean;
 }
 
 export interface WizardStepDef {
@@ -54,6 +57,8 @@ export interface OnboardingConfig {
   estimatedMinutes: number;
   steps: WizardStepDef[];
   finishCta: string;
+  /** Live-preview компонент справа от формы (desktop). */
+  livePreviewComponent?: (props: { data: Record<string, unknown> }) => ReactElement;
 }
 
 export interface OnboardingDraft {
