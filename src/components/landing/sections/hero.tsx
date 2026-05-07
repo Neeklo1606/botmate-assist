@@ -51,7 +51,7 @@ export function Hero() {
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link
-                  to="/"
+                  to="/assistant"
                   hash="how"
                   onClick={() => track("cta-click", { location: "hero", intent: "how" })}
                 >

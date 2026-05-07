@@ -66,7 +66,7 @@ export function FaqSection() {
                   @botme_support →
                 </a>
                 <Link
-                  to="/"
+                  to="/assistant"
                   className="block text-ink-muted underline-offset-4 hover:text-foreground hover:underline"
                 >
                   {t("faq.allLink")}
