@@ -75,6 +75,8 @@ function useHashScroll() {
 
 function MarketingLayout() {
   useHashScroll();
+  const { pathname } = useLocation();
+  const footerVariant = pathname === "/" ? "dark" : "light";
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -89,7 +91,7 @@ function MarketingLayout() {
       <main id="main" tabIndex={-1} className="flex-1 pb-[76px] focus:outline-none md:pb-0">
         <Outlet />
       </main>
-      <SiteFooter variant={useLocation().pathname === "/" ? "dark" : "light"} />
+      <SiteFooter variant={footerVariant} />
       <StickyMobileCTA />
     </div>
   );
