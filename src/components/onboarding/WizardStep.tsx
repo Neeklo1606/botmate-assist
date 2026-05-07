@@ -200,7 +200,9 @@ export function WizardStep({ step, data, errors, setField }: Props) {
         )}
       </header>
       <div className="flex flex-col gap-6">
-        {step.fields.map((f) => renderField(f, data, errors, setField))}
+        {step.fields
+          .filter((f) => (f.showIf ? f.showIf(data) : true))
+          .map((f) => renderField(f, data, errors, setField))}
       </div>
     </div>
   );
