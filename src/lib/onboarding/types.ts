@@ -17,7 +17,8 @@ export type FieldType =
   | "url"
   | "file-upload"
   | "color"
-  | "tone";
+  | "tone"
+  | "checkbox";
 
 export interface FieldOption {
   value: string;
@@ -49,6 +50,8 @@ export interface WizardStepDef {
   fields: FieldDef[];
   validate?: (data: Record<string, unknown>) => Record<string, string> | null;
   optional?: boolean;
+  /** "auth" — финальный шаг с особым оформлением "создание аккаунта". */
+  kind?: "default" | "auth";
 }
 
 export interface OnboardingConfig {
