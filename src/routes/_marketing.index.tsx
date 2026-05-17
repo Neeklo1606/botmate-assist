@@ -21,6 +21,27 @@ export const Route = createFileRoute("/_marketing/")({
       path: "/",
     }),
     links: [canonicalLink("/")],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "botme",
+              url: "https://botmate-assist.lovable.app",
+              description: "AI-помощник для бизнеса: ассистент, медиа-студия и конструктор сайтов.",
+            },
+            {
+              "@type": "WebSite",
+              name: "botme",
+              url: "https://botmate-assist.lovable.app",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: HomePage,
 });

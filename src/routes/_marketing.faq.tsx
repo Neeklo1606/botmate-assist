@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useFaq } from "@/lib/hooks/use-landing";
+import { repository } from "@/lib/mock/repository";
 import { FinalCTA } from "@/components/landing/sections/final-cta";
 import { cn } from "@/lib/utils";
 import type { FaqItem } from "@/types/entities";
@@ -29,7 +30,11 @@ const CATEGORIES: { id: FaqItem["category"] | "all"; label: string }[] = [
 import { buildPageMeta, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/_marketing/faq")({
-  head: () => ({
+  loader: async () => {
+    const items = await repository.listFaq();
+    return { items };
+  },
+  head: ({ loaderData }) => ({
     meta: buildPageMeta({
       title: "FAQ botme — частые вопросы о AI-ассистенте",
       description:
@@ -37,6 +42,20 @@ export const Route = createFileRoute("/_marketing/faq")({
       path: "/faq",
     }),
     links: [canonicalLink("/faq")],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: (loaderData?.items ?? []).map((it) => ({
+            "@type": "Question",
+            name: it.question,
+            acceptedAnswer: { "@type": "Answer", text: it.answer },
+          })),
+        }),
+      },
+    ],
   }),
   component: FaqPage,
 });

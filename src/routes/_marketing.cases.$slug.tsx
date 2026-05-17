@@ -37,6 +37,22 @@ export const Route = createFileRoute("/_marketing/cases/$slug")({
         type: "article",
       }),
       links: [canonicalLink(`/cases/${params.slug}`)],
+      scripts: study
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Article",
+                headline: title,
+                description,
+                author: { "@type": "Organization", name: "botme" },
+                publisher: { "@type": "Organization", name: "botme" },
+                about: study.industry,
+              }),
+            },
+          ]
+        : [],
     };
   },
   notFoundComponent: () => (
