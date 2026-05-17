@@ -20,7 +20,7 @@
  *    });
  */
 
-const FALLBACK_ORIGIN = "https://botme.ru";
+const FALLBACK_ORIGIN = "https://botmate-assist.lovable.app";
 
 /** Resolve site origin. Predicтable on SSR (env), corrected on client (location). */
 export function getSiteOrigin(): string {
