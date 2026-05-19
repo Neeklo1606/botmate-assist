@@ -1,0 +1,31 @@
+{
+  "name": "@botmate/database",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "generate": "prisma generate",
+    "validate": "prisma validate",
+    "migrate:dev": "PRISMA_HIDE_UPDATE_MESSAGE=1 prisma migrate dev",
+    "migrate:deploy": "PRISMA_HIDE_UPDATE_MESSAGE=1 prisma migrate deploy",
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3"
+  },
+  "devDependencies": {
+    "@botmate/config": "workspace:*",
+    "@types/node": "^22.16.5",
+    "prisma": "^6.19.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.3"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

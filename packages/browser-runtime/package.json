@@ -1,0 +1,29 @@
+{
+  "name": "@botmate/browser-runtime",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/api-public.ts",
+    "./worker": "./src/worker-entry.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@botmate/database": "workspace:*",
+    "@botmate/jobs": "workspace:*",
+    "@botmate/runtime": "workspace:*",
+    "@botmate/shared": "workspace:*",
+    "@prisma/client": "^6.19.3",
+    "bullmq": "^5.52.2",
+    "ioredis": "^5.8.2",
+    "playwright": "^1.52.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@botmate/config": "workspace:*",
+    "@types/node": "^22.16.5",
+    "typescript": "^5.8.3"
+  }
+}

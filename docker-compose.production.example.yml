@@ -1,0 +1,76 @@
+# Phase 12B — reference production topology (not a turnkey HA stack).
+# Worker is a separate process — see PRODUCTION_DEPLOYMENT_PACKAGE.md.
+#
+# Usage:
+#   cp docker-compose.production.example.yml docker-compose.prod.yml
+#   export $(grep -v '^#' .env.production | xargs)  # secrets from vault
+#   docker compose -f docker-compose.prod.yml up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-botmate}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: botmate_assist
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-botmate} -d botmate_assist"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - apps/api/.env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-botmate}:${POSTGRES_PASSWORD}@postgres:5432/botmate_assist?schema=public
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3001:3001"
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://api.example.com}
+        VITE_SITE_URL: ${VITE_SITE_URL:-https://app.example.com}
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "8080:8080"
+
+  # Worker — run on same host or separate fleet (Playwright + BullMQ).
+  # No image in repo yet; deploy with:
+  #   pnpm --filter @botmate/worker start
+  # Same DATABASE_URL + REDIS_URL + BOTMATE_* as API.
+
+volumes:
+  postgres_data:
+  redis_data:

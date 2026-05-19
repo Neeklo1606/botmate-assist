@@ -1,0 +1,11 @@
+{
+  "extends": "@botmate/config/tsconfig/node",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts"]
+}

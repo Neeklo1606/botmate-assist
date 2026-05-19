@@ -1,0 +1,855 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  OPERATOR
+  VIEWER
+}
+
+enum CustomerLifecycleStage {
+  invited
+  onboarded
+  activated
+  retained
+  advanced_runtime
+  enterprise_candidate
+  churn_risk
+}
+
+enum SessionStatus {
+  ACTIVE
+  CLOSED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
+}
+
+enum MessageDeliveryStatus {
+  complete
+  streaming
+  partial
+  failed
+}
+
+enum Provider {
+  OPENAI
+}
+
+enum ToolInvocationStatus {
+  START
+  SUCCESS
+  FAIL
+}
+
+enum ProjectKind {
+  assistant
+  media
+  site
+}
+
+enum ProjectStatus {
+  draft
+  preparing
+  ready
+  paused
+}
+
+enum NotificationDeliveryState {
+  pending
+  queued
+  delivered
+  failed
+}
+
+enum NotificationKind {
+  system
+  mention
+  job
+}
+
+enum KnowledgeDocStatus {
+  pending
+  processing
+  ready
+  failed
+}
+
+enum TenantPlanTier {
+  starter
+  pro
+  enterprise
+}
+
+model Tenant {
+  id          String         @id @default(cuid())
+  name        String
+  planTier    TenantPlanTier @default(starter)
+  suspendedAt DateTime?
+  archivedAt  DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  users       User[]
+  sessions    ChatSession[]
+  tools       ToolInvocation[]
+  projects    Project[]
+  assistants  Assistant[]
+  leads       Lead[]
+  notifications Notification[]
+  aiExecutionUsages AiExecutionUsage[]
+  knowledgeBases KnowledgeBase[]
+  knowledgeDocuments KnowledgeDocument[]
+  knowledgeChunks KnowledgeChunk[]
+  browserSessions BrowserSession[]
+  browserRuns     BrowserRun[]
+  browserArtifacts BrowserArtifact[]
+  browserEvents    BrowserEvent[]
+  runtimeGovernanceAuditEvents RuntimeGovernanceAuditEvent[]
+  executionFacts          ExecutionFact[]
+  runtimeActivityFacts    RuntimeActivityFact[]
+  runtimeBookmarks        RuntimeBookmark[]
+  runtimeExecutionNotes   RuntimeExecutionNote[]
+  runtimeIncidentAcks     RuntimeIncidentAck[]
+  executionOperationalMarks ExecutionOperationalMark[]
+  productAnalyticsEvents ProductAnalyticsEvent[]
+  productFeedback          ProductFeedback[]
+  workspaceState         TenantWorkspaceState?
+  invites                TenantInvite[]
+}
+
+model TenantWorkspaceState {
+  tenantId              String                 @id
+  lifecycleStage        CustomerLifecycleStage @default(invited)
+  onboardingCompletedAt DateTime?
+  onboardingSteps       Json                   @default("{}")
+  recommendedActions    Json                   @default("[]")
+  churnRiskAt           DateTime?
+  lifecycleSyncedAt     DateTime?
+  updatedAt             DateTime               @updatedAt
+  tenant                Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+model TenantInvite {
+  id              String    @id @default(cuid())
+  tenantId        String
+  email           String
+  role            Role      @default(OPERATOR)
+  tokenHash       String    @unique
+  invitedByUserId String
+  expiresAt       DateTime
+  acceptedAt      DateTime?
+  revokedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  tenant          Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invitedBy       User      @relation("InvitesSent", fields: [invitedByUserId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, email])
+  @@index([tenantId, createdAt(sort: Desc)])
+}
+
+/// Tenant-safe persisted governance/policy projection (Phase 9C). Not a full audit engine — idempotent upserts via dedupeKey.
+model RuntimeGovernanceAuditEvent {
+  id          String   @id @default(cuid())
+  tenantId    String
+  dedupeKey   String
+  traceId     String?
+  sessionId   String?
+  assistantId String?
+  code        String
+  severity    String
+  message     String   @db.VarChar(2048)
+  surface     String
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, dedupeKey])
+  @@index([tenantId, traceId])
+  @@index([tenantId, sessionId])
+  @@index([tenantId, createdAt(sort: Desc)])
+  @@index([tenantId, code])
+}
+
+model AiExecutionUsage {
+  id               String   @id @default(cuid())
+  tenantId         String
+  assistantId      String?
+  sessionId        String?
+  traceId          String
+  jobId            String?
+  sink             String   @default("worker_assistant_run")
+  provider         String
+  modelId          String
+  promptTokens     Int?
+  completionTokens Int?
+  totalTokens      Int?
+  durationMs       Int
+  queueWaitMs      Int?
+  estimatedCostUsd Decimal? @db.Decimal(14, 8)
+  streamChunkCount Int?
+  metadata         Json?
+  createdAt        DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt(sort: Desc)])
+  @@index([assistantId])
+  @@index([sessionId])
+  @@index([traceId])
+}
+
+model Notification {
+  id              String                     @id @default(cuid())
+  tenantId        String
+  userId          String
+  kind            NotificationKind
+  title           String
+  body            Json?
+  readAt          DateTime?
+  deliveryState   NotificationDeliveryState @default(pending)
+  correlationId   String?
+  /// Canonical assistant/browser trace — duplicates correlationId when unset at ingest (Phase 9D).
+  traceId         String?
+  /// Runtime navigation key — mirrors traceId for workspace executions (Phase 9D).
+  executionId     String?
+  createdAt       DateTime                   @default(now())
+  updatedAt       DateTime                   @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, userId, readAt])
+  @@index([tenantId, createdAt(sort: Desc)])
+  @@index([correlationId])
+  @@index([tenantId, traceId])
+  @@index([tenantId, executionId])
+}
+
+/// Durable execution observability projection — not event sourcing (Phase 9D).
+model ExecutionFact {
+  id                   String   @id @default(cuid())
+  tenantId             String
+  dedupeKey            String
+  executionId          String
+  traceId              String
+  correlationId        String?
+  assistantId          String?
+  lane                 String
+  type                 String
+  status               String
+  severity             String
+  ts                   DateTime
+  summary              String   @db.Text
+  policyReasonCode     String?
+  governanceReasonCode String?
+  replayRelated        Boolean  @default(false)
+  sourceTable          String
+  sourceId             String
+  provisional          Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, dedupeKey])
+  @@index([tenantId, traceId, ts])
+  @@index([tenantId, executionId, ts])
+}
+
+/// Bounded operational activity projection — not event sourcing (Phase 9F).
+model RuntimeActivityFact {
+  id            String    @id @default(cuid())
+  tenantId      String
+  dedupeKey     String
+  ts            DateTime
+  kind          String
+  severity      String
+  traceId       String?
+  executionId   String?
+  correlationId String?
+  summary       String    @db.Text
+  payload       Json?
+  expiresAt     DateTime?
+  createdAt     DateTime  @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, dedupeKey])
+  @@index([tenantId, ts(sort: Desc)])
+  @@index([tenantId, executionId, ts(sort: Desc)])
+}
+
+model RuntimeBookmark {
+  id           String   @id @default(cuid())
+  tenantId     String
+  userId       String
+  executionId  String
+  note         String?  @db.VarChar(512)
+  createdAt    DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId, executionId])
+  @@index([tenantId, userId, createdAt(sort: Desc)])
+}
+
+model RuntimeExecutionNote {
+  id          String   @id @default(cuid())
+  tenantId    String
+  userId      String
+  executionId String
+  body        String   @db.Text
+  createdAt   DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, executionId, createdAt(sort: Desc)])
+}
+
+model RuntimeIncidentAck {
+  id               String    @id @default(cuid())
+  tenantId         String
+  userId           String
+  incidentKey      String
+  acknowledgedAt   DateTime  @default(now())
+  mutedUntil       DateTime?
+  assigneeLabel    String?   @db.VarChar(160)
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId, incidentKey])
+}
+
+/// UI-first governance markers — does not mutate policy evaluator outputs (Phase 9F).
+model ExecutionOperationalMark {
+  id                     String   @id @default(cuid())
+  tenantId               String
+  executionId            String
+  frozen                 Boolean  @default(false)
+  escalated              Boolean  @default(false)
+  replayBlocked          Boolean  @default(false)
+  governanceQuarantine   Boolean  @default(false)
+  updatedByUserId        String
+  updatedAt              DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  actor  User    @relation(fields: [updatedByUserId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, executionId])
+}
+
+/// Phase 12C — lightweight product analytics (tenant-scoped, optional dedupe for milestones).
+model ProductAnalyticsEvent {
+  id        String   @id @default(cuid())
+  tenantId  String
+  userId    String?
+  name      String   @db.VarChar(128)
+  dedupeKey String?  @db.VarChar(128)
+  props     Json?
+  route     String?  @db.VarChar(512)
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([tenantId, dedupeKey])
+  @@index([tenantId, name, createdAt(sort: Desc)])
+  @@index([tenantId, createdAt(sort: Desc)])
+}
+
+/// Phase 12C — in-product feedback (not a ticketing system).
+model ProductFeedback {
+  id        String   @id @default(cuid())
+  tenantId  String
+  userId    String
+  category  String   @db.VarChar(64)
+  message   String   @db.Text
+  route     String?  @db.VarChar(512)
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt(sort: Desc)])
+  @@index([category, createdAt(sort: Desc)])
+}
+
+model User {
+  id           String   @id @default(cuid())
+  tenantId     String
+  email        String   @unique
+  fullName     String
+  passwordHash String
+  role         Role     @default(OPERATOR)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sessions     ChatSession[] @relation("SessionUser")
+  authSessions AuthSession[]
+  integrations IntegrationAccount[]
+  apiKeys      ApiKey[]
+  ownedProjects Project[]
+  ownedAssistants Assistant[]
+  assignedLeads Lead[]
+  notifications Notification[]
+  runtimeBookmarks        RuntimeBookmark[]
+  runtimeExecutionNotes   RuntimeExecutionNote[]
+  runtimeIncidentAcks     RuntimeIncidentAck[]
+  executionOperationalMarks ExecutionOperationalMark[]
+  productAnalyticsEvents ProductAnalyticsEvent[]
+  productFeedback          ProductFeedback[]
+  invitesSent              TenantInvite[] @relation("InvitesSent")
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  tenantId    String
+  ownerUserId String
+  kind        ProjectKind
+  name        String
+  status      ProjectStatus @default(preparing)
+  briefData   Json
+  stats       Json?
+  readyAt     DateTime?
+  archivedAt  DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  owner  User   @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  assistants Assistant[]
+  leads      Lead[]
+
+  @@index([tenantId, updatedAt(sort: Desc)])
+  @@index([tenantId, archivedAt])
+  @@index([tenantId, ownerUserId])
+}
+
+enum AssistantNiche {
+  real_estate
+  auto
+  clinic
+  services
+  online_school
+  agency
+  other
+}
+
+enum AssistantStatus {
+  draft
+  active
+  paused
+}
+
+model Assistant {
+  id          String          @id @default(cuid())
+  tenantId    String
+  ownerUserId String
+  projectId   String?
+  name        String
+  niche       AssistantNiche
+  status      AssistantStatus @default(draft)
+  settings    Json?
+  archivedAt  DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  owner    User      @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  project  Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  chatSessions ChatSession[]
+  leads        Lead[]
+  knowledgeBases KnowledgeBase[]
+  browserSessions BrowserSession[]
+
+  @@index([tenantId, updatedAt(sort: Desc)])
+  @@index([tenantId, status])
+}
+
+model KnowledgeBase {
+  id           String    @id @default(cuid())
+  tenantId     String
+  assistantId  String?
+  name         String
+  archivedAt   DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  tenant    Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  assistant Assistant?          @relation(fields: [assistantId], references: [id], onDelete: SetNull)
+  documents KnowledgeDocument[]
+
+  @@index([tenantId, assistantId])
+  @@index([tenantId, archivedAt])
+}
+
+model KnowledgeDocument {
+  id              String             @id @default(cuid())
+  tenantId        String
+  knowledgeBaseId String
+  title           String
+  mimeType        String
+  storagePath     String
+  byteSize        Int
+  status          KnowledgeDocStatus @default(pending)
+  errorMessage    String?
+  metadata        Json?
+  archivedAt      DateTime?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  tenant Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  base   KnowledgeBase @relation(fields: [knowledgeBaseId], references: [id], onDelete: Cascade)
+  chunks KnowledgeChunk[]
+
+  @@index([tenantId, knowledgeBaseId])
+  @@index([tenantId, status])
+}
+
+model KnowledgeChunk {
+  id            String    @id @default(cuid())
+  tenantId      String
+  documentId    String
+  ordinal       Int
+  content       String    @db.Text
+  tokenEstimate Int?
+  metadata      Json?
+  embedding     Unsupported("vector(1536)")?
+  embeddedAt    DateTime?
+
+  tenant   Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  document KnowledgeDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, documentId])
+}
+
+/// HttpOnly cookie sessions (Redis-ready via SessionStore abstraction).
+model AuthSession {
+  id        String    @id
+  userId    String
+  tenantId  String
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model ChatSession {
+  id          String        @id @default(cuid())
+  tenantId   String
+  userId     String?
+  assistantId String?
+  channelId   String?
+  visitorKey  String?
+  title       String?
+  metadata    Json?
+  status      SessionStatus @default(ACTIVE)
+  archivedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user      User?     @relation("SessionUser", fields: [userId], references: [id], onDelete: SetNull)
+  assistant Assistant? @relation(fields: [assistantId], references: [id], onDelete: SetNull)
+  messages  Message[]
+  leads     Lead[]
+  browserSessions BrowserSession[]
+
+  @@index([tenantId, createdAt])
+  @@index([tenantId, archivedAt])
+  @@index([tenantId, visitorKey])
+  @@index([userId, createdAt])
+}
+
+enum BrowserSessionStatus {
+  creating
+  running
+  idle_soft
+  terminating
+  terminated
+}
+
+enum BrowserRunStatus {
+  queued
+  running
+  succeeded
+  failed
+  cancelled
+}
+
+enum BrowserArtifactKind {
+  screenshot
+  trace
+  html_snapshot
+  extract
+  browser_storage
+}
+
+/// Human operator presence / control surface — orthogonal to worker Playwright lease (`leaseOwner`).
+enum BrowserOperatorMode {
+  none
+  observe
+  join
+  takeover
+}
+
+model BrowserSession {
+  id               String               @id @default(cuid())
+  tenantId         String
+  assistantId      String?
+  chatSessionId    String?
+  createdByUserId  String?
+  status           BrowserSessionStatus @default(creating)
+  /// Policy snapshot — allowed hosts hash, limits version (immutable reference).
+  policySnapshot   Json?
+  leaseOwner       String?
+  leaseExpiresAt   DateTime?
+  heartbeatAt      DateTime?
+  idleExpiresAt    DateTime?
+  lastUrl          String?
+  storageArtifactId String?
+  pendingCleanupAt DateTime?
+  terminatedAt     DateTime?
+  /// Phase 5D — operator observe/join/takeover lease (exclusive holder except ADMIN/OWNER bypass via APIs).
+  operatorMode               BrowserOperatorMode @default(none)
+  operatorUserId             String?
+  operatorLeaseExpiresAt    DateTime?
+  takeoverUserId             String?
+  takeoverLeaseExpiresAt     DateTime?
+  /// Opaque token for WS/redis room `tenant:{tid}:browser-feed:{token}` — not guessable from session id alone.
+  operatorFeedRoomToken      String?             @unique
+  operatorFeedLastEmittedAt  DateTime?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  assistant   Assistant?   @relation(fields: [assistantId], references: [id], onDelete: SetNull)
+  chatSession ChatSession? @relation(fields: [chatSessionId], references: [id], onDelete: SetNull)
+
+  runs      BrowserRun[]
+  artifacts BrowserArtifact[]
+  events    BrowserEvent[]
+
+  @@index([tenantId, status])
+  @@index([tenantId, createdAt(sort: Desc)])
+  @@index([tenantId, leaseExpiresAt])
+  @@index([tenantId, idleExpiresAt])
+  @@index([tenantId, pendingCleanupAt])
+  @@index([tenantId, operatorLeaseExpiresAt])
+  @@index([tenantId, takeoverLeaseExpiresAt])
+}
+
+model BrowserRun {
+  id                String           @id @default(cuid())
+  tenantId          String
+  browserSessionId  String
+  traceId           String
+  status            BrowserRunStatus @default(queued)
+  stepPlan          Json
+  currentStepIndex  Int              @default(0)
+  toolInvocationId  String?
+  error             Json?
+  queuedReason      String?
+  startedAt         DateTime?
+  finishedAt        DateTime?
+  /// Structured tool-visible summary (extract text, artifact ids).
+  output            Json?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  tenant        Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  browserSession BrowserSession @relation(fields: [browserSessionId], references: [id], onDelete: Cascade)
+
+  artifacts BrowserArtifact[]
+  events    BrowserEvent[]
+
+  @@index([tenantId, browserSessionId])
+  @@index([tenantId, status])
+  @@index([tenantId, createdAt(sort: Desc)])
+  @@index([traceId])
+}
+
+model BrowserArtifact {
+  id               String             @id @default(cuid())
+  tenantId         String
+  browserSessionId String
+  browserRunId     String?
+  kind             BrowserArtifactKind
+  storageKey       String
+  byteLength       BigInt             @default(0)
+  sha256           String?
+  contentType      String?
+  metadata         Json?
+  expiresAt        DateTime?
+  deletedAt        DateTime?
+  createdAt        DateTime           @default(now())
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  browserSession BrowserSession @relation(fields: [browserSessionId], references: [id], onDelete: Cascade)
+  browserRun     BrowserRun?    @relation(fields: [browserRunId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId, browserSessionId])
+  @@index([tenantId, expiresAt])
+  @@index([tenantId, createdAt(sort: Desc)])
+}
+
+model BrowserEvent {
+  id               String   @id @default(cuid())
+  tenantId         String
+  browserSessionId String
+  browserRunId     String?
+  seq              BigInt
+  type             String
+  payload          Json?
+  createdAt        DateTime @default(now())
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  browserSession BrowserSession @relation(fields: [browserSessionId], references: [id], onDelete: Cascade)
+  browserRun     BrowserRun?    @relation(fields: [browserRunId], references: [id], onDelete: SetNull)
+
+  @@unique([browserSessionId, seq])
+  @@index([tenantId, browserSessionId])
+  @@index([tenantId, browserRunId])
+  @@index([tenantId, createdAt(sort: Desc)])
+}
+
+model Message {
+  id             String                 @id @default(cuid())
+  tenantId       String
+  sessionId      String
+  role           MessageRole
+  content        String
+  metadata       Json?
+  deliveryStatus MessageDeliveryStatus    @default(complete)
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  session        ChatSession            @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@index([tenantId, createdAt])
+}
+
+enum LeadPipelineStatus {
+  new
+  working
+  meeting
+  closed
+  rejected
+}
+
+enum LeadSourceKind {
+  chat
+  call
+  form
+  tool
+  other
+}
+
+model Lead {
+  id               String             @id @default(cuid())
+  tenantId         String
+  assistantId      String?
+  projectId        String?
+  sessionId        String?
+  ownerUserId      String?
+
+  name             String
+  contact          String
+  phone            String?
+  email            String?
+  summary          String             @default("")
+  interest         String             @default("")
+  source           LeadSourceKind     @default(tool)
+  pipelineStatus   LeadPipelineStatus @default(new)
+
+  idempotencyKey   String?
+  attribution      Json?
+  metadata         Json?
+
+  archivedAt       DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  tenant    Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  assistant Assistant?   @relation(fields: [assistantId], references: [id], onDelete: SetNull)
+  project   Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  session   ChatSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  owner     User?        @relation(fields: [ownerUserId], references: [id], onDelete: SetNull)
+
+  @@unique([tenantId, idempotencyKey])
+  @@index([tenantId, pipelineStatus])
+  @@index([tenantId, archivedAt])
+  @@index([tenantId, createdAt(sort: Desc)])
+  @@index([tenantId, source])
+}
+
+model ToolInvocation {
+  id            String   @id @default(cuid())
+  tenantId       String
+  userId         String
+  sessionId      String?
+  toolName       String
+  input          Json
+  output         Json?
+  status         ToolInvocationStatus @default(START)
+  success        Boolean  @default(false)
+  error          String?
+  createdAt      DateTime @default(now())
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, createdAt])
+  @@index([tenantId, userId, createdAt])
+  @@index([toolName, createdAt])
+  @@index([status, createdAt])
+}
+
+model IntegrationAccount {
+  id              String   @id @default(cuid())
+  userId           String
+  provider         Provider
+  apiKeyEncrypted  String
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, provider, isActive])
+  @@unique([userId, provider])
+}
+
+model ApiKey {
+  id              String    @id @default(cuid())
+  tenantId        String
+  userId          String
+  name            String
+  keyPrefix       String
+  keyHash         String    @unique
+  assistantId     String?
+  allowedDomains  Json?
+  rateLimitPerMin Int       @default(60)
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  revokedAt       DateTime?
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, userId, isActive])
+  @@index([keyPrefix])
+}

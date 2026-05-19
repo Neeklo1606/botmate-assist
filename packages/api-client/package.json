@@ -1,0 +1,21 @@
+{
+  "name": "@botmate/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@botmate/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@botmate/config": "workspace:*",
+    "@types/node": "^22.16.5",
+    "typescript": "^5.8.3"
+  }
+}
