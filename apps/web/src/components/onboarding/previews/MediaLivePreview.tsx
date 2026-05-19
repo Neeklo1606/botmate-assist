@@ -60,7 +60,7 @@ export function MediaLivePreview({ data }: Props) {
 
   return (
     <div className="flex flex-col gap-5 rounded-2xl border border-border-dark bg-bg-elevated p-6">
-      <div className="flex items-center justify-between">
+      <div className="toolbar-row">
         <span className="font-mono text-[10px] uppercase tracking-wide text-ink-dark-subtle">
           Первый пост
         </span>

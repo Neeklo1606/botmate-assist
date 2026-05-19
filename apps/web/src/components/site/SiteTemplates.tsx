@@ -279,7 +279,7 @@ export function SiteTemplates() {
                 >
                   {t.desc}
                 </p>
-                <div className="mt-3.5 flex items-center justify-between">
+                <div className="mt-3.5 toolbar-row">
                   <span
                     className="font-mono text-[10px]"
                     style={{ color: "var(--ink-dark-subtle)" }}

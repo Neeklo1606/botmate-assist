@@ -180,9 +180,9 @@ function LeadsChrome(props: {
   return (
     <div className="min-h-full bg-[#141414] text-white">
       <div className="sticky top-0 z-20 border-b border-[#2a2a2a] bg-[#141414]/95 backdrop-blur">
-        <div className="px-6 py-5 flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-semibold">Лиды</h1>
-          <span className="text-sm text-white/50">{leadsTotal} всего</span>
+        <div className="container-px flex flex-wrap items-center gap-3 py-4 md:py-5">
+          <h1 className="text-xl font-semibold md:text-2xl">Лиды</h1>
+          <span className="badge-pill text-sm text-white/50">{leadsTotal} всего</span>
           <div className="flex-1" />
           <Button onClick={exportCsv} variant="outline" className="border-[#2a2a2a] bg-transparent text-white hover:bg-[#2a2a2a]">
             <Download className="h-4 w-4 mr-1.5" /> CSV
@@ -195,8 +195,8 @@ function LeadsChrome(props: {
           </Button>
         </div>
 
-        <div className="px-6 pb-4 flex flex-wrap items-center gap-3">
-          <div className="relative flex-1 min-w-[220px] max-w-xs">
+        <div className="container-px flex flex-wrap items-center gap-3 pb-4">
+          <div className="relative min-w-0 flex-1 basis-full sm:min-w-[200px] sm:max-w-xs sm:basis-auto">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
             <Input
               value={search}
@@ -259,7 +259,7 @@ function LeadsChrome(props: {
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="container-px py-4 md:py-6">
         {view === "kanban" ? (
           <KanbanView leads={filtered} onOpen={setOpenId} onMove={moveLead} />
         ) : (
@@ -440,12 +440,12 @@ function KanbanView({
             }}
             className="rounded-lg border border-[#2a2a2a] bg-[#1a1a1a]/40 flex flex-col min-h-[400px]"
           >
-            <div className="px-3 py-2.5 border-b border-[#2a2a2a] flex items-center justify-between">
+            <div className="px-3 py-2.5 border-b border-[#2a2a2a] toolbar-row">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full" style={{ background: meta.color }} />
                 <span className="text-sm font-medium">{meta.label}</span>
               </div>
-              <span className="text-xs text-white/50 px-1.5 py-0.5 rounded bg-[#2a2a2a]">{items.length}</span>
+              <span className="badge-pill rounded bg-[#2a2a2a] px-1.5 py-0.5 text-xs text-white/50">{items.length}</span>
             </div>
             <div className="p-2 space-y-2 flex-1 overflow-y-auto">
               {items.length === 0 && (
@@ -499,7 +499,7 @@ function KanbanCard({
 
       <div className="text-xs text-white/80 line-clamp-2 mb-2">{lead.interest}</div>
 
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <span className="text-[10px] text-white/40">{lead.createdAgo}</span>
         <div className="flex items-center gap-1">
           <div
@@ -567,8 +567,8 @@ function TableView({ leads, onOpen }: { leads: Lead[]; onOpen: (id: string) => v
   );
 
   return (
-    <div className="rounded-lg border border-[#2a2a2a] bg-[#1a1a1a] overflow-hidden">
-      <table className="w-full text-sm">
+    <div className="overflow-x-auto rounded-lg border border-[#2a2a2a] bg-[#1a1a1a]">
+      <table className="w-full min-w-[720px] text-sm">
         <thead className="bg-[#141414] text-white/60">
           <tr>
             <Th k="name">Имя</Th>
@@ -658,7 +658,7 @@ function DetailPanel({
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="flex-1 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <aside className="w-[520px] bg-[#0f0f0f] border-l border-[#2a2a2a] flex flex-col shadow-2xl animate-slide-in-right">
+      <aside className="flex w-full max-w-full flex-col border-l border-[#2a2a2a] bg-[#0f0f0f] shadow-2xl animate-slide-in-right sm:max-w-[min(520px,100vw)]">
         {/* Header */}
         <div className="p-5 border-b border-[#2a2a2a] flex items-start gap-3">
           <div
@@ -899,7 +899,7 @@ function HistoryTab({ lead }: { lead: Lead }) {
       <div className="mt-5">
         <button
           onClick={() => setTranscriptOpen((v) => !v)}
-          className="w-full flex items-center justify-between text-xs uppercase tracking-wider text-white/40 hover:text-white/70"
+          className="w-full toolbar-row text-xs uppercase tracking-wider text-white/40 hover:text-white/70"
         >
           <span>Полный транскрипт диалога</span>
           {transcriptOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
@@ -1064,7 +1064,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function Row({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
       <span className="text-xs text-white/40">{label}</span>
       <span className={cn("text-white/85 truncate", mono && "font-mono text-xs")}>{value}</span>
     </div>

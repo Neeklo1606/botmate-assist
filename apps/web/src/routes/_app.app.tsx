@@ -40,6 +40,11 @@ import { useCurrentUser } from "@/lib/hooks/use-auth";
 import { useAssistants, useLeads } from "@/lib/hooks/use-app";
 import { useProductActivation } from "@/lib/hooks/use-product-activation";
 import { useOpenAiIntegrationStatus } from "@/lib/hooks/use-workspace-saas";
+import {
+  Cluster,
+  CountBadge,
+  ToolbarRow,
+} from "@/components/layout/responsive";
 
 export const Route = createFileRoute("/_app/app")({
   head: () => ({
@@ -167,8 +172,8 @@ function ProjectsSection({
 }) {
   return (
     <section aria-label="Ваши проекты" className="space-y-3">
-      <div className="flex items-end justify-between gap-3">
-        <div>
+      <div className="toolbar-row items-end">
+        <div className="min-w-0">
           <h1 className="font-display text-xl font-semibold tracking-tight text-white md:text-2xl">
             {firstName ? `${firstName}, ваши проекты` : "Ваши проекты"}
           </h1>
@@ -204,10 +209,10 @@ function ReadinessSection({ items, allReady }: { items: ReadinessItem[]; allRead
     return (
       <Card>
         <div
-          className="flex items-center justify-between rounded-lg px-5 py-4"
+          className="toolbar-row rounded-lg px-5 py-4"
           style={{ background: "rgba(168,255,87,0.08)", border: "1px solid rgba(168,255,87,0.25)" }}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3">
             <span
               className="flex h-8 w-8 items-center justify-center rounded-full"
               style={{ background: "#a8ff57", color: "#0a0a0a" }}
@@ -231,19 +236,22 @@ function ReadinessSection({ items, allReady }: { items: ReadinessItem[]; allRead
 
   return (
     <Card>
-      <div className="mb-3 flex items-center justify-between">
+      <ToolbarRow className="mb-3">
         <h2 className="font-display text-base font-semibold text-white">
           Готовность к запуску
         </h2>
-        <span className="text-xs tabular-nums" style={{ color: "rgba(255,255,255,0.5)" }}>
+        <span
+          className="action-nowrap text-xs tabular-nums"
+          style={{ color: "rgba(255,255,255,0.5)" }}
+        >
           {items.filter((r) => r.done).length} / {items.length}
         </span>
-      </div>
+      </ToolbarRow>
       <ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
         {items.map((item) => (
           <li
             key={item.id}
-            className="flex items-center justify-between gap-3 rounded-lg px-4 py-3"
+            className="flex flex-col gap-2 rounded-lg px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
             style={{ background: "#141414", border: "1px solid #2a2a2a" }}
           >
             <div className="flex min-w-0 items-center gap-2.5">
@@ -270,7 +278,7 @@ function ReadinessSection({ items, allReady }: { items: ReadinessItem[]; allRead
               </span>
             </div>
             {!item.done && (
-              <div className="flex items-center gap-2">
+              <div className="flex shrink-0 items-center gap-2 self-start sm:self-center">
                 <span
                   aria-hidden
                   className="h-2 w-2 animate-pulse rounded-full"
@@ -278,7 +286,7 @@ function ReadinessSection({ items, allReady }: { items: ReadinessItem[]; allRead
                 />
                 <Link
                   to={item.href}
-                  className="text-xs font-medium transition-colors hover:underline"
+                  className="action-nowrap text-xs font-medium transition-colors hover:underline"
                   style={{ color: "#a8ff57" }}
                 >
                   Настроить →
@@ -299,13 +307,10 @@ function LiveVisitorsSection() {
 
   return (
     <Card>
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h2 className="flex items-center gap-2 font-display text-base font-semibold text-white">
-            <span
-              className="relative inline-flex h-2.5 w-2.5"
-              aria-hidden
-            >
+      <ToolbarRow className="mb-4">
+        <Cluster nowrap className="gap-3">
+          <h2 className="flex shrink-0 items-center gap-2 font-display text-base font-semibold text-white">
+            <span className="relative inline-flex h-2.5 w-2.5 shrink-0" aria-hidden>
               <span
                 className="absolute inset-0 animate-ping rounded-full"
                 style={{ background: "#a8ff57", opacity: 0.6 }}
@@ -317,21 +322,20 @@ function LiveVisitorsSection() {
             </span>
             Сейчас на сайте
           </h2>
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums"
+          <CountBadge
+            count={count}
+            label={pluralize(count, ["посетитель", "посетителя", "посетителей"])}
             style={{ background: "rgba(168,255,87,0.12)", color: "#a8ff57" }}
-          >
-            {count} {pluralize(count, ["посетитель", "посетителя", "посетителей"])}
-          </span>
-        </div>
+          />
+        </Cluster>
         <Link
           to="/visitors"
-          className="text-sm font-medium transition-colors hover:text-white"
+          className="action-nowrap self-start text-sm font-medium transition-colors hover:text-white sm:self-center"
           style={{ color: "rgba(255,255,255,0.65)" }}
         >
           Смотреть всех →
         </Link>
-      </div>
+      </ToolbarRow>
 
       {count === 0 ? (
         <EmptyVisitors />

@@ -84,7 +84,7 @@ export function WelcomeBanner({ userName }: Props) {
                 (e.currentTarget as HTMLElement).style.borderColor = "#2a2a2a";
               }}
             >
-              <div className="flex items-center justify-between">
+              <div className="toolbar-row">
                 <span
                   className="flex h-9 w-9 items-center justify-center rounded-lg"
                   style={{

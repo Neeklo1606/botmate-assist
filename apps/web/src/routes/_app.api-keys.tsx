@@ -77,7 +77,7 @@ function ApiKeysContent() {
 
   return (
     <div className="min-h-full bg-[#141414] text-white">
-      <div className="px-6 py-5 border-b border-[#2a2a2a] flex items-center justify-between gap-3">
+      <div className="px-6 py-5 border-b border-[#2a2a2a] flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold inline-flex items-center gap-2">
             <KeyRound className="h-5 w-5 text-[#a8ff57]" /> API-ключи

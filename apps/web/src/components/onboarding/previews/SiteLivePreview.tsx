@@ -107,7 +107,7 @@ export function SiteLivePreview({ data }: Props) {
           <p className="mt-1.5 text-[10px] leading-[1.4] text-ink-dark-muted">
             {offerDesc || "Описание появится после шага 2"}
           </p>
-          <div className="mt-3 flex items-center justify-between">
+          <div className="mt-3 toolbar-row">
             <span className="inline-flex h-6 items-center rounded bg-accent px-2.5 text-[10px] font-medium text-bg-base">
               {ctaText}
             </span>

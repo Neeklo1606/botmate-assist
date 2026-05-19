@@ -38,7 +38,7 @@ export function SiteOverview({ project }: { project: Project }) {
 
       {/* Site preview */}
       <section className="rounded-xl overflow-hidden" style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}>
-        <header className="flex items-center justify-between border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
+        <header className="toolbar-row border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4" style={{ color: "#a8ff57" }} strokeWidth={1.75} />
             <h3 className="font-display text-sm font-semibold text-white">Превью лендинга</h3>
@@ -85,7 +85,7 @@ export function SiteOverview({ project }: { project: Project }) {
 
       {/* Leads */}
       <section className="rounded-xl" style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}>
-        <header className="flex items-center justify-between border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
+        <header className="toolbar-row border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
           <div className="flex items-center gap-2">
             <Inbox className="h-4 w-4" style={{ color: "#a8ff57" }} strokeWidth={1.75} />
             <h3 className="font-display text-sm font-semibold text-white">Заявки с лендинга</h3>

@@ -47,7 +47,7 @@ export function MediaOverview({ project }: { project: Project }) {
         className="rounded-xl"
         style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}
       >
-        <header className="flex items-center justify-between border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
+        <header className="toolbar-row border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
           <div className="flex items-center gap-2">
             <ImageIcon className="h-4 w-4" style={{ color: "#a8ff57" }} strokeWidth={1.75} />
             <h3 className="font-display text-sm font-semibold text-white">Сгенерированные посты</h3>
@@ -66,7 +66,7 @@ export function MediaOverview({ project }: { project: Project }) {
               />
               <div className="px-2.5 py-2">
                 <div className="line-clamp-2 text-[11px] font-medium text-white">{p.title}</div>
-                <div className="mt-1 flex items-center justify-between text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <div className="mt-1 toolbar-row text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>
                   <span>{p.type}</span>
                   <span style={{ color: p.status === "scheduled" ? "#a8ff57" : "rgba(255,255,255,0.5)" }}>
                     {p.status === "scheduled" ? p.date : "черновик"}
@@ -80,7 +80,7 @@ export function MediaOverview({ project }: { project: Project }) {
 
       {/* Calendar */}
       <section className="rounded-xl" style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}>
-        <header className="flex items-center justify-between border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
+        <header className="toolbar-row border-b px-5 py-3.5" style={{ borderColor: "#2a2a2a" }}>
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" style={{ color: "#a8ff57" }} strokeWidth={1.75} />
             <h3 className="font-display text-sm font-semibold text-white">Календарь публикаций (неделя)</h3>

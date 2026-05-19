@@ -291,7 +291,7 @@ function PricingComparison() {
                 {rows.map((row) => (
                   <li
                     key={row.feature}
-                    className="flex items-center justify-between gap-4 px-4 py-3"
+                    className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between px-4 py-3"
                   >
                     <span className="text-sm text-foreground">{row.feature}</span>
                     <span className="shrink-0">{renderCell(row.values[tab])}</span>

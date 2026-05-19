@@ -125,7 +125,7 @@ export function SiteSpeedComparison() {
               ))}
             </ul>
             <div
-              className="mt-7 flex items-center justify-between border-t pt-5"
+              className="mt-7 toolbar-row border-t pt-5"
               style={{ borderColor: "var(--border-dark)" }}
             >
               <span

@@ -222,7 +222,7 @@ function InspectorTimelineTab(props: { executionId: string }): ReactElement {
 
   return (
     <div className="flex min-h-[380px] flex-1 flex-col gap-2">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <span className="text-xs font-medium uppercase tracking-wide text-white/45">
           Хронология ({rows.length}{timeline.data?.pages?.[0]?.truncated ? "+" : ""})
         </span>

@@ -102,7 +102,7 @@ export function ProjectCard({ project }: Props) {
       </div>
 
       {/* Footer CTA */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 toolbar-row">
         <span
           className="text-[11px] tabular-nums"
           style={{ color: "rgba(255,255,255,0.4)" }}

@@ -654,7 +654,7 @@ function PaginationBar(props: {
   const canNext = props.page * props.pageSize < props.total;
 
   return (
-    <div className="flex items-center justify-between gap-3 text-xs text-white/50">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-white/50">
       <span>
         Страница {props.page} / {totalPages} · всего {props.total}
       </span>

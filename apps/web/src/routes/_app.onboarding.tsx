@@ -145,7 +145,7 @@ function OnboardingWizard() {
     >
       {/* Top bar: progress + skip */}
       <header className="flex flex-col gap-3 px-5 pt-5 md:px-10 md:pt-6">
-        <div className="flex items-center justify-between">
+        <div className="toolbar-row">
           <span
             className="font-display text-sm font-medium tabular-nums"
             style={{ color: "rgba(255,255,255,0.6)" }}
@@ -184,7 +184,7 @@ function OnboardingWizard() {
           </div>
 
           {/* Nav */}
-          <div className="mt-8 flex items-center justify-between gap-3">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <button
               type="button"
               onClick={goPrev}

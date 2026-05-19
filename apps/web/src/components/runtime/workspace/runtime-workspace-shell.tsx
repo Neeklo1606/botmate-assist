@@ -261,7 +261,7 @@ function ExecutionRail(props: {
             ))}
         </div>
 
-        <div className="flex items-center justify-between gap-2 border-t border-white/10 pt-2 text-[11px] text-white/45">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-t border-white/10 pt-2 text-[11px] text-white/45">
           <Button
             type="button"
             variant="outline"
@@ -372,7 +372,7 @@ function RuntimeActivityDock(props: { items: RuntimeActivityEvent[]; degraded: b
                     className="absolute left-0 top-0 w-full border-b border-white/5 px-3 py-2 text-[11px]"
                     style={{ transform: `translateY(${vi.start}px)` }}
                   >
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <Badge variant="outline" className="border-white/15 font-mono text-[9px] text-white/55">
                         {row.kind}
                       </Badge>

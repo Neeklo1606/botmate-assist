@@ -10,7 +10,7 @@ export function UsageQuotaBar(props: { item: UsageQuotaItem }) {
 
   return (
     <div className="space-y-1.5">
-      <div className="flex items-center justify-between gap-2 text-sm">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm">
         <span className="text-white/80">{item.label}</span>
         <span className={cn("tabular-nums text-white/50", item.atLimit && "text-red-300")}>
           {item.used.toLocaleString()} / {item.limit.toLocaleString()}

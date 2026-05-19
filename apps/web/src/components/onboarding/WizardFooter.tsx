@@ -28,7 +28,7 @@ export function WizardFooter({
   return (
     <div
       className={cn(
-        "flex items-center justify-between gap-3",
+        "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between",
         "fixed inset-x-0 bottom-0 z-40 border-t border-border-dark bg-bg-base/95 px-4 py-3 backdrop-blur",
         "md:static md:inset-auto md:mt-12 md:border-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none",
       )}

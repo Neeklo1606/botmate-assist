@@ -140,20 +140,42 @@ const MOBILE_NAV: NavItem[] = [
   { to: "/settings", label: "Ещё", icon: Settings },
 ];
 
+/** Страницы на всю ширину без контейнера (чат, лиды, runtime). */
+const FULL_BLEED_PREFIXES = ["/chat", "/leads", "/api-keys", "/runtime"];
+
+function isFullBleedPath(pathname: string): boolean {
+  return FULL_BLEED_PREFIXES.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`),
+  );
+}
+
 function AppLayout() {
   const location = useLocation();
   const { data: user } = useCurrentUser();
   useCabinetRealtime(user ?? undefined, { pathname: location.pathname });
+  const fullBleed = isFullBleedPath(location.pathname);
+
   return (
     <div className="flex min-h-screen" style={{ background: "#141414" }}>
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar />
-        <main className="flex-1 overflow-x-hidden pb-[72px] md:pb-0">
-          <div className="container-px mx-auto w-full max-w-[1280px] py-4 md:py-6 text-foreground">
-            <Breadcrumbs />
-            <Outlet />
-          </div>
+        <main className="flex min-h-0 flex-1 flex-col overflow-x-hidden pb-[72px] md:pb-0">
+          {fullBleed ? (
+            <div className="flex min-h-0 flex-1 flex-col text-foreground">
+              <div className="container-px hidden border-b border-white/5 py-2 md:block">
+                <Breadcrumbs />
+              </div>
+              <div className="min-h-0 flex-1">
+                <Outlet />
+              </div>
+            </div>
+          ) : (
+            <div className="container-px mx-auto w-full max-w-[1280px] py-4 md:py-6 text-foreground">
+              <Breadcrumbs />
+              <Outlet />
+            </div>
+          )}
         </main>
         <MobileBottomNav />
       </div>
@@ -405,7 +427,7 @@ function Topbar() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80 p-0">
-            <div className="flex items-center justify-between px-3 py-2.5 border-b border-border">
+            <div className="toolbar-row px-3 py-2.5 border-b border-border">
               <div className="text-sm font-semibold">Уведомления</div>
               {unread > 0 && (
                 <button

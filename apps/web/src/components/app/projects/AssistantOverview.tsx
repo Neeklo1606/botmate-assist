@@ -20,7 +20,7 @@ export function AssistantOverview({ project }: { project: Project }) {
         style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}
       >
         <header
-          className="flex items-center justify-between border-b px-5 py-3.5"
+          className="toolbar-row border-b px-5 py-3.5"
           style={{ borderColor: "#2a2a2a" }}
         >
           <div className="flex items-center gap-2">

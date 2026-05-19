@@ -94,7 +94,7 @@ function CasesPage() {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-between">
+                  <div className="mt-6 toolbar-row">
                     <span className="text-xs text-ink-subtle">
                       Цитата: «{c.quote.text.slice(0, 60)}…»
                     </span>

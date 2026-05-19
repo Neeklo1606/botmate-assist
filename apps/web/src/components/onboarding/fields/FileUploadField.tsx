@@ -38,7 +38,7 @@ export function FileUploadField({
         <p className="text-[13px] leading-[1.5] text-ink-dark-muted">{helperText}</p>
       )}
       {value ? (
-        <div className="flex items-center justify-between rounded-[10px] border border-border-dark bg-bg-soft px-4 py-3">
+        <div className="toolbar-row rounded-[10px] border border-border-dark bg-bg-soft px-4 py-3">
           <div className="flex items-center gap-2">
             <FileIcon className="h-4 w-4 text-ink-dark" />
             <span className="text-[14px] text-ink-dark">{value.name}</span>

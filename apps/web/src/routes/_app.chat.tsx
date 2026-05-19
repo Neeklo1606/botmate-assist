@@ -320,7 +320,7 @@ function ChatPageLive({ user }: { user: User }) {
   };
 
   return (
-    <div className="flex h-[calc(100vh-0px)] bg-[#141414] text-white overflow-hidden">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#141414] text-white lg:flex-row">
       <SessionsPanel
         sessions={filtered}
         counts={counts}
@@ -363,7 +363,7 @@ function SessionsPanel({
   ];
 
   return (
-    <aside className="w-[280px] shrink-0 border-r border-[#2a2a2a] bg-[#0f0f0f] flex flex-col">
+    <aside className="flex max-h-[38vh] w-full shrink-0 flex-col border-b border-[#2a2a2a] bg-[#0f0f0f] lg:max-h-none lg:w-[280px] lg:border-b-0 lg:border-r">
       <div className="p-3 border-b border-[#2a2a2a]">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
@@ -423,7 +423,7 @@ function SessionsPanel({
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <span className="text-sm font-medium truncate">
                     {s.visitorName ?? `Посетитель #${s.number}`}
                   </span>
@@ -432,7 +432,7 @@ function SessionsPanel({
                 <div className="text-xs text-white/50 truncate mt-0.5">
                   {last?.text ?? "—"}
                 </div>
-                <div className="flex items-center justify-between gap-2 mt-1.5">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mt-1.5">
                   <span className={cn(
                     "text-[10px] px-1.5 py-0.5 rounded inline-flex items-center gap-1",
                     s.status === "ai" && "bg-[#a8ff57]/10 text-[#a8ff57]",
@@ -497,7 +497,7 @@ function ChatPanel({
   const isClosed = session.status === "closed";
 
   return (
-    <section className="flex-1 min-w-0 flex flex-col bg-[#141414]">
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col bg-[#141414]">
       {/* Header */}
       <header className="px-5 py-3.5 border-b border-[#2a2a2a] flex items-center gap-3">
         <div
@@ -558,7 +558,7 @@ function ChatPanel({
       {/* Takeover bar */}
       {!isClosed && (
         <div className={cn(
-          "px-5 py-2.5 border-t flex items-center justify-between gap-3 text-sm",
+          "px-5 py-2.5 border-t flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-sm",
           session.status === "ai"
             ? "border-[#facc15]/30 bg-[#facc15]/10 text-[#facc15]"
             : "border-[#a8ff57]/30 bg-[#a8ff57]/10 text-[#a8ff57]",
@@ -663,7 +663,7 @@ function ContextPanel({ session }: { session: Session }) {
   const [lead, setLead] = useState({ name: session.visitorName ?? "", phone: "", email: "", notes: "" });
 
   return (
-    <aside className="w-[280px] shrink-0 border-l border-[#2a2a2a] bg-[#0f0f0f] flex flex-col overflow-y-auto">
+    <aside className="hidden w-[280px] shrink-0 flex-col overflow-y-auto border-l border-[#2a2a2a] bg-[#0f0f0f] xl:flex">
       {/* Visitor info */}
       <div className="p-4 border-b border-[#2a2a2a]">
         <div className="text-xs uppercase tracking-wider text-white/40 mb-3">Посетитель</div>
@@ -685,7 +685,7 @@ function ContextPanel({ session }: { session: Session }) {
             const isCurrent = i === session.path.length - 1;
             return (
               <div key={i} className={cn(
-                "flex items-center justify-between rounded-md px-2.5 py-1.5 text-xs border",
+                "toolbar-row rounded-md px-2.5 py-1.5 text-xs border",
                 isCurrent
                   ? "bg-[#a8ff57]/10 border-[#a8ff57]/30 text-white"
                   : "bg-[#1a1a1a] border-[#2a2a2a] text-white/70",
@@ -714,7 +714,7 @@ function ContextPanel({ session }: { session: Session }) {
       <div className="p-4">
         <button
           onClick={() => setLeadOpen((v) => !v)}
-          className="w-full flex items-center justify-between text-xs uppercase tracking-wider text-white/40 hover:text-white/70"
+          className="w-full toolbar-row text-xs uppercase tracking-wider text-white/40 hover:text-white/70"
         >
           <span>Форма лида</span>
           {leadOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
@@ -761,7 +761,7 @@ function ContextPanel({ session }: { session: Session }) {
 
 function Row({ label, value, icon, mono }: { label: string; value: string; icon?: React.ReactNode; mono?: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
       <span className="text-xs text-white/40">{label}</span>
       <span className={cn("text-white/90 inline-flex items-center gap-1.5 truncate", mono && "font-mono text-xs")}>
         {icon}{value}

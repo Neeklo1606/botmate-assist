@@ -212,7 +212,7 @@ function WorkspaceHubPage() {
           : (
             <ul className="divide-y divide-[#2a2a2a] rounded-xl border border-[#2a2a2a] bg-[#1a1a1a]">
               {members.data?.map((m) => (
-                <li key={m.id} className="flex items-center justify-between px-4 py-3 text-sm">
+                <li key={m.id} className="toolbar-row px-4 py-3 text-sm">
                   <div>
                     <div className="font-medium text-white">{m.name}</div>
                     <div className="text-white/50">{m.email}</div>

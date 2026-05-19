@@ -184,7 +184,7 @@ export function AssistantMock() {
                   borderLeft: l.active ? "2px solid var(--accent)" : "2px solid transparent",
                 }}
               >
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex min-w-0 items-center gap-2">
                     <div
                       className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-medium"

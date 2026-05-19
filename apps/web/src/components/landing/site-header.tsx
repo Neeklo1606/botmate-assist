@@ -106,7 +106,7 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-            <div className="mt-2 flex items-center justify-between gap-2 pt-2">
+            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pt-2">
               <LangToggle locale={locale} onChange={setLocale} t={t} />
               <div className="flex flex-1 gap-2">
                 {isAuthed ? (

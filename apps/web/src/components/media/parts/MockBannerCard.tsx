@@ -27,7 +27,7 @@ export function MockBannerCard({ title, subtitle, style, className }: MockBanner
   return (
     <div
       className={cn(
-        "relative flex items-center justify-between overflow-hidden rounded-xl border p-5",
+        "relative toolbar-row overflow-hidden rounded-xl border p-5",
         className,
       )}
       style={{
