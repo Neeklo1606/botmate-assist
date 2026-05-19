@@ -11,7 +11,7 @@ export default defineConfig({
     server: {
       port: 8080,
       strictPort: false,
-      allowedHosts: ["botmate.site-al.ru"],
+      allowedHosts: ["botmate.site-al.ru", "bot.neeklo.ru", "localhost", "127.0.0.1"],
     },
   },
 });
