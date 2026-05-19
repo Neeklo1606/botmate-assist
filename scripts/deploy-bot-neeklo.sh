@@ -19,7 +19,7 @@ need_root() {
 }
 
 ensure_node() {
-  if command -v node >/dev/null 2>&1 && [[ "$(node -p 'process.versions.node.split(\".\")[0]')" -ge 22 ]]; then
+  if command -v node >/dev/null 2>&1 && [[ "$(node -p "process.versions.node.split('.')[0]")" -ge 22 ]]; then
     return 0
   fi
   echo "==> Installing Node.js 22 (nodesource)"
@@ -57,8 +57,7 @@ END
 SELECT 'CREATE DATABASE botmate_assist OWNER botmate'
 WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'botmate_assist')\gexec
 SQL
-  sudo -u postgres psql -d botmate_assist -v ON_ERROR_STOP=1 -c "CREATE EXTENSION IF NOT EXISTS vector;"
-  echo "$db_pw"
+  sudo -u postgres psql -d botmate_assist -v ON_ERROR_STOP=1 -c "CREATE EXTENSION IF NOT EXISTS vector;" >/dev/null
 }
 
 write_env_if_missing() {
