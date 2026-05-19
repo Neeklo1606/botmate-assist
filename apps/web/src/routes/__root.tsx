@@ -43,10 +43,14 @@ function NotFoundComponent() {
   );
 }
 
+const CLIENT_PROCESS_ENV =
+  'window.process=window.process||{env:{NODE_ENV:"production",TSS_ROUTER_BASEPATH:"",TSS_SERVER_FN_BASE:"",TSS_DEV_SERVER:"true",TSS_DEV_SSR_STYLES_ENABLED:"false",TSS_DEV_SSR_STYLES_BASEPATH:"",TSS_INLINE_CSS_ENABLED:"false",TSS_DISABLE_CSRF_MIDDLEWARE_WARNING:"false"}};';
+
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: CLIENT_PROCESS_ENV }} />
         <HeadContent />
       </head>
       <body>
