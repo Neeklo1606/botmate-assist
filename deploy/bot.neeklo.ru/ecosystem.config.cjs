@@ -19,7 +19,7 @@ module.exports = {
       name: "botmate-web",
       cwd: "/var/www/bot.neeklo.ru",
       script: "pnpm",
-      args: "--filter @botmate/web dev -- --host 127.0.0.1 --port 8082",
+      args: "--filter @botmate/web dev --host 127.0.0.1 --port 8082",
       interpreter: "none",
       env_file: "/var/www/bot.neeklo.ru/apps/web/.env",
       env: {
