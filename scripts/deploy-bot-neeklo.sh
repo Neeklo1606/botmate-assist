@@ -40,23 +40,17 @@ ensure_pgvector() {
 
 ensure_db() {
   local pw_file="$APP_DIR/deploy/bot.neeklo.ru/.db_password"
-  if [[ ! -f "$pw_file" ]]; then
+  if [[ ! -f "$pw_file" ]] || [[ "$(tr -d '\n' <"$pw_file" | wc -c)" -lt 16 ]]; then
     openssl rand -hex 24 >"$pw_file"
     chmod 600 "$pw_file"
   fi
   local db_pw
-  db_pw="$(cat "$pw_file")"
-  sudo -u postgres psql -v ON_ERROR_STOP=1 <<SQL
-DO \$\$
-BEGIN
-  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'botmate') THEN
-    CREATE ROLE botmate LOGIN PASSWORD '${db_pw}';
-  END IF;
-END
-\$\$;
-SELECT 'CREATE DATABASE botmate_assist OWNER botmate'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'botmate_assist')\gexec
-SQL
+  db_pw="$(tr -d '\n' <"$pw_file")"
+  sudo -u postgres psql -v ON_ERROR_STOP=1 -c \
+    "DO \$\$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'botmate') THEN CREATE ROLE botmate LOGIN PASSWORD '${db_pw}'; ELSE ALTER ROLE botmate WITH PASSWORD '${db_pw}'; END IF; END \$\$;"
+  sudo -u postgres psql -v ON_ERROR_STOP=1 -tc \
+    "SELECT 1 FROM pg_database WHERE datname = 'botmate_assist'" | grep -q 1 || \
+    sudo -u postgres psql -v ON_ERROR_STOP=1 -c "CREATE DATABASE botmate_assist OWNER botmate;"
   sudo -u postgres psql -d botmate_assist -v ON_ERROR_STOP=1 -c "CREATE EXTENSION IF NOT EXISTS vector;" >/dev/null
 }
 
@@ -127,13 +121,15 @@ build_app() {
   DATABASE_URL="$(grep '^DATABASE_URL=' apps/api/.env | cut -d= -f2-)" pnpm db:migrate:deploy
   pnpm --filter @botmate/shared build
   pnpm --filter @botmate/api-client build
-  # Web: TanStack Start (Cloudflare worker build) — served via Vite on :8082 in PM2
-  pnpm --filter @botmate/web build || echo "WARN: web build optional for vite dev mode"
+  # Web runs via Vite dev on :8082 (SSR worker build OOMs on 2GB VPS)
+  echo "==> Skipping web production build (PM2 runs vite dev on :8082)"
 }
 
 redis_up() {
   cd "$APP_DIR/deploy/bot.neeklo.ru"
-  docker compose up -d
+  if ! docker compose up -d 2>/dev/null; then
+    docker-compose up -d
+  fi
 }
 
 pm2_reload() {
@@ -189,8 +185,9 @@ main() {
   ensure_node
   ensure_pgvector
   clone_or_pull
+  ensure_db
   local db_pw
-  db_pw="$(ensure_db)"
+  db_pw="$(tr -d '\n' <"$APP_DIR/deploy/bot.neeklo.ru/.db_password")"
   write_env_if_missing "$db_pw"
   redis_up
   build_app
